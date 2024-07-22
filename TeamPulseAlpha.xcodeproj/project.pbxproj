@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		301CB9872C4F0F3100A0D85E /* TeamPulseAlphaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9862C4F0F3100A0D85E /* TeamPulseAlphaApp.swift */; };
-		301CB9892C4F0F3100A0D85E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9882C4F0F3100A0D85E /* ContentView.swift */; };
 		301CB98B2C4F0F3200A0D85E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 301CB98A2C4F0F3200A0D85E /* Assets.xcassets */; };
 		301CB98E2C4F0F3200A0D85E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 301CB98D2C4F0F3200A0D85E /* Preview Assets.xcassets */; };
 		301CB9982C4F0F3200A0D85E /* TeamPulseAlphaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9972C4F0F3200A0D85E /* TeamPulseAlphaTests.swift */; };
@@ -23,6 +22,12 @@
 		30348A0C2C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A062C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift */; };
 		30348A0D2C4F1F850041F47D /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A072C4F1F850041F47D /* SessionEntity+CoreDataClass.swift */; };
 		30348A0E2C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A082C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift */; };
+		30348A102C4F20C20041F47D /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A0F2C4F20C20041F47D /* AuthView.swift */; };
+		30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A122C4F20DC0041F47D /* MainMenuView.swift */; };
+		30348A152C4F20F40041F47D /* DeviceConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A142C4F20F40041F47D /* DeviceConnectionView.swift */; };
+		30348A172C4F21030041F47D /* SessionRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A162C4F21030041F47D /* SessionRecordingView.swift */; };
+		30348A192C4F21100041F47D /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A182C4F21100041F47D /* SessionListView.swift */; };
+		30348A1B2C4F21260041F47D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A1A2C4F21260041F47D /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +50,6 @@
 /* Begin PBXFileReference section */
 		301CB9832C4F0F3100A0D85E /* TeamPulseAlpha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeamPulseAlpha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		301CB9862C4F0F3100A0D85E /* TeamPulseAlphaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPulseAlphaApp.swift; sourceTree = "<group>"; };
-		301CB9882C4F0F3100A0D85E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		301CB98A2C4F0F3200A0D85E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		301CB98D2C4F0F3200A0D85E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		301CB9932C4F0F3200A0D85E /* TeamPulseAlphaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeamPulseAlphaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,6 +68,12 @@
 		30348A062C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		30348A072C4F1F850041F47D /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		30348A082C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		30348A0F2C4F20C20041F47D /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		30348A122C4F20DC0041F47D /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
+		30348A142C4F20F40041F47D /* DeviceConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceConnectionView.swift; sourceTree = "<group>"; };
+		30348A162C4F21030041F47D /* SessionRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecordingView.swift; sourceTree = "<group>"; };
+		30348A182C4F21100041F47D /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
+		30348A1A2C4F21260041F47D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +131,6 @@
 				301CB9B12C4F144F00A0D85E /* Models */,
 				301CB9B02C4F144900A0D85E /* Views */,
 				301CB9862C4F0F3100A0D85E /* TeamPulseAlphaApp.swift */,
-				301CB9882C4F0F3100A0D85E /* ContentView.swift */,
 				301CB98A2C4F0F3200A0D85E /* Assets.xcassets */,
 				301CB98C2C4F0F3200A0D85E /* Preview Content */,
 				301CB9B62C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld */,
@@ -157,6 +166,12 @@
 		301CB9B02C4F144900A0D85E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				30348A0F2C4F20C20041F47D /* AuthView.swift */,
+				30348A122C4F20DC0041F47D /* MainMenuView.swift */,
+				30348A142C4F20F40041F47D /* DeviceConnectionView.swift */,
+				30348A162C4F21030041F47D /* SessionRecordingView.swift */,
+				30348A182C4F21100041F47D /* SessionListView.swift */,
+				30348A1A2C4F21260041F47D /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -328,17 +343,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30348A152C4F20F40041F47D /* DeviceConnectionView.swift in Sources */,
 				301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */,
-				301CB9892C4F0F3100A0D85E /* ContentView.swift in Sources */,
+				30348A102C4F20C20041F47D /* AuthView.swift in Sources */,
 				301CB9C82C4F1BC800A0D85E /* DataManager.swift in Sources */,
+				30348A1B2C4F21260041F47D /* SettingsView.swift in Sources */,
 				301CB9B82C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld in Sources */,
 				30348A092C4F1F850041F47D /* EventEntity+CoreDataClass.swift in Sources */,
 				30348A0A2C4F1F850041F47D /* EventEntity+CoreDataProperties.swift in Sources */,
 				30348A0B2C4F1F850041F47D /* SensorEntity+CoreDataClass.swift in Sources */,
 				30348A0C2C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift in Sources */,
+				30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */,
+				30348A192C4F21100041F47D /* SessionListView.swift in Sources */,
 				30348A0D2C4F1F850041F47D /* SessionEntity+CoreDataClass.swift in Sources */,
 				30348A0E2C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift in Sources */,
 				301CB9872C4F0F3100A0D85E /* TeamPulseAlphaApp.swift in Sources */,
+				30348A172C4F21030041F47D /* SessionRecordingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
