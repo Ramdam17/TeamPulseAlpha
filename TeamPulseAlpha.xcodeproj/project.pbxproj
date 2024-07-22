@@ -14,6 +14,15 @@
 		301CB9982C4F0F3200A0D85E /* TeamPulseAlphaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9972C4F0F3200A0D85E /* TeamPulseAlphaTests.swift */; };
 		301CB9A22C4F0F3200A0D85E /* TeamPulseAlphaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9A12C4F0F3200A0D85E /* TeamPulseAlphaUITests.swift */; };
 		301CB9A42C4F0F3200A0D85E /* TeamPulseAlphaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9A32C4F0F3200A0D85E /* TeamPulseAlphaUITestsLaunchTests.swift */; };
+		301CB9B82C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9B62C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld */; };
+		301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9C52C4F1BA900A0D85E /* CoreDataStack.swift */; };
+		301CB9C82C4F1BC800A0D85E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9C72C4F1BC500A0D85E /* DataManager.swift */; };
+		30348A092C4F1F850041F47D /* EventEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A032C4F1F850041F47D /* EventEntity+CoreDataClass.swift */; };
+		30348A0A2C4F1F850041F47D /* EventEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A042C4F1F850041F47D /* EventEntity+CoreDataProperties.swift */; };
+		30348A0B2C4F1F850041F47D /* SensorEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A052C4F1F850041F47D /* SensorEntity+CoreDataClass.swift */; };
+		30348A0C2C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A062C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift */; };
+		30348A0D2C4F1F850041F47D /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A072C4F1F850041F47D /* SessionEntity+CoreDataClass.swift */; };
+		30348A0E2C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A082C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +53,17 @@
 		301CB99D2C4F0F3200A0D85E /* TeamPulseAlphaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeamPulseAlphaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		301CB9A12C4F0F3200A0D85E /* TeamPulseAlphaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPulseAlphaUITests.swift; sourceTree = "<group>"; };
 		301CB9A32C4F0F3200A0D85E /* TeamPulseAlphaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPulseAlphaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		301CB9B42C4F148B00A0D85E /* TeamPulseAlpha.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TeamPulseAlpha.entitlements; sourceTree = "<group>"; };
+		301CB9B52C4F14CD00A0D85E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		301CB9B72C4F1A1100A0D85E /* TeamPulseModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TeamPulseModel.xcdatamodel; sourceTree = "<group>"; };
+		301CB9C52C4F1BA900A0D85E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		301CB9C72C4F1BC500A0D85E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		30348A032C4F1F850041F47D /* EventEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		30348A042C4F1F850041F47D /* EventEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		30348A052C4F1F850041F47D /* SensorEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		30348A062C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		30348A072C4F1F850041F47D /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		30348A082C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,10 +114,17 @@
 		301CB9852C4F0F3100A0D85E /* TeamPulseAlpha */ = {
 			isa = PBXGroup;
 			children = (
+				301CB9B52C4F14CD00A0D85E /* Info.plist */,
+				301CB9B42C4F148B00A0D85E /* TeamPulseAlpha.entitlements */,
+				301CB9B32C4F146700A0D85E /* Services */,
+				301CB9B22C4F145700A0D85E /* ViewModels */,
+				301CB9B12C4F144F00A0D85E /* Models */,
+				301CB9B02C4F144900A0D85E /* Views */,
 				301CB9862C4F0F3100A0D85E /* TeamPulseAlphaApp.swift */,
 				301CB9882C4F0F3100A0D85E /* ContentView.swift */,
 				301CB98A2C4F0F3200A0D85E /* Assets.xcassets */,
 				301CB98C2C4F0F3200A0D85E /* Preview Content */,
+				301CB9B62C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld */,
 			);
 			path = TeamPulseAlpha;
 			sourceTree = "<group>";
@@ -125,6 +152,50 @@
 				301CB9A32C4F0F3200A0D85E /* TeamPulseAlphaUITestsLaunchTests.swift */,
 			);
 			path = TeamPulseAlphaUITests;
+			sourceTree = "<group>";
+		};
+		301CB9B02C4F144900A0D85E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		301CB9B12C4F144F00A0D85E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				301CB9D52C4F1DDA00A0D85E /* CoreData */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		301CB9B22C4F145700A0D85E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		301CB9B32C4F146700A0D85E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				301CB9C72C4F1BC500A0D85E /* DataManager.swift */,
+				301CB9C52C4F1BA900A0D85E /* CoreDataStack.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		301CB9D52C4F1DDA00A0D85E /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				30348A032C4F1F850041F47D /* EventEntity+CoreDataClass.swift */,
+				30348A042C4F1F850041F47D /* EventEntity+CoreDataProperties.swift */,
+				30348A052C4F1F850041F47D /* SensorEntity+CoreDataClass.swift */,
+				30348A062C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift */,
+				30348A072C4F1F850041F47D /* SessionEntity+CoreDataClass.swift */,
+				30348A082C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,7 +328,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */,
 				301CB9892C4F0F3100A0D85E /* ContentView.swift in Sources */,
+				301CB9C82C4F1BC800A0D85E /* DataManager.swift in Sources */,
+				301CB9B82C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld in Sources */,
+				30348A092C4F1F850041F47D /* EventEntity+CoreDataClass.swift in Sources */,
+				30348A0A2C4F1F850041F47D /* EventEntity+CoreDataProperties.swift in Sources */,
+				30348A0B2C4F1F850041F47D /* SensorEntity+CoreDataClass.swift in Sources */,
+				30348A0C2C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift in Sources */,
+				30348A0D2C4F1F850041F47D /* SessionEntity+CoreDataClass.swift in Sources */,
+				30348A0E2C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift in Sources */,
 				301CB9872C4F0F3100A0D85E /* TeamPulseAlphaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,12 +499,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TeamPulseAlpha/TeamPulseAlpha.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TeamPulseAlpha/Preview Content\"";
 				DEVELOPMENT_TEAM = 2Z2SSJ3CV9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TeamPulseAlpha/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -448,12 +530,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TeamPulseAlpha/TeamPulseAlpha.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TeamPulseAlpha/Preview Content\"";
 				DEVELOPMENT_TEAM = 2Z2SSJ3CV9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TeamPulseAlpha/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -584,6 +668,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		301CB9B62C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				301CB9B72C4F1A1100A0D85E /* TeamPulseModel.xcdatamodel */,
+			);
+			currentVersion = 301CB9B72C4F1A1100A0D85E /* TeamPulseModel.xcdatamodel */;
+			path = TeamPulseModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 301CB97B2C4F0F3100A0D85E /* Project object */;
 }
