@@ -5,7 +5,6 @@
 //  Created by blackstar on 23/07/2024.
 //
 
-import Foundation
 import CoreData
 
 class CoreDataStack {
@@ -14,7 +13,7 @@ class CoreDataStack {
     private init() {}
 
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "TeamPulseModel")
+        let container = NSPersistentContainer(name: "TeamPulseModel") // Ensure this matches your model name
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
