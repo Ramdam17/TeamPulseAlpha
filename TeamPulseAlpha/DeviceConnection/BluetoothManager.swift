@@ -16,6 +16,7 @@ class BluetoothManager: NSObject, ObservableObject {
 
     private var centralManager: CBCentralManager! // Core Bluetooth manager
     private var discoveredPeripherals: [String: CBPeripheral] = [:] // Cache of discovered peripherals
+    private var sensorDataProcessor: SensorDataProcessor!  // Instance of SensorDataProcessor
 
     /// Initializes the Bluetooth manager and sets up necessary configurations.
     override init() {
@@ -23,6 +24,10 @@ class BluetoothManager: NSObject, ObservableObject {
         centralManager = CBCentralManager(delegate: self, queue: nil) // Initialize the Bluetooth central manager
         resetSensorConnections() // Reset the connection status of all sensors
         fetchSensors() // Fetch sensors from Core Data
+        
+        // Initialize the SensorDataProcessor with the sensor IDs, filtering out any nil values
+        let sensorIDs = sensors.compactMap { $0.id }
+        sensorDataProcessor = SensorDataProcessor(sensorIDs: sensorIDs)
     }
 
     /// Resets the connection status of all sensors to `false` at the start of the app.
@@ -198,9 +203,32 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 
         guard let data = characteristic.value else { return }
 
-        if characteristic.uuid == CBUUID(string: "2A37") { // Heart Rate Measurement UUID
+        if characteristic.uuid == CBUUID(string: "2A37") {
             let (heartRate, IBI) = parseHeartRateMeasurement(data)
             print("Heart Rate: \(heartRate), IBI: \(IBI)")
+
+            // Ensure IBI array has the expected number of elements before accessing
+            if !IBI.isEmpty {
+                if let sensorID = sensors.first(where: { $0.macAddress == peripheral.identifier.uuidString })?.id {
+                    sensorDataProcessor.updateHRData(sensorID: sensorID, hr: Double(heartRate), ibi: IBI[0])
+
+                    // Print statistics, HRV, and distance matrix
+                    if let stats = sensorDataProcessor.calculateStatistics(sensorID: sensorID) {
+                        print("Sensor \(sensorID) Stats - Min: \(stats.min), Max: \(stats.max), Median: \(stats.median), Mean: \(stats.mean)")
+                    }
+                    if let hrv = sensorDataProcessor.calculateHRV(sensorID: sensorID) {
+                        print("Sensor \(sensorID) HRV: \(hrv)")
+                    }
+                    let distancesMatrix = sensorDataProcessor.computeDistancesMatrix(sensorIDs: sensors.compactMap { $0.id })
+                    print("Distances Matrix: \(distancesMatrix)")
+                    let correlationMatrix = sensorDataProcessor.computeCorrelationMatrix(sensorIDs: sensors.compactMap { $0.id })
+                    print("Correlation Matrix: \(correlationMatrix)")
+                    let crossEntropyMatrix = sensorDataProcessor.computeCrossEntropyMatrix(sensorIDs: sensors.compactMap { $0.id })
+                    print("Cross-Entropy Matrix: \(crossEntropyMatrix)")
+                }
+            } else {
+                print("IBI array is empty, skipping updateHRData.")
+            }
         }
     }
 

@@ -2,24 +2,16 @@
 //  SensorEntity+CoreDataClass.swift
 //  TeamPulseAlpha
 //
-//  Created by blackstar on 23/07/2024.
+//  Created by blackstar on 8/19/24.
 //
 //
 
 import Foundation
 import CoreData
 
-// SensorEntity is a Core Data entity representing a sensor in the app.
-// It inherits from NSManagedObject, allowing it to be managed by Core Data.
+/// `SensorEntity` represents a sensor device that collects and provides data during a session.
+/// This class is managed by Core Data and maps to the `SensorEntity` entity in the data model.
 public class SensorEntity: NSManagedObject {
-
-    // Custom behavior and methods for the SensorEntity can be added here if needed.
-    // For example, you could add convenience methods to manipulate the entity's data
-    // or computed properties to derive additional information from the entity's attributes.
-
-    // Example of a computed property (optional):
-    // var formattedMacAddress: String {
-    //     // Format the MAC address if necessary (e.g., adding colons for readability)
-    //     return macAddress
-    // }
+    // You can add custom logic here if needed in the future.
+    // For example, methods for specific operations related to a SensorEntity can be added here.
 }

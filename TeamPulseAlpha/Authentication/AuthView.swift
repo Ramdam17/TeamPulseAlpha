@@ -1,3 +1,10 @@
+//
+//  AuthView.swift
+//  TeamPulseAlpha
+//
+//  Created by blackstar on 24/07/2024.
+//
+
 import SwiftUI
 import AuthenticationServices
 
@@ -11,56 +18,57 @@ struct AuthView: View {
 
     var body: some View {
         VStack {
-            Spacer() // Adds space at the top to vertically center the content.
+            Spacer() // Adds flexible space at the top to vertically center the content.
 
             // Displays the title of the app.
             Text("Welcome to TeamPulse")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(Color.black)
-                .padding(.bottom, 20)
+                .font(.largeTitle) // Sets the font size to large title.
+                .fontWeight(.bold) // Makes the text bold.
+                .foregroundColor(Color.black) // Sets the text color to black.
+                .padding(.bottom, 20) // Adds padding below the text.
 
-            // Displays a heart icon to represent the theme of the app.
+            // Displays a heart icon, representing the app's theme, centered on the screen.
             Image(systemName: "heart.circle")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 150, height: 150)
-                .foregroundColor(Color.yellow)
-                .shadow(radius: 10)
-                .padding(.bottom, 50)
+                .resizable() // Allows the image to be resized.
+                .aspectRatio(contentMode: .fit) // Maintains the aspect ratio within the frame.
+                .frame(width: 150, height: 150) // Sets the width and height of the image.
+                .foregroundColor(Color.yellow) // Colors the image yellow.
+                .shadow(radius: 10) // Adds a shadow to the image for a 3D effect.
+                .padding(.bottom, 50) // Adds padding below the image.
 
             // Button that initiates the Sign in with Apple process.
             Button(action: {
-                // Call the function to start the Apple Sign-In process.
+                // Initiates the Apple Sign-In process.
                 authManager.signInWithApple()
             }) {
+                // Layout and style of the Sign in with Apple button.
                 HStack {
-                    Image(systemName: "applelogo")
-                        .font(.title)
-                    Text("Sign in with Apple")
-                        .fontWeight(.semibold)
-                        .font(.title2)
+                    Image(systemName: "applelogo") // Apple logo icon.
+                        .font(.title) // Sets the icon size to title.
+                    Text("Sign in with Apple") // Button label.
+                        .fontWeight(.semibold) // Makes the text semibold.
+                        .font(.title2) // Sets the text size to title2.
                 }
-                .frame(maxWidth: .infinity) // Makes the button stretch across the screen.
-                .padding()
-                .background(Color.black)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
+                .frame(maxWidth: .infinity) // Expands the button to fill the available width.
+                .padding() // Adds padding inside the button.
+                .background(Color.black) // Sets the button background color to black.
+                .foregroundColor(.white) // Sets the text and icon color to white.
+                .cornerRadius(10) // Rounds the button corners.
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5) // Adds a subtle shadow below the button.
             }
-            .padding(.horizontal)
+            .padding(.horizontal) // Adds horizontal padding around the button.
 
-            // If there's an error message, display it in red text.
+            // If there's an error message, display it in red text below the button.
             if let errorMessage = errorMessage {
                 Text(errorMessage)
-                    .foregroundColor(.red)
-                    .padding()
+                    .foregroundColor(.red) // Sets the error message color to red.
+                    .padding() // Adds padding around the error message.
             }
 
-            Spacer() // Adds space at the bottom to vertically center the content.
+            Spacer() // Adds flexible space at the bottom to vertically center the content.
         }
-        .padding()
-        .background(Color.white) // Sets the background color of the view.
+        .padding() // Adds padding around the entire view.
+        .background(Color.white) // Sets the background color of the view to white.
         .edgesIgnoringSafeArea(.all) // Extends the view to the edges of the screen.
         .onAppear {
             // Clears the error message if the user is already authenticated when the view appears.

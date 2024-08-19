@@ -7,48 +7,49 @@
 
 import SwiftUI
 
-// This view represents the settings screen of the TeamPulseAlpha app, where users can sign out of their account.
+/// The `SettingsView` displays settings options for the user, including the ability to sign out.
 struct SettingsView: View {
-    @EnvironmentObject var authManager: AuthenticationManager // Accessing the authentication manager to handle sign out logic
+    @EnvironmentObject var authManager: AuthenticationManager // Access the authentication manager to manage the sign-out process
 
     var body: some View {
         VStack {
             // Title of the settings screen
             Text("Settings")
-                .font(.largeTitle)
-                .padding()
+                .font(.largeTitle) // Set the font size to large for the title
+                .padding() // Add padding around the title for spacing
             
-            // Button to sign out the user
+            // Button to sign out the user from their account
             Button(action: handleSignOut) {
                 Text("Sign Out")
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.red)
-                    .cornerRadius(10)
+                    .foregroundColor(.white) // Set text color to white
+                    .padding() // Add padding inside the button for a larger tappable area
+                    .background(Color.red) // Set background color of the button to red
+                    .cornerRadius(10) // Make the button corners rounded with a radius of 10
             }
-            .padding() // Added padding around the button for better spacing
+            .padding() // Add padding around the button for better spacing within the VStack
         }
-        .navigationBarTitle("Settings", displayMode: .inline)
+        .navigationBarTitle("Settings", displayMode: .inline) // Set the navigation bar title and inline display mode
     }
     
-    // Function that handles the sign out process
+    /// Handles the sign-out process by removing stored credentials and updating the authentication state.
     private func handleSignOut() {
-        // Remove the stored Apple user ID to effectively sign out
+        // Remove the stored Apple user ID from UserDefaults, effectively signing out the user
         UserDefaults.standard.removeObject(forKey: "appleUserID")
         
-        // Update the authentication state in the AuthenticationManager
+        // Update the authentication state to reflect that the user is no longer authenticated
         authManager.isAuthenticated = false
         
-        // Optional: Add haptic feedback for a better user experience
+        // Provide haptic feedback to enhance the user experience during sign-out
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
     }
 }
 
-// Preview provider for SwiftUI previews, allowing for real-time design feedback
+/// SwiftUI Preview provider for the `SettingsView`.
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
+        // Provide a mock AuthenticationManager for the preview
         SettingsView()
-            .environmentObject(AuthenticationManager()) // Provide a mock environment object for preview
+            .environmentObject(AuthenticationManager())
     }
 }

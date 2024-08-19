@@ -16,12 +16,6 @@
 		301CB9B82C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9B62C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld */; };
 		301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9C52C4F1BA900A0D85E /* CoreDataStack.swift */; };
 		301CB9C82C4F1BC800A0D85E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301CB9C72C4F1BC500A0D85E /* DataManager.swift */; };
-		30348A092C4F1F850041F47D /* EventEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A032C4F1F850041F47D /* EventEntity+CoreDataClass.swift */; };
-		30348A0A2C4F1F850041F47D /* EventEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A042C4F1F850041F47D /* EventEntity+CoreDataProperties.swift */; };
-		30348A0B2C4F1F850041F47D /* SensorEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A052C4F1F850041F47D /* SensorEntity+CoreDataClass.swift */; };
-		30348A0C2C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A062C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift */; };
-		30348A0D2C4F1F850041F47D /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A072C4F1F850041F47D /* SessionEntity+CoreDataClass.swift */; };
-		30348A0E2C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A082C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift */; };
 		30348A102C4F20C20041F47D /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A0F2C4F20C20041F47D /* AuthView.swift */; };
 		30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A122C4F20DC0041F47D /* MainMenuView.swift */; };
 		30348A152C4F20F40041F47D /* DeviceConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A142C4F20F40041F47D /* DeviceConnectionView.swift */; };
@@ -29,6 +23,20 @@
 		30348A192C4F21100041F47D /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A182C4F21100041F47D /* SessionListView.swift */; };
 		30348A1B2C4F21260041F47D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A1A2C4F21260041F47D /* SettingsView.swift */; };
 		30567F7C2C4FF1E800A83322 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30567F7B2C4FF1E300A83322 /* AuthenticationManager.swift */; };
+		306173D52C736EDD000BA239 /* AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173D42C736ED8000BA239 /* AnimationView.swift */; };
+		306173D72C736EFB000BA239 /* AnimationComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173D62C736EF6000BA239 /* AnimationComponent.swift */; };
+		306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173D82C736F08000BA239 /* BluetoothStatusComponent.swift */; };
+		306173DB2C736F24000BA239 /* SessionRecordingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173DA2C736F1E000BA239 /* SessionRecordingComponent.swift */; };
+		306173DD2C736F38000BA239 /* DashboardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173DC2C736F31000BA239 /* DashboardComponent.swift */; };
+		306173DF2C73739D000BA239 /* SensorDataProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173DE2C737397000BA239 /* SensorDataProcessing.swift */; };
+		306173F32C737ABD000BA239 /* CustomTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173F22C737ABA000BA239 /* CustomTransformers.swift */; };
+		306174022C737C88000BA239 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174012C737C85000BA239 /* SessionManager.swift */; };
+		306174172C73808B000BA239 /* EventEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174112C73808B000BA239 /* EventEntity+CoreDataClass.swift */; };
+		306174182C73808B000BA239 /* EventEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174122C73808B000BA239 /* EventEntity+CoreDataProperties.swift */; };
+		306174192C73808B000BA239 /* SensorEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174132C73808B000BA239 /* SensorEntity+CoreDataClass.swift */; };
+		3061741A2C73808B000BA239 /* SensorEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174142C73808B000BA239 /* SensorEntity+CoreDataProperties.swift */; };
+		3061741B2C73808B000BA239 /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */; };
+		3061741C2C73808B000BA239 /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */; };
 		30AEE3DF2C513441000687F8 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3DE2C51343F000687F8 /* Sensor.swift */; };
 		30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3E02C513455000687F8 /* BluetoothManager.swift */; };
 /* End PBXBuildFile section */
@@ -65,12 +73,6 @@
 		301CB9B72C4F1A1100A0D85E /* TeamPulseModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TeamPulseModel.xcdatamodel; sourceTree = "<group>"; };
 		301CB9C52C4F1BA900A0D85E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		301CB9C72C4F1BC500A0D85E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		30348A032C4F1F850041F47D /* EventEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		30348A042C4F1F850041F47D /* EventEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		30348A052C4F1F850041F47D /* SensorEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		30348A062C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		30348A072C4F1F850041F47D /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		30348A082C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		30348A0F2C4F20C20041F47D /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		30348A122C4F20DC0041F47D /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		30348A142C4F20F40041F47D /* DeviceConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceConnectionView.swift; sourceTree = "<group>"; };
@@ -78,6 +80,20 @@
 		30348A182C4F21100041F47D /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		30348A1A2C4F21260041F47D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		30567F7B2C4FF1E300A83322 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		306173D42C736ED8000BA239 /* AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationView.swift; sourceTree = "<group>"; };
+		306173D62C736EF6000BA239 /* AnimationComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationComponent.swift; sourceTree = "<group>"; };
+		306173D82C736F08000BA239 /* BluetoothStatusComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatusComponent.swift; sourceTree = "<group>"; };
+		306173DA2C736F1E000BA239 /* SessionRecordingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecordingComponent.swift; sourceTree = "<group>"; };
+		306173DC2C736F31000BA239 /* DashboardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardComponent.swift; sourceTree = "<group>"; };
+		306173DE2C737397000BA239 /* SensorDataProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataProcessing.swift; sourceTree = "<group>"; };
+		306173F22C737ABA000BA239 /* CustomTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransformers.swift; sourceTree = "<group>"; };
+		306174012C737C85000BA239 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		306174112C73808B000BA239 /* EventEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		306174122C73808B000BA239 /* EventEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		306174132C73808B000BA239 /* SensorEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		306174142C73808B000BA239 /* SensorEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		30AEE3DE2C51343F000687F8 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		30AEE3E02C513455000687F8 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +146,7 @@
 		301CB9852C4F0F3100A0D85E /* TeamPulseAlpha */ = {
 			isa = PBXGroup;
 			children = (
+				306173D32C736ED2000BA239 /* Animation */,
 				30567F812C4FF24600A83322 /* Settings */,
 				30567F802C4FF23A00A83322 /* SessionList */,
 				30567F7F2C4FF22F00A83322 /* SessionRecording */,
@@ -139,7 +156,6 @@
 				30567F792C4FF1AA00A83322 /* App */,
 				301CB9B52C4F14CD00A0D85E /* Info.plist */,
 				301CB9B32C4F146700A0D85E /* Services */,
-				301CB9B22C4F145700A0D85E /* ViewModels */,
 				301CB9B12C4F144F00A0D85E /* Models */,
 				301CB98A2C4F0F3200A0D85E /* Assets.xcassets */,
 				301CB98C2C4F0F3200A0D85E /* Preview Content */,
@@ -177,21 +193,16 @@
 		301CB9B12C4F144F00A0D85E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				306173F22C737ABA000BA239 /* CustomTransformers.swift */,
 				301CB9D52C4F1DDA00A0D85E /* CoreData */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		301CB9B22C4F145700A0D85E /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		301CB9B32C4F146700A0D85E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				306173DE2C737397000BA239 /* SensorDataProcessing.swift */,
 				301CB9C72C4F1BC500A0D85E /* DataManager.swift */,
 				301CB9C52C4F1BA900A0D85E /* CoreDataStack.swift */,
 			);
@@ -201,12 +212,12 @@
 		301CB9D52C4F1DDA00A0D85E /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				30348A032C4F1F850041F47D /* EventEntity+CoreDataClass.swift */,
-				30348A042C4F1F850041F47D /* EventEntity+CoreDataProperties.swift */,
-				30348A052C4F1F850041F47D /* SensorEntity+CoreDataClass.swift */,
-				30348A062C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift */,
-				30348A072C4F1F850041F47D /* SessionEntity+CoreDataClass.swift */,
-				30348A082C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift */,
+				306174112C73808B000BA239 /* EventEntity+CoreDataClass.swift */,
+				306174122C73808B000BA239 /* EventEntity+CoreDataProperties.swift */,
+				306174132C73808B000BA239 /* SensorEntity+CoreDataClass.swift */,
+				306174142C73808B000BA239 /* SensorEntity+CoreDataProperties.swift */,
+				306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */,
+				306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -250,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				30348A162C4F21030041F47D /* SessionRecordingView.swift */,
+				306174012C737C85000BA239 /* SessionManager.swift */,
 			);
 			path = SessionRecording;
 			sourceTree = "<group>";
@@ -268,6 +280,18 @@
 				30348A1A2C4F21260041F47D /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		306173D32C736ED2000BA239 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				306173DC2C736F31000BA239 /* DashboardComponent.swift */,
+				306173DA2C736F1E000BA239 /* SessionRecordingComponent.swift */,
+				306173D82C736F08000BA239 /* BluetoothStatusComponent.swift */,
+				306173D62C736EF6000BA239 /* AnimationComponent.swift */,
+				306173D42C736ED8000BA239 /* AnimationView.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,22 +425,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				30348A152C4F20F40041F47D /* DeviceConnectionView.swift in Sources */,
+				306173D52C736EDD000BA239 /* AnimationView.swift in Sources */,
 				301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */,
 				30AEE3DF2C513441000687F8 /* Sensor.swift in Sources */,
 				30348A102C4F20C20041F47D /* AuthView.swift in Sources */,
+				306174022C737C88000BA239 /* SessionManager.swift in Sources */,
 				30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */,
+				306173F32C737ABD000BA239 /* CustomTransformers.swift in Sources */,
 				301CB9C82C4F1BC800A0D85E /* DataManager.swift in Sources */,
 				30348A1B2C4F21260041F47D /* SettingsView.swift in Sources */,
 				301CB9B82C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld in Sources */,
-				30348A092C4F1F850041F47D /* EventEntity+CoreDataClass.swift in Sources */,
-				30348A0A2C4F1F850041F47D /* EventEntity+CoreDataProperties.swift in Sources */,
-				30348A0B2C4F1F850041F47D /* SensorEntity+CoreDataClass.swift in Sources */,
-				30348A0C2C4F1F850041F47D /* SensorEntity+CoreDataProperties.swift in Sources */,
 				30567F7C2C4FF1E800A83322 /* AuthenticationManager.swift in Sources */,
+				306173DD2C736F38000BA239 /* DashboardComponent.swift in Sources */,
+				306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */,
+				306173DB2C736F24000BA239 /* SessionRecordingComponent.swift in Sources */,
 				30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */,
+				306174172C73808B000BA239 /* EventEntity+CoreDataClass.swift in Sources */,
+				306174182C73808B000BA239 /* EventEntity+CoreDataProperties.swift in Sources */,
+				306174192C73808B000BA239 /* SensorEntity+CoreDataClass.swift in Sources */,
+				3061741A2C73808B000BA239 /* SensorEntity+CoreDataProperties.swift in Sources */,
+				3061741B2C73808B000BA239 /* SessionEntity+CoreDataClass.swift in Sources */,
+				3061741C2C73808B000BA239 /* SessionEntity+CoreDataProperties.swift in Sources */,
+				306173DF2C73739D000BA239 /* SensorDataProcessing.swift in Sources */,
 				30348A192C4F21100041F47D /* SessionListView.swift in Sources */,
-				30348A0D2C4F1F850041F47D /* SessionEntity+CoreDataClass.swift in Sources */,
-				30348A0E2C4F1F850041F47D /* SessionEntity+CoreDataProperties.swift in Sources */,
+				306173D72C736EFB000BA239 /* AnimationComponent.swift in Sources */,
 				301CB9872C4F0F3100A0D85E /* TeamPulseAlphaApp.swift in Sources */,
 				30348A172C4F21030041F47D /* SessionRecordingView.swift in Sources */,
 			);

@@ -2,40 +2,55 @@
 //  EventEntity+CoreDataProperties.swift
 //  TeamPulseAlpha
 //
-//  Created by blackstar on 23/07/2024.
+//  Created by blackstar on 8/19/24.
 //
 //
 
 import Foundation
 import CoreData
 
-// Extension to define the properties and methods for the EventEntity Core Data model.
-// EventEntity represents an event that occurs during a session, such as a heart rate measurement.
+/// This extension of the `EventEntity` class defines the properties that are stored in the Core Data model.
+/// It also provides a fetch request method for retrieving instances of `EventEntity`.
 extension EventEntity {
 
-    // Fetch request for retrieving EventEntity objects from the Core Data store.
+    /// A class method to create a fetch request for `EventEntity`.
+    ///
+    /// - Returns: A fetch request for `EventEntity` instances.
     @nonobjc public class func fetchRequest() -> NSFetchRequest<EventEntity> {
         return NSFetchRequest<EventEntity>(entityName: "EventEntity")
     }
 
-    // The timestamp when the event occurred.
-    @NSManaged public var timestamp: Date
+    // MARK: - Core Data Properties
     
-    // The type of event (e.g., "heartRate", "stepCount").
-    @NSManaged public var eventType: String
-    
-    // The data associated with the event (e.g., heart rate value, step count).
-    @NSManaged public var data: Double
-    
-    // The session to which this event belongs.
-    // This creates a relationship between EventEntity and SessionEntity.
+    /// The type of event (e.g., "HR Data").
+    @NSManaged public var eventType: String?
+
+    /// The timestamp indicating when the event occurred.
+    @NSManaged public var timestamp: Date?
+
+    /// The recorded heart rate (HR) as a `Double`.
+    @NSManaged public var hr: Double
+
+    /// The instantaneous heart rate (HR) as a `Double`.
+    @NSManaged public var instantaneousHR: Double
+
+    /// The Inter-Beat Interval (IBI) data, stored as binary `Data`.
+    @NSManaged public var ibi: Data?
+
+    /// The distance matrix data, stored as binary `Data`.
+    @NSManaged public var distanceMatrix: Data?
+
+    /// The correlation matrix data, stored as binary `Data`.
+    @NSManaged public var correlationMatrix: Data?
+
+    /// The cross-entropy matrix data, stored as binary `Data`.
+    @NSManaged public var crossEntropyMatrix: Data?
+
+    /// The relationship to the `SessionEntity` that this event is associated with.
     @NSManaged public var session: SessionEntity?
-    
-    // Optionally, additional methods or computed properties can be added here
-    // to manipulate or format the event data as needed.
-    
-    // Example of a computed property (Optional):
-    // var formattedData: String {
-    //     return String(format: "%.2f", data)
-    // }
+
+}
+
+extension EventEntity: Identifiable {
+
 }

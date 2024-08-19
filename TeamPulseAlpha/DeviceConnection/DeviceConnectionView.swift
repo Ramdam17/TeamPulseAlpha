@@ -21,13 +21,15 @@ struct DeviceConnectionView: View {
 
             // List of sensors and their connection statuses
             List {
-                ForEach(bluetoothManager.sensors) { sensor in
-                    HStack {
-                        Text("Sensor \(sensor.color)") // Display the color of the sensor
-                        Spacer()
-                        // Display the connection status of the sensor
-                        Text(connectionStatuses[sensor.id] == true ? "Connected" : "Searching")
-                            .foregroundColor(connectionStatuses[sensor.id] == true ? .green : .red)
+                ForEach(bluetoothManager.sensors.compactMap { $0 }) { sensor in
+                    if let sensorID = sensor.id { // Safely unwrap sensor's UUID
+                        HStack {
+                            Text("Sensor \(sensor.color)") // Display the color of the sensor
+                            Spacer()
+                            // Display the connection status of the sensor
+                            Text(connectionStatuses[sensorID] == true ? "Connected" : "Searching")
+                                .foregroundColor(connectionStatuses[sensorID] == true ? .green : .red)
+                        }
                     }
                 }
             }
@@ -38,14 +40,12 @@ struct DeviceConnectionView: View {
                     .padding()
             } else if connectionStatuses.values.allSatisfy({ $0 == true }) {
                 // Show the button only if all sensors are connected
-                Button(action: {
-                    print("Navigating to the next screen")
-                }) {
-                    Text("Go to Next Screen")
-                        .foregroundColor(.white) // Set the text color of the button
-                        .padding() // Add padding around the button text
-                        .background(Color.blue) // Set the background color of the button
-                        .cornerRadius(10) // Round the corners of the button
+                NavigationLink(destination: AnimationView()) {
+                    Text("Go to Animation")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
                 }
                 .padding()
             } else {
@@ -66,7 +66,12 @@ struct DeviceConnectionView: View {
     /// Initializes the connection statuses for all sensors.
     private func initializeConnectionStatuses() {
         // Create a dictionary mapping sensor UUIDs to their initial connection status
-        connectionStatuses = Dictionary(uniqueKeysWithValues: bluetoothManager.sensors.map { ($0.id, $0.isConnected) })
+        connectionStatuses = Dictionary(uniqueKeysWithValues: bluetoothManager.sensors.compactMap { sensor in
+            if let id = sensor.id { // Safely unwrap the optional UUID
+                return (id, sensor.isConnected)
+            }
+            return nil
+        })
         print("Initial Connection Statuses: \(connectionStatuses)")
     }
 
@@ -74,9 +79,10 @@ struct DeviceConnectionView: View {
     private func updateConnectionStatuses(updatedSensors: [SensorEntity]) {
         // Update the connection status for each sensor in the dictionary
         for sensor in updatedSensors {
-            connectionStatuses[sensor.id] = sensor.isConnected
+            if let id = sensor.id { // Safely unwrap the optional UUID
+                connectionStatuses[id] = sensor.isConnected
+            }
         }
         print("Updated Connection Statuses: \(connectionStatuses)")
     }
 }
-

@@ -1,3 +1,10 @@
+//
+//  AuthenticationManager.swift
+//  TeamPulseAlpha
+//
+//  Created by blackstar on 24/07/2024.
+//
+
 import SwiftUI
 import AuthenticationServices
 
@@ -36,6 +43,7 @@ class AuthenticationManager: NSObject, ObservableObject {
         if let userID = UserDefaults.standard.string(forKey: "appleUserID") {
             // Check the credential state for the stored user ID.
             appleIDProvider.getCredentialState(forUserID: userID) { (credentialState, error) in
+                // Ensure UI updates occur on the main thread.
                 DispatchQueue.main.async {
                     switch credentialState {
                     case .authorized:
@@ -96,3 +104,4 @@ extension AuthenticationManager: ASAuthorizationControllerPresentationContextPro
         return keyWindow
     }
 }
+
