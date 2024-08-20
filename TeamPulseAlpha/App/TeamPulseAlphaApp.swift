@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
 struct TeamPulseAlphaApp: App {
@@ -19,8 +20,21 @@ struct TeamPulseAlphaApp: App {
     /// The main entry point for the app. Sets up the main scene and injects the CoreData context.
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(sensorDataProcessor: SensorDataProcessor(sensorIDs: fetchSensorUUIDs()))
                 .environment(\.managedObjectContext, CoreDataStack.shared.context) // Inject CoreData context into the environment for all views
+        }
+    }
+
+    /// Fetches the sensor UUIDs from CoreData.
+    private func fetchSensorUUIDs() -> [UUID] {
+        let context = CoreDataStack.shared.context
+        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
+        do {
+            let sensors = try context.fetch(fetchRequest)
+            return sensors.compactMap { $0.id }
+        } catch {
+            print("Failed to fetch sensors: \(error)")
+            return []
         }
     }
 }
@@ -30,12 +44,12 @@ struct ContentView: View {
     // StateObjects to manage authentication, Bluetooth, and session states across the app.
     @StateObject var authManager = AuthenticationManager() // Manages the authentication state
     @StateObject var bluetoothManager = BluetoothManager() // Manages the Bluetooth connections and sensor data
-    @StateObject var sessionManager = SessionManager() // Manages the session recording and related data
+    @StateObject var sessionManager: SessionManager
+    @StateObject var sensorDataProcessor: SensorDataProcessor
 
-    /// Initializer for the ContentView, responsible for initializing necessary data.
-    init() {
-        // Initialize the sensors in the Core Data context. Uncomment the line below to reset sensors if needed.
-        // DataManager.shared.resetSensors()
+    init(sensorDataProcessor: SensorDataProcessor) {
+        _sensorDataProcessor = StateObject(wrappedValue: sensorDataProcessor)
+        _sessionManager = StateObject(wrappedValue: SessionManager(sensorDataProcessor: sensorDataProcessor))
         DataManager.shared.initializeSensors() // Ensure sensors are set up in Core Data
     }
 
@@ -48,6 +62,8 @@ struct ContentView: View {
                     .environmentObject(authManager)
                     .environmentObject(bluetoothManager)
                     .environmentObject(sessionManager) // Provide SessionManager to the environment
+                    .environmentObject(sensorDataProcessor) // Provide SensorDataProcessor to the environment
+
             } else {
                 // Show the authentication view if the user is not authenticated
                 UnauthenticatedView()
@@ -58,6 +74,7 @@ struct ContentView: View {
         .environmentObject(authManager)
         .environmentObject(bluetoothManager)
         .environmentObject(sessionManager) // Provide SessionManager to the environment
+        .environmentObject(sensorDataProcessor) // Provide SensorDataProcessor to the environment
     }
 }
 
@@ -65,12 +82,16 @@ struct ContentView: View {
 struct AuthenticatedView: View {
     @EnvironmentObject var authManager: AuthenticationManager // Access the authentication manager from the environment
     @EnvironmentObject var bluetoothManager: BluetoothManager // Access the Bluetooth manager from the environment
+    @EnvironmentObject var sessionManager: SessionManager // Access the session manager from the environment
+    @EnvironmentObject var sensorDataProcessor: SensorDataProcessor // Access the sensor data processor from the environment
 
     var body: some View {
         // Display the main menu with access to all necessary environment objects
         MainMenuView()
             .environmentObject(authManager)
             .environmentObject(bluetoothManager)
+            .environmentObject(sessionManager) // Provide SessionManager to the environment
+            .environmentObject(sensorDataProcessor) // Provide SensorDataProcessor to the environment
     }
 }
 

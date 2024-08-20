@@ -39,6 +39,10 @@
 		3061741C2C73808B000BA239 /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */; };
 		30AEE3DF2C513441000687F8 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3DE2C51343F000687F8 /* Sensor.swift */; };
 		30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3E02C513455000687F8 /* BluetoothManager.swift */; };
+		30EB9BC02C74A5A2007A619B /* LineChartComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BBF2C74A59C007A619B /* LineChartComponent.swift */; };
+		30EB9BC22C74A5CE007A619B /* HRVChartComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC12C74A5C5007A619B /* HRVChartComponent.swift */; };
+		30EB9BC42C74A5EE007A619B /* BoxPlotComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC32C74A5E3007A619B /* BoxPlotComponent.swift */; };
+		30EB9BC62C74A60E007A619B /* ProximityRingChartComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC52C74A607007A619B /* ProximityRingChartComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +100,10 @@
 		306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		30AEE3DE2C51343F000687F8 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		30AEE3E02C513455000687F8 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		30EB9BBF2C74A59C007A619B /* LineChartComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartComponent.swift; sourceTree = "<group>"; };
+		30EB9BC12C74A5C5007A619B /* HRVChartComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRVChartComponent.swift; sourceTree = "<group>"; };
+		30EB9BC32C74A5E3007A619B /* BoxPlotComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxPlotComponent.swift; sourceTree = "<group>"; };
+		30EB9BC52C74A607007A619B /* ProximityRingChartComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityRingChartComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +154,7 @@
 		301CB9852C4F0F3100A0D85E /* TeamPulseAlpha */ = {
 			isa = PBXGroup;
 			children = (
+				30EB9BBD2C74A576007A619B /* Dashboards */,
 				306173D32C736ED2000BA239 /* Animation */,
 				30567F812C4FF24600A83322 /* Settings */,
 				30567F802C4FF23A00A83322 /* SessionList */,
@@ -294,6 +303,25 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
+		30EB9BBD2C74A576007A619B /* Dashboards */ = {
+			isa = PBXGroup;
+			children = (
+				30EB9BBE2C74A581007A619B /* Animation */,
+			);
+			path = Dashboards;
+			sourceTree = "<group>";
+		};
+		30EB9BBE2C74A581007A619B /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				30EB9BC52C74A607007A619B /* ProximityRingChartComponent.swift */,
+				30EB9BC32C74A5E3007A619B /* BoxPlotComponent.swift */,
+				30EB9BC12C74A5C5007A619B /* HRVChartComponent.swift */,
+				30EB9BBF2C74A59C007A619B /* LineChartComponent.swift */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -424,8 +452,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30EB9BC22C74A5CE007A619B /* HRVChartComponent.swift in Sources */,
+				30EB9BC02C74A5A2007A619B /* LineChartComponent.swift in Sources */,
 				30348A152C4F20F40041F47D /* DeviceConnectionView.swift in Sources */,
 				306173D52C736EDD000BA239 /* AnimationView.swift in Sources */,
+				30EB9BC42C74A5EE007A619B /* BoxPlotComponent.swift in Sources */,
 				301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */,
 				30AEE3DF2C513441000687F8 /* Sensor.swift in Sources */,
 				30348A102C4F20C20041F47D /* AuthView.swift in Sources */,
@@ -437,6 +468,7 @@
 				301CB9B82C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld in Sources */,
 				30567F7C2C4FF1E800A83322 /* AuthenticationManager.swift in Sources */,
 				306173DD2C736F38000BA239 /* DashboardComponent.swift in Sources */,
+				30EB9BC62C74A60E007A619B /* ProximityRingChartComponent.swift in Sources */,
 				306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */,
 				306173DB2C736F24000BA239 /* SessionRecordingComponent.swift in Sources */,
 				30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */,

@@ -7,41 +7,55 @@
 
 import Foundation
 
-/// `ArrayTransformer` is a custom `ValueTransformer` subclass used to transform arrays of `Double` into `Data` for storage in Core Data, and to reverse that transformation back into arrays.
-///
-/// This is necessary for storing non-standard data types (like arrays) in Core Data's binary data fields.
 @objc(ArrayTransformer)
 class ArrayTransformer: ValueTransformer {
-    
-    /// Specifies the type of value that this transformer converts to.
+
     override class func transformedValueClass() -> AnyClass {
-        return NSData.self // The transformed value will be of type `NSData`.
+        return NSData.self
     }
 
-    /// Indicates that this transformer allows reverse transformations.
     override class func allowsReverseTransformation() -> Bool {
-        return true // This transformer supports both forward and reverse transformations.
+        return true
     }
 
-    /// Transforms an array of `Double` into `Data` for storage.
-    ///
-    /// - Parameter value: The value to be transformed, expected to be an array of `Double`.
-    /// - Returns: The transformed value as `Data`, or `nil` if the transformation fails.
+    // General transformation method for an array of doubles
     override func transformedValue(_ value: Any?) -> Any? {
-        // Ensure the value is of type `[Double]`.
         guard let array = value as? [Double] else { return nil }
-        // Archive the array into `Data` using `NSKeyedArchiver`.
         return try? NSKeyedArchiver.archivedData(withRootObject: array, requiringSecureCoding: false)
     }
 
-    /// Reverses the transformation, converting `Data` back into an array of `Double`.
-    ///
-    /// - Parameter value: The value to be reverse transformed, expected to be of type `Data`.
-    /// - Returns: The reverse transformed value as an array of `Double`, or `nil` if the transformation fails.
     override func reverseTransformedValue(_ value: Any?) -> Any? {
-        // Ensure the value is of type `Data`.
         guard let data = value as? Data else { return nil }
-        // Unarchive the data back into an array of `Double` using `NSKeyedUnarchiver`.
         return try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: data) as? [Double]
+    }
+    
+    // Method to transform a matrix (2D array of doubles) to data
+    func transformMatrixToData(_ matrix: [[Double]]) -> Data? {
+        return try? NSKeyedArchiver.archivedData(withRootObject: matrix, requiringSecureCoding: false)
+    }
+
+    // Method to transform data back into a matrix (2D array of doubles)
+    func reverseTransformDataToMatrix(_ data: Data) -> [[Double]]? {
+        return try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: data) as? [[Double]]
+    }
+
+    // Method to transform a cluster state dictionary to data
+    func transformClusterStateToData(_ clusterState: [UUID: (isActive: Bool, activeCount: Int)]) -> Data? {
+        return try? NSKeyedArchiver.archivedData(withRootObject: clusterState, requiringSecureCoding: false)
+    }
+
+    // Method to transform data back into a cluster state dictionary
+    func reverseTransformDataToClusterState(_ data: Data) -> [UUID: (isActive: Bool, activeCount: Int)]? {
+        return try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSDictionary.self, from: data) as? [UUID: (isActive: Bool, activeCount: Int)]
+    }
+    
+    // Method to transform an array of UUID arrays (for clusters) to data
+    func transformClusterArrayToData(_ clusterArray: [[UUID]]) -> Data? {
+        return try? NSKeyedArchiver.archivedData(withRootObject: clusterArray, requiringSecureCoding: false)
+    }
+
+    // Method to transform data back into an array of UUID arrays
+    func reverseTransformDataToClusterArray(_ data: Data) -> [[UUID]]? {
+        return try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: data) as? [[UUID]]
     }
 }

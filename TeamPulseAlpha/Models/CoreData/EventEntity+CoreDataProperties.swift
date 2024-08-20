@@ -46,6 +46,21 @@ extension EventEntity {
     /// The cross-entropy matrix data, stored as binary `Data`.
     @NSManaged public var crossEntropyMatrix: Data?
 
+    /// The mutual information matrix data, stored as binary `Data`.
+    @NSManaged public var mutualInformationMatrix: Data?
+
+    /// The threshold value used for cluster determination.
+    @NSManaged public var threshold: Double
+
+    /// The proximity matrix data, stored as binary `Data`.
+    @NSManaged public var proximityMatrix: Data?
+
+    /// The soft clusters data, stored as binary `Data`.
+    @NSManaged public var softClusters: Data?
+
+    /// The hard clusters data, stored as binary `Data`.
+    @NSManaged public var hardClusters: Data?
+
     /// The relationship to the `SessionEntity` that this event is associated with.
     @NSManaged public var session: SessionEntity?
 

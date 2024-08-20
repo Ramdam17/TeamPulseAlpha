@@ -5,9 +5,14 @@
         <attribute name="crossEntropyMatrix" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
         <attribute name="distanceMatrix" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
         <attribute name="eventType" optional="YES" attributeType="String"/>
+        <attribute name="hardClusters" optional="YES" attributeType="Binary"/>
         <attribute name="hr" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="ibi" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
         <attribute name="instantaneousHR" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="mutualInformationMatrix" optional="YES" attributeType="Binary"/>
+        <attribute name="proximityMatrix" optional="YES" attributeType="Binary"/>
+        <attribute name="softClusters" optional="YES" attributeType="Binary"/>
+        <attribute name="threshold" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="events" inverseEntity="SessionEntity"/>
     </entity>
@@ -16,12 +21,12 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isConnected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="macAddress" optional="YES" attributeType="String"/>
-        <relationship name="sessions" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="sensor" inverseEntity="SessionEntity"/>
+        <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="sensor" inverseEntity="SessionEntity"/>
     </entity>
     <entity name="SessionEntity" representedClassName=".SessionEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="session" inverseEntity="EventEntity"/>
-        <relationship name="sensor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SensorEntity" inverseName="sessions" inverseEntity="SensorEntity"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EventEntity" inverseName="session" inverseEntity="EventEntity"/>
+        <relationship name="sensor" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SensorEntity" inverseName="sessions" inverseEntity="SensorEntity"/>
     </entity>
 </model>

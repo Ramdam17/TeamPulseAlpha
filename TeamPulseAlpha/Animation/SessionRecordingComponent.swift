@@ -5,11 +5,15 @@
 //  Created by blackstar on 8/19/24.
 //
 
+// Inside SessionRecordingComponent.swift
+
 import SwiftUI
 
 /// A view component responsible for managing the session recording process, including start, stop, save, and delete actions.
 struct SessionRecordingComponent: View {
     @EnvironmentObject var sessionManager: SessionManager // Access the SessionManager from the environment
+    @EnvironmentObject var sensorDataProcessor: SensorDataProcessor // Access the SensorDataProcessor from the environment
+    
     @State private var isRecording = false // Tracks whether the recording is currently active
     @State private var showStopActionSheet = false // Controls the display of the stop recording action sheet
     
@@ -35,6 +39,9 @@ struct SessionRecordingComponent: View {
                 // Button to start a new recording session
                 Button(action: {
                     sessionManager.startNewSession() // Start a new session
+                    if let currentSession = sessionManager.currentSession {
+                        sensorDataProcessor.setCurrentSession(currentSession) // Set the current session in SensorDataProcessor
+                    }
                     isRecording = true // Update the recording state to true
                 }) {
                     Text("Start Recording")
@@ -54,11 +61,13 @@ struct SessionRecordingComponent: View {
                     .default(Text("Save")) {
                         // Save the session and stop recording
                         sessionManager.stopSession()
+                        sensorDataProcessor.clearCurrentSession()
                         isRecording = false
                     },
                     .destructive(Text("Delete")) {
                         // Delete the current session and stop recording
                         sessionManager.deleteCurrentSession()
+                        sensorDataProcessor.clearCurrentSession()
                         isRecording = false
                     },
                     .cancel(Text("Cancel")) {
@@ -70,4 +79,3 @@ struct SessionRecordingComponent: View {
         }
     }
 }
-

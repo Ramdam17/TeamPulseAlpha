@@ -8,21 +8,26 @@
 import SwiftUI
 
 struct AnimationView: View {
+
+    // Initialize the SensorDataProcessor with actual sensor UUIDs
+    @StateObject var sensorDataProcessor: SensorDataProcessor
+
     var body: some View {
         VStack {
-            // Placeholder for the Animation Component
+            // Animation Component placeholder (this will display the actual animation)
             AnimationComponent()
                 .frame(height: 300)
-            
-            // Placeholder for the Bluetooth Connection Status Component
+
+            // Bluetooth Connection Status Component
             BluetoothStatusComponent()
                 .padding()
-            
-            // Placeholder for the Dashboard Component
+
+            // Dashboard Component - showing charts and stats related to the sensor data
             DashboardComponent()
+                .environmentObject(sensorDataProcessor) // Pass the sensor data processor to the dashboard component
                 .padding()
-            
-            // Placeholder for the Session Recording Management Component
+
+            // Session Recording Management Component
             SessionRecordingComponent()
                 .padding(.top, 20)
         }
@@ -30,3 +35,13 @@ struct AnimationView: View {
     }
 }
 
+// Sample usage of the AnimationView with actual UUIDs
+struct AnimationView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Example sensor UUIDs - replace with actual UUIDs from your app's data
+        let sensorUUIDs = [UUID(), UUID(), UUID()]
+        AnimationView(sensorDataProcessor: SensorDataProcessor(sensorIDs: sensorUUIDs))
+            .environmentObject(SessionManager()) // Ensure SessionManager is passed as an environment object
+            .environmentObject(BluetoothManager()) // Ensure BluetoothManager is passed as an environment object
+    }
+}

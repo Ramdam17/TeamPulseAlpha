@@ -6,24 +6,34 @@
 //
 
 import SwiftUI
+import Charts
 
 struct DashboardComponent: View {
+    @EnvironmentObject var sensorDataProcessor: SensorDataProcessor
+
     var body: some View {
         VStack {
             Text("Dashboard")
                 .font(.headline)
-            
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("Heart Rate")
-                    Text("IBI")
-                }
-                Spacer()
-                VStack(alignment: .trailing) {
-                    Text("120 BPM") // Placeholder
-                    Text("500 ms") // Placeholder
-                }
-            }
+
+            // Example data access
+            LineChartComponent(
+                data: sensorDataProcessor.getInstantaneousHRData(),
+                colors: [.blue, .green, .red]
+            )
+
+            // HRV Chart
+            LineChartComponent(
+                data: sensorDataProcessor.getHRVData(),
+                colors: [.blue, .green, .red]
+            )
+
+            // Box Plot
+            BoxPlotComponent(data: sensorDataProcessor.calculateStatisticsData())
+
+            // Proximity Ring Chart
+            ProximityRingChartComponent(proximityScore: sensorDataProcessor.calculateProximityScore())
         }
+        .padding()
     }
 }

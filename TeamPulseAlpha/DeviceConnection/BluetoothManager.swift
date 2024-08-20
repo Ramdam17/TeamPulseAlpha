@@ -210,21 +210,29 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
             // Ensure IBI array has the expected number of elements before accessing
             if !IBI.isEmpty {
                 if let sensorID = sensors.first(where: { $0.macAddress == peripheral.identifier.uuidString })?.id {
-                    sensorDataProcessor.updateHRData(sensorID: sensorID, hr: Double(heartRate), ibi: IBI[0])
+                    sensorDataProcessor.updateHRData(sensorID: sensorID, ibiArray: IBI)
 
                     // Print statistics, HRV, and distance matrix
                     if let stats = sensorDataProcessor.calculateStatistics(sensorID: sensorID) {
                         print("Sensor \(sensorID) Stats - Min: \(stats.min), Max: \(stats.max), Median: \(stats.median), Mean: \(stats.mean)")
                     }
-                    if let hrv = sensorDataProcessor.calculateHRV(sensorID: sensorID) {
-                        print("Sensor \(sensorID) HRV: \(hrv)")
-                    }
-                    let distancesMatrix = sensorDataProcessor.computeDistancesMatrix(sensorIDs: sensors.compactMap { $0.id })
+                    let hrvArray = sensorDataProcessor.getHRVData(sensorID: sensorID)
+                    print("Sensor \(sensorID) HRV Array: \(hrvArray)")
+                    let distancesMatrix = sensorDataProcessor.getDistanceMatrix()
                     print("Distances Matrix: \(distancesMatrix)")
-                    let correlationMatrix = sensorDataProcessor.computeCorrelationMatrix(sensorIDs: sensors.compactMap { $0.id })
+                    let correlationMatrix = sensorDataProcessor.getCorrelationMatrix()
                     print("Correlation Matrix: \(correlationMatrix)")
-                    let crossEntropyMatrix = sensorDataProcessor.computeCrossEntropyMatrix(sensorIDs: sensors.compactMap { $0.id })
+                    let crossEntropyMatrix = sensorDataProcessor.getCrossEntropyMatrix()
                     print("Cross-Entropy Matrix: \(crossEntropyMatrix)")
+                    let proximityMatrix = sensorDataProcessor.getProximityMatrix()
+                    print("Proximity Matrix: \(proximityMatrix)")
+                    let mutualInformationMatrix = sensorDataProcessor.getMutualInformationMatrix()
+                    print("Mutual Information Matrix: \(mutualInformationMatrix)")
+
+                    // Update clusters
+                    sensorDataProcessor.updateClusterState(sensorIDs: sensors.compactMap { $0.id }, proximityMatrix: proximityMatrix)
+                    print("Soft Clusters: \(sensorDataProcessor.getSoftClusters())")
+                    print("Hard Clusters: \(sensorDataProcessor.getHardClusters())")
                 }
             } else {
                 print("IBI array is empty, skipping updateHRData.")
