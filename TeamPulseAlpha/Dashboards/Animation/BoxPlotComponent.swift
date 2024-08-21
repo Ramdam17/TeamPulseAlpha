@@ -9,17 +9,22 @@ import SwiftUI
 import Charts
 
 struct BoxPlotComponent: View {
-    @EnvironmentObject var sensorDataProcessor: SensorDataProcessor
+    @Environment var sensorDataProcessor: SensorDataProcessor
+    
+    let data: [UUID: [Double]]  // Data for each sensor
+    let colors: [Color]         // Colors for each line
     
     var body: some View {
-        Chart {
-            ForEach(sensorDataProcessor.statisticsArray.keys.sorted(), id: \.self) { sensorID in
-                BoxPlotMark(
-                    min: .value("Min", sensorDataProcessor.statisticsArray[sensorID]?.min ?? 0),
-                    median: .value("Median", sensorDataProcessor.statisticsArray[sensorID]?.median ?? 0),
-                    max: .value("Max", sensorDataProcessor.statisticsArray[sensorID]?.max ?? 0)
-                )
-                .foregroundStyle(by: .value("Sensor", sensorDataProcessor.getSensorColor(sensorID)))
+        VStack {
+            ForEach(Array(data.keys.enumerated()), id: \.element) { index, sensorID in
+                if let stats = sensorDataProcessor.calculateStatistics(sensorID: sensorID) {
+                    SensorBoxPlotView(
+                        sensorID: sensorID,
+                        stats: stats,
+                        color: colors[index % colors.count],
+                        index: index
+                    )
+                }
             }
         }
         .padding()

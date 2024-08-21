@@ -76,7 +76,7 @@ class DataManager {
             if let sensor = try context.fetch(fetchRequest).first {
                 sensor.macAddress = newMacAddress
                 CoreDataStack.shared.saveContext() // Save the updated sensor to the Core Data store
-                print("Successfully updated sensor \(sensor.color) with new MAC address: \(newMacAddress)")
+                print("Successfully updated sensor \(sensor.color ?? "No value") with new MAC address: \(newMacAddress)")
             } else {
                 print("Sensor with ID \(id) not found.")
             }

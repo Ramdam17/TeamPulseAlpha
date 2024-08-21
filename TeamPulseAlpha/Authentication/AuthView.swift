@@ -11,7 +11,7 @@ import AuthenticationServices
 /// A view that handles the authentication process for TeamPulse using Apple Sign-In.
 struct AuthView: View {
     /// The authentication manager responsible for handling sign-in and credential checks.
-    @EnvironmentObject var authManager: AuthenticationManager
+    @Environment(AuthenticationManager.self) var authManager
 
     /// Stores any error messages that occur during the authentication process.
     @State private var errorMessage: String?
@@ -76,13 +76,13 @@ struct AuthView: View {
                 errorMessage = nil
             }
         }
-        .onReceive(authManager.$isAuthenticated) { isAuthenticated in
+        .onChange(of: authManager.isAuthenticated) { isAuthenticated in
             // Clears the error message if authentication succeeds.
             if isAuthenticated {
                 errorMessage = nil
             }
         }
-        .onReceive(authManager.$errorMessage) { errorMessage in
+        .onChange(of: authManager.errorMessage) { errorMessage in
             // Updates the error message if authentication fails.
             self.errorMessage = errorMessage
         }

@@ -31,9 +31,6 @@ extension EventEntity {
     /// The recorded heart rate (HR) as a `Double`.
     @NSManaged public var hr: Double
 
-    /// The instantaneous heart rate (HR) as a `Double`.
-    @NSManaged public var instantaneousHR: Double
-
     /// The Inter-Beat Interval (IBI) data, stored as binary `Data`.
     @NSManaged public var ibi: Data?
 
@@ -66,6 +63,7 @@ extension EventEntity {
 
 }
 
+/// Extends `EventEntity` to conform to the `Identifiable` protocol, which helps in working with lists in SwiftUI.
 extension EventEntity: Identifiable {
 
 }

@@ -11,6 +11,9 @@ import SwiftUI
 // It provides navigation to different sections of the app, such as starting a new session,
 // viewing recorded sessions, and accessing settings.
 struct MainMenuView: View {
+    
+    @Environment(SensorDataProcessor.self) var sensorDataProcessor // Access the SensorDataProcessor from the environment
+    
     var body: some View {
         VStack(spacing: 40) {
             Spacer()
@@ -18,7 +21,7 @@ struct MainMenuView: View {
             HeaderView(title: "Main Menu")
             
             MenuButtonView(title: "Start New Session", destination: DeviceConnectionView(), backgroundColor: .blue)
-            
+
             MenuButtonView(title: "View Recorded Sessions", destination: SessionListView(), backgroundColor: .green)
             
             MenuButtonView(title: "Settings", destination: SettingsView(), backgroundColor: .gray)
@@ -66,4 +69,3 @@ struct MenuButtonView<Destination: View>: View {
         .padding(.horizontal)
     }
 }
-

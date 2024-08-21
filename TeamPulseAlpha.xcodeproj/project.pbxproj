@@ -39,10 +39,11 @@
 		3061741C2C73808B000BA239 /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */; };
 		30AEE3DF2C513441000687F8 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3DE2C51343F000687F8 /* Sensor.swift */; };
 		30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3E02C513455000687F8 /* BluetoothManager.swift */; };
-		30EB9BC02C74A5A2007A619B /* LineChartComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BBF2C74A59C007A619B /* LineChartComponent.swift */; };
-		30EB9BC22C74A5CE007A619B /* HRVChartComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC12C74A5C5007A619B /* HRVChartComponent.swift */; };
 		30EB9BC42C74A5EE007A619B /* BoxPlotComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC32C74A5E3007A619B /* BoxPlotComponent.swift */; };
 		30EB9BC62C74A60E007A619B /* ProximityRingChartComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC52C74A607007A619B /* ProximityRingChartComponent.swift */; };
+		30EB9BC82C74E64A007A619B /* SensorBoxPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC72C74E644007A619B /* SensorBoxPlotView.swift */; };
+		30EB9BCB2C7500A5007A619B /* LineChartHRVComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BCA2C7500A5007A619B /* LineChartHRVComponent.swift */; };
+		30EB9BCC2C7500A5007A619B /* LineChartHRComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC92C7500A5007A619B /* LineChartHRComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,10 +101,11 @@
 		306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		30AEE3DE2C51343F000687F8 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		30AEE3E02C513455000687F8 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
-		30EB9BBF2C74A59C007A619B /* LineChartComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartComponent.swift; sourceTree = "<group>"; };
-		30EB9BC12C74A5C5007A619B /* HRVChartComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRVChartComponent.swift; sourceTree = "<group>"; };
 		30EB9BC32C74A5E3007A619B /* BoxPlotComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxPlotComponent.swift; sourceTree = "<group>"; };
 		30EB9BC52C74A607007A619B /* ProximityRingChartComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityRingChartComponent.swift; sourceTree = "<group>"; };
+		30EB9BC72C74E644007A619B /* SensorBoxPlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorBoxPlotView.swift; sourceTree = "<group>"; };
+		30EB9BC92C7500A5007A619B /* LineChartHRComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartHRComponent.swift; sourceTree = "<group>"; };
+		30EB9BCA2C7500A5007A619B /* LineChartHRVComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartHRVComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,9 @@
 				306173DE2C737397000BA239 /* SensorDataProcessing.swift */,
 				301CB9C72C4F1BC500A0D85E /* DataManager.swift */,
 				301CB9C52C4F1BA900A0D85E /* CoreDataStack.swift */,
+				30AEE3E02C513455000687F8 /* BluetoothManager.swift */,
+				306174012C737C85000BA239 /* SessionManager.swift */,
+				30567F7B2C4FF1E300A83322 /* AuthenticationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -242,7 +247,6 @@
 		30567F7A2C4FF1D100A83322 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				30567F7B2C4FF1E300A83322 /* AuthenticationManager.swift */,
 				30348A0F2C4F20C20041F47D /* AuthView.swift */,
 			);
 			path = Authentication;
@@ -259,7 +263,6 @@
 		30567F7E2C4FF20400A83322 /* DeviceConnection */ = {
 			isa = PBXGroup;
 			children = (
-				30AEE3E02C513455000687F8 /* BluetoothManager.swift */,
 				30AEE3DE2C51343F000687F8 /* Sensor.swift */,
 				30348A142C4F20F40041F47D /* DeviceConnectionView.swift */,
 			);
@@ -270,7 +273,6 @@
 			isa = PBXGroup;
 			children = (
 				30348A162C4F21030041F47D /* SessionRecordingView.swift */,
-				306174012C737C85000BA239 /* SessionManager.swift */,
 			);
 			path = SessionRecording;
 			sourceTree = "<group>";
@@ -314,10 +316,11 @@
 		30EB9BBE2C74A581007A619B /* Animation */ = {
 			isa = PBXGroup;
 			children = (
+				30EB9BC72C74E644007A619B /* SensorBoxPlotView.swift */,
 				30EB9BC52C74A607007A619B /* ProximityRingChartComponent.swift */,
 				30EB9BC32C74A5E3007A619B /* BoxPlotComponent.swift */,
-				30EB9BC12C74A5C5007A619B /* HRVChartComponent.swift */,
-				30EB9BBF2C74A59C007A619B /* LineChartComponent.swift */,
+				30EB9BC92C7500A5007A619B /* LineChartHRComponent.swift */,
+				30EB9BCA2C7500A5007A619B /* LineChartHRVComponent.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -452,14 +455,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30EB9BC22C74A5CE007A619B /* HRVChartComponent.swift in Sources */,
-				30EB9BC02C74A5A2007A619B /* LineChartComponent.swift in Sources */,
 				30348A152C4F20F40041F47D /* DeviceConnectionView.swift in Sources */,
 				306173D52C736EDD000BA239 /* AnimationView.swift in Sources */,
 				30EB9BC42C74A5EE007A619B /* BoxPlotComponent.swift in Sources */,
 				301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */,
 				30AEE3DF2C513441000687F8 /* Sensor.swift in Sources */,
 				30348A102C4F20C20041F47D /* AuthView.swift in Sources */,
+				30EB9BC82C74E64A007A619B /* SensorBoxPlotView.swift in Sources */,
 				306174022C737C88000BA239 /* SessionManager.swift in Sources */,
 				30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */,
 				306173F32C737ABD000BA239 /* CustomTransformers.swift in Sources */,
@@ -467,6 +469,8 @@
 				30348A1B2C4F21260041F47D /* SettingsView.swift in Sources */,
 				301CB9B82C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld in Sources */,
 				30567F7C2C4FF1E800A83322 /* AuthenticationManager.swift in Sources */,
+				30EB9BCB2C7500A5007A619B /* LineChartHRVComponent.swift in Sources */,
+				30EB9BCC2C7500A5007A619B /* LineChartHRComponent.swift in Sources */,
 				306173DD2C736F38000BA239 /* DashboardComponent.swift in Sources */,
 				30EB9BC62C74A60E007A619B /* ProximityRingChartComponent.swift in Sources */,
 				306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */,

@@ -9,7 +9,8 @@ import SwiftUI
 
 /// The `SettingsView` displays settings options for the user, including the ability to sign out.
 struct SettingsView: View {
-    @EnvironmentObject var authManager: AuthenticationManager // Access the authentication manager to manage the sign-out process
+    
+    @Environment(AuthenticationManager.self) var authManager // Access the authentication manager to manage the sign-out process
 
     var body: some View {
         VStack {
@@ -50,6 +51,5 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         // Provide a mock AuthenticationManager for the preview
         SettingsView()
-            .environmentObject(AuthenticationManager())
     }
 }

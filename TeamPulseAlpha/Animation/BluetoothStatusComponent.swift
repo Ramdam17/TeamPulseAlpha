@@ -10,7 +10,7 @@ import SwiftUI
 /// A view that displays the Bluetooth connection status of all sensors managed by the `BluetoothManager`.
 struct BluetoothStatusComponent: View {
     // Access the BluetoothManager from the environment to track sensor connection status.
-    @EnvironmentObject var bluetoothManager: BluetoothManager
+    @Environment(BluetoothManager.self) var bluetoothManager
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -39,6 +39,6 @@ struct BluetoothStatusComponent: View {
 struct BluetoothStatusComponent_Previews: PreviewProvider {
     static var previews: some View {
         BluetoothStatusComponent()
-            .environmentObject(BluetoothManager()) // Provide a mock environment object for preview.
+            .environment(BluetoothManager()) // Provide a mock environment object for preview.
     }
 }

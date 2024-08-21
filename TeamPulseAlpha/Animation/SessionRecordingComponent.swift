@@ -5,14 +5,12 @@
 //  Created by blackstar on 8/19/24.
 //
 
-// Inside SessionRecordingComponent.swift
-
 import SwiftUI
 
 /// A view component responsible for managing the session recording process, including start, stop, save, and delete actions.
 struct SessionRecordingComponent: View {
-    @EnvironmentObject var sessionManager: SessionManager // Access the SessionManager from the environment
-    @EnvironmentObject var sensorDataProcessor: SensorDataProcessor // Access the SensorDataProcessor from the environment
+    @Environment(SessionManager.self) var sessionManager // Access the SessionManager from the environment
+    @Environment(SensorDataProcessor.self) var sensorDataProcessor // Access the SensorDataProcessor from the environment
     
     @State private var isRecording = false // Tracks whether the recording is currently active
     @State private var showStopActionSheet = false // Controls the display of the stop recording action sheet
@@ -77,5 +75,12 @@ struct SessionRecordingComponent: View {
                 ]
             )
         }
+    }
+}
+
+// Preview provider for the SessionRecordingComponent
+struct SessionRecordingComponent_Previews: PreviewProvider {
+    static var previews: some View {
+        SessionRecordingComponent()
     }
 }

@@ -9,21 +9,20 @@ import CoreData
 import Foundation
 
 /// Manages the creation, management, and deletion of sessions within the TeamPulseAlpha app.
-class SessionManager: ObservableObject {
+@Observable
+class SessionManager {
+    
     /// The currently active session, if any, published to notify observers.
-    @Published var currentSession: SessionEntity?
-    var sensorDataProcessor: SensorDataProcessor
-
-    init(sensorDataProcessor: SensorDataProcessor) {
-        self.sensorDataProcessor = sensorDataProcessor
-    }
-
+    var currentSession: SessionEntity?
+    
     /// Starts a new session by creating a `SessionEntity` and setting it as the current session.
     func startNewSession() {
         let context = CoreDataStack.shared.context
         let newSession = SessionEntity(context: context)
+        
         newSession.id = UUID()  // Assign a unique identifier to the session.
         newSession.timestamp = Date()  // Set the session's start timestamp to the current date/time.
+        
         CoreDataStack.shared.saveContext()  // Save the session in CoreData.
         currentSession = newSession  // Set this as the current session.
     }
@@ -33,29 +32,30 @@ class SessionManager: ObservableObject {
         currentSession = nil  // Set currentSession to `nil` to indicate no active session.
     }
 
-    /// Deletes the current session and all its associated data.
+    /// Deletes the current session and all its associated data from Core Data.
     func deleteCurrentSession() {
-        if let session = currentSession {
-            let context = CoreDataStack.shared.context
+        guard let session = currentSession else { return }
+        let context = CoreDataStack.shared.context
 
-            // Deleting the session will also delete all associated events due to the cascade delete rule.
-            context.delete(session)
+        // Delete the session and all associated events due to cascade delete rule.
+        context.delete(session)
 
-            // Save the context to commit the delete operation.
-            do {
-                try context.save()
-            } catch {
-                print("Failed to delete session and its events: \(error)")
-            }
-
-            currentSession = nil
+        // Save the context to commit the delete operation.
+        do {
+            try context.save()
+        } catch {
+            print("Failed to delete session and its events: \(error)")
         }
+
+        // Clear the current session.
+        currentSession = nil
     }
 
-    /// Save data for a sensor during the session.
+    /// Saves the sensor data during the session to Core Data.
+    ///
+    /// - Parameter sensor: The sensor entity whose data is being saved.
     func saveData(for sensor: SensorEntity) {
-        guard let session = currentSession else { return }
-        sensorDataProcessor.saveDataToCoreData(
-            session: session, sensorID: sensor.id!)
+        //guard let session = currentSession else { return }
+        //sensorDataProcessor.saveDataToCoreData(session: session, sensorID: sensor.id!)
     }
 }

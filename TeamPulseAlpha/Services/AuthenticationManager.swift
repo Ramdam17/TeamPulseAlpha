@@ -7,19 +7,47 @@
 
 import SwiftUI
 import AuthenticationServices
+import LocalAuthentication
 
-/// Manages the authentication process using Sign in with Apple.
-class AuthenticationManager: NSObject, ObservableObject {
-    /// Published property that indicates whether the user is authenticated.
-    @Published var isAuthenticated = false
+/// Manages the authentication process using Sign in with Apple and Face ID.
+@Observable
+class AuthenticationManager: NSObject {
+    /// Indicates whether the user is authenticated.
+    var isAuthenticated = false
 
-    /// Published property that stores any error messages during the authentication process.
-    @Published var errorMessage: String?
+    /// Stores any error messages during the authentication process.
+    var errorMessage: String?
 
     /// Initializes the authentication manager and checks the current credential state.
     override init() {
         super.init()
         checkCredentialState()
+    }
+
+    /// Initiates the Face ID authentication process.
+    func authenticateWithFaceID() {
+        let context = LAContext()
+        var error: NSError?
+
+        // Check if the device supports Face ID.
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Authenticate with Face ID to access TeamPulse"
+
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        // Face ID authentication was successful.
+                        self.signInWithApple() // Proceed to Sign in with Apple after Face ID authentication.
+                    } else {
+                        // Face ID authentication failed.
+                        self.errorMessage = authenticationError?.localizedDescription
+                    }
+                }
+            }
+        } else {
+            // Device does not support Face ID.
+            self.errorMessage = "Face ID is not available on this device."
+        }
     }
 
     /// Initiates the Sign in with Apple process.
@@ -104,4 +132,3 @@ extension AuthenticationManager: ASAuthorizationControllerPresentationContextPro
         return keyWindow
     }
 }
-

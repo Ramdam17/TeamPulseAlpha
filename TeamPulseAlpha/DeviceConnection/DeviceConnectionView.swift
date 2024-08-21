@@ -10,8 +10,10 @@ import Combine
 
 /// A view that displays the connection status of sensors and provides options to navigate when all sensors are connected.
 struct DeviceConnectionView: View {
-    @EnvironmentObject var bluetoothManager: BluetoothManager // Access the BluetoothManager environment object
+    
+    @Environment(BluetoothManager.self) var bluetoothManager // Access the BluetoothManager from the environment
     @State private var connectionStatuses: [UUID: Bool] = [:] // Dictionary to track connection statuses of sensors by their UUIDs
+    @Environment(SensorDataProcessor.self) var sensorDataProcessor // Access the SensorDataProcessor from the environment
 
     var body: some View {
         VStack {
@@ -24,7 +26,7 @@ struct DeviceConnectionView: View {
                 ForEach(bluetoothManager.sensors.compactMap { $0 }) { sensor in
                     if let sensorID = sensor.id { // Safely unwrap sensor's UUID
                         HStack {
-                            Text("Sensor \(sensor.color)") // Display the color of the sensor
+                            Text("Sensor \(sensor.color ?? "Unknown")") // Display the color of the sensor
                             Spacer()
                             // Display the connection status of the sensor
                             Text(connectionStatuses[sensorID] == true ? "Connected" : "Searching")
@@ -58,8 +60,8 @@ struct DeviceConnectionView: View {
             bluetoothManager.startScanning() // Start scanning for sensors when the view appears
             initializeConnectionStatuses() // Initialize the connection statuses
         }
-        .onReceive(bluetoothManager.$sensors) { updatedSensors in
-            updateConnectionStatuses(updatedSensors: updatedSensors) // Update the connection statuses when sensors array changes
+        .onChange(of: bluetoothManager.isUpdated) { _, _ in
+            updateConnectionStatuses(updatedSensors: bluetoothManager.sensors) // Update the connection statuses when sensors array changes
         }
     }
 
