@@ -38,8 +38,7 @@ struct AuthView: View {
 
             // Button that initiates the Sign in with Apple process.
             Button(action: {
-                // Initiates the Apple Sign-In process.
-                authManager.signInWithApple()
+                authManager.signInWithApple() // Initiates the Apple Sign-In process.
             }) {
                 // Layout and style of the Sign in with Apple button.
                 HStack {
@@ -86,5 +85,12 @@ struct AuthView: View {
             // Updates the error message if authentication fails.
             self.errorMessage = errorMessage
         }
+    }
+}
+
+struct AuthView_Previews: PreviewProvider {
+    static var previews: some View {
+        AuthView()
+            .environment(AuthenticationManager()) // Provide a mock environment object for preview.
     }
 }

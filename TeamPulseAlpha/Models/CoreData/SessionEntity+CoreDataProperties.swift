@@ -24,11 +24,11 @@ extension SessionEntity {
     /// Timestamp indicating when the session was started.
     @NSManaged public var timestamp: Date?
 
-    /// The associated event data for this session.
+    /// The associated events data for this session.
     @NSManaged public var events: EventEntity?
 
-    /// The associated sensor for this session.
-    @NSManaged public var sensor: SensorEntity?
+    /// The associated sensors for this session.
+    @NSManaged public var sensors: SensorEntity?
 }
 
 /// Conforms `SessionEntity` to the `Identifiable` protocol to provide a stable identity for use in lists and other SwiftUI views.

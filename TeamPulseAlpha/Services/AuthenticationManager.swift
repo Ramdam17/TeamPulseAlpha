@@ -9,7 +9,7 @@ import SwiftUI
 import AuthenticationServices
 import LocalAuthentication
 
-/// Manages the authentication process using Sign in with Apple and Face ID.
+/// Manages the authentication process using Sign in with Apple and biometric authentication (Face ID/Touch ID).
 @Observable
 class AuthenticationManager: NSObject {
     /// Indicates whether the user is authenticated.
@@ -24,29 +24,44 @@ class AuthenticationManager: NSObject {
         checkCredentialState()
     }
 
-    /// Initiates the Face ID authentication process.
-    func authenticateWithFaceID() {
+    /// Initiates the biometric authentication process, which can be either Face ID or Touch ID depending on the device.
+    func authenticateWithBiometrics() {
         let context = LAContext()
         var error: NSError?
 
-        // Check if the device supports Face ID.
+        // Check if the device supports biometric authentication (Face ID or Touch ID).
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Authenticate with Face ID to access TeamPulse"
+            let reason = "Authenticate with biometrics to access TeamPulse"
 
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
                 DispatchQueue.main.async {
                     if success {
-                        // Face ID authentication was successful.
-                        self.signInWithApple() // Proceed to Sign in with Apple after Face ID authentication.
+                        // Biometric authentication was successful.
+                        self.signInWithApple() // Proceed to Sign in with Apple after biometric authentication.
                     } else {
-                        // Face ID authentication failed.
+                        // Biometric authentication failed.
+                        self.errorMessage = authenticationError?.localizedDescription
+                    }
+                }
+            }
+        } else if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            // Fallback to device passcode if biometric authentication is unavailable or unsupported.
+            let reason = "Authenticate with your device passcode to access TeamPulse"
+
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        // Passcode authentication was successful.
+                        self.signInWithApple() // Proceed to Sign in with Apple after passcode authentication.
+                    } else {
+                        // Passcode authentication failed.
                         self.errorMessage = authenticationError?.localizedDescription
                     }
                 }
             }
         } else {
-            // Device does not support Face ID.
-            self.errorMessage = "Face ID is not available on this device."
+            // Device does not support any form of authentication.
+            self.errorMessage = "Biometric authentication is not available on this device."
         }
     }
 

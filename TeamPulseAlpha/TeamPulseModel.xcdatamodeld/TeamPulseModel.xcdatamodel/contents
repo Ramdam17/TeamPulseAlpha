@@ -20,12 +20,12 @@
         <attribute name="isConnected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="String"/>
-        <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="sensor" inverseEntity="SessionEntity"/>
+        <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="sensors" inverseEntity="SessionEntity"/>
     </entity>
     <entity name="SessionEntity" representedClassName=".SessionEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EventEntity" inverseName="session" inverseEntity="EventEntity"/>
-        <relationship name="sensor" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SensorEntity" inverseName="sessions" inverseEntity="SensorEntity"/>
+        <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SensorEntity" inverseName="sessions" inverseEntity="SensorEntity"/>
     </entity>
 </model>

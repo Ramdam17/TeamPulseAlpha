@@ -27,7 +27,7 @@ class ArrayTransformer: ValueTransformer {
     /// - Returns: A `Data` object representing the array, or `nil` if the input is invalid.
     override func transformedValue(_ value: Any?) -> Any? {
         guard let array = value as? [Double] else { return nil }
-        return try? NSKeyedArchiver.archivedData(withRootObject: array, requiringSecureCoding: false)
+        return try? NSKeyedArchiver.archivedData(withRootObject: array, requiringSecureCoding: true)
     }
 
     /// Reverses the transformation of `Data` back into an array of `Double` values.
@@ -42,7 +42,7 @@ class ArrayTransformer: ValueTransformer {
     /// - Parameter matrix: The matrix to transform.
     /// - Returns: A `Data` object representing the matrix, or `nil` if the transformation fails.
     func transformMatrixToData(_ matrix: [[Double]]) -> Data? {
-        return try? NSKeyedArchiver.archivedData(withRootObject: matrix, requiringSecureCoding: false)
+        return try? NSKeyedArchiver.archivedData(withRootObject: matrix, requiringSecureCoding: true)
     }
 
     /// Reverses the transformation of `Data` back into a 2D array (matrix) of `Double` values.
@@ -56,7 +56,7 @@ class ArrayTransformer: ValueTransformer {
     /// - Parameter clusterState: The cluster state to transform.
     /// - Returns: A `Data` object representing the cluster state, or `nil` if the transformation fails.
     func transformClusterStateToData(_ clusterState: [UUID: (isActive: Bool, activeCount: Int)]) -> Data? {
-        return try? NSKeyedArchiver.archivedData(withRootObject: clusterState, requiringSecureCoding: false)
+        return try? NSKeyedArchiver.archivedData(withRootObject: clusterState, requiringSecureCoding: true)
     }
 
     /// Reverses the transformation of `Data` back into a dictionary representing a cluster state.
@@ -70,7 +70,7 @@ class ArrayTransformer: ValueTransformer {
     /// - Parameter clusterArray: The array of UUID arrays to transform.
     /// - Returns: A `Data` object representing the cluster array, or `nil` if the transformation fails.
     func transformClusterArrayToData(_ clusterArray: [[UUID]]) -> Data? {
-        return try? NSKeyedArchiver.archivedData(withRootObject: clusterArray, requiringSecureCoding: false)
+        return try? NSKeyedArchiver.archivedData(withRootObject: clusterArray, requiringSecureCoding: true)
     }
 
     /// Reverses the transformation of `Data` back into an array of UUID arrays.

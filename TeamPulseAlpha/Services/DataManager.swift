@@ -7,19 +7,19 @@
 
 import CoreData
 
-/// Manages sensor data in the Core Data stack, including initialization, resetting, and updates.
+/// The `DataManager` class is responsible for managing sensor data in the Core Data stack.
+/// This includes initialization, resetting, and updates of sensor data.
 class DataManager {
-    // Singleton instance of DataManager
+    // Singleton instance of DataManager to ensure a single point of access.
     static let shared = DataManager()
 
-    // Private initializer to ensure the singleton pattern
+    // Private initializer to ensure the singleton pattern is enforced.
     private init() {}
 
     /// Resets all sensor data by deleting all entries from the Core Data store and reinitializing them.
     func resetSensors() {
         let context = CoreDataStack.shared.context
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> =
-            SensorEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = SensorEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
         do {
@@ -32,41 +32,38 @@ class DataManager {
         }
     }
 
-    /// Initializes sensors by checking if they exist and creating them if necessary.
+    /// Initializes sensors by checking if they exist in the database and creating them if necessary.
+    /// Ensures that there are always three sensors with specific UUIDs and names.
     func initializeSensors() {
         let context = CoreDataStack.shared.context
-        let fetchRequest: NSFetchRequest<SensorEntity> =
-            SensorEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
 
         do {
             let sensors = try context.fetch(fetchRequest)
             // Ensure that there are always three sensors in the database
             if sensors.count < 3 {
-                createSensor(
-                    uuid: "0F099F27-18D8-8ACC-C895-54AC2C36C790", name: "Blue")
-                createSensor(
-                    uuid: "F3742462-63F6-131A-C487-9F78D8A4FCCC", name: "Green")
-                createSensor(
-                    uuid: "EA61A349-6EFF-9A05-F9C1-F610C171579F", name: "Red")
+                createSensor(uuid: "0F099F27-18D8-8ACC-C895-54AC2C36C790", name: "Blue")
+                createSensor(uuid: "F3742462-63F6-131A-C487-9F78D8A4FCCC", name: "Green")
+                createSensor(uuid: "EA61A349-6EFF-9A05-F9C1-F610C171579F", name: "Red")
             }
         } catch {
             print("Failed to fetch sensors: \(error)")
         }
     }
 
-    /// Creates a new sensor with the specified MAC address and color, and saves it to Core Data.
+    /// Creates a new sensor with the specified UUID and name if it does not already exist in the database.
     /// - Parameters:
-    ///   - macAddress: The MAC address of the sensor.
-    ///   - color: The color associated with the sensor.print
+    ///   - uuid: The UUID of the sensor, used to uniquely identify it.
+    ///   - name: The name associated with the sensor.
     private func createSensor(uuid: String, name: String) {
         let context = CoreDataStack.shared.context
-        let fetchRequest: NSFetchRequest<SensorEntity> =
-            SensorEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "uuid == %@", uuid)
 
         do {
             let sensors = try context.fetch(fetchRequest)
             if sensors.isEmpty {
+                // Only create a new sensor if one with the same UUID does not already exist.
                 let sensor = SensorEntity(context: context)
                 sensor.id = UUID()  // Generate a unique ID for the sensor
                 sensor.uuid = uuid
@@ -79,20 +76,21 @@ class DataManager {
         }
     }
 
+    /// Updates the UUID of a sensor with a specified name.
+    /// This can be used to update the MAC address or other identifying UUID of a sensor.
+    /// - Parameters:
+    ///   - name: The name of the sensor to update.
+    ///   - newUUID: The new UUID to assign to the sensor.
     func updateSensorMacAddress(name: String, newUUID: String) {
         let context = CoreDataStack.shared.context
-        let fetchRequest: NSFetchRequest<SensorEntity> =
-            SensorEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(
-            format: "name == %@", name as CVarArg)
+        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", name as CVarArg)
 
         do {
             if let sensor = try context.fetch(fetchRequest).first {
                 sensor.uuid = newUUID
                 CoreDataStack.shared.saveContext()  // Save the updated sensor to the Core Data store
-                print(
-                    "Successfully updated sensor \(sensor.name ?? "No value") with new MAC address: \(newUUID)"
-                )
+                print("Successfully updated sensor \(sensor.name ?? "No value") with new MAC address: \(newUUID)")
             } else {
                 print("Sensor with name \(name) not found.")
             }

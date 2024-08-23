@@ -8,10 +8,12 @@
 import SwiftUI
 import Charts
 
+/// A SwiftUI component that visualizes Poincaré maps for different sensors, representing HRV data.
 struct PoincareMapComponent: View {
 
-    let data: [UUID: [Double]]
-    let colors: [Color]  // Colors for each sensor
+    let data: [String: [Double]]  // Dictionary holding HRV data for different sensors.
+    let colors: [Color]  // List of colors to differentiate sensors.
+    let names: [String] = ["Blue", "Green", "Red"]  // Names associated with each sensor.
 
     var body: some View {
         VStack {
@@ -20,17 +22,19 @@ struct PoincareMapComponent: View {
                 .padding(.bottom, 10)
 
             VStack(spacing: 20) {
+                // Loop through each sensor's data and render its Poincaré map.
                 ForEach(Array(data.keys.enumerated()), id: \.element) { index, sensorID in
-                    if let ibiData = data[sensorID], ibiData.count > 1 {
+                    let name = names[index]
+                    if let ibiData = data[name], ibiData.count > 1 {
                         VStack {
                             Text("Sensor \(index + 1)")
                                 .font(.subheadline)
 
                             Chart {
-                                // Plot the points with heart symbol
+                                // Plot the IBI points on the chart
                                 plotPointsWithHeart(ibiData: ibiData, color: colors[index % colors.count])
                                 
-                                // Compute and plot the ellipsoid if there's enough data
+                                // If there's enough data, compute and plot the best-fit ellipsoid
                                 if let ellipsoid = computeBestFitEllipsoid(for: ibiData) {
                                     plotEllipsoid(ellipsoid: ellipsoid, color: colors[index % colors.count])
                                 }
@@ -49,7 +53,7 @@ struct PoincareMapComponent: View {
                                     AxisValueLabel()
                                 }
                             }
-                            .frame(width: 200, height: 200)  // Adjust the size as needed
+                            .frame(width: 200, height: 200)  // Adjust the size of each chart
                         }
                     } else {
                         Text("Not enough data for sensor \(index + 1)")
@@ -62,7 +66,7 @@ struct PoincareMapComponent: View {
         .padding()
     }
 
-    // Function to plot the points with heart symbol
+    /// Function to plot the points on the Poincaré map, using heart symbols to represent each point.
     @ChartContentBuilder
     private func plotPointsWithHeart(ibiData: [Double], color: Color) -> some ChartContent {
         ForEach(1..<ibiData.count, id: \.self) { i in
@@ -80,7 +84,7 @@ struct PoincareMapComponent: View {
         }
     }
 
-    // Function to plot the ellipsoid
+    /// Function to plot the best-fit ellipsoid on the Poincaré map.
     @ChartContentBuilder
     private func plotEllipsoid(ellipsoid: (centerX: Double, centerY: Double, width: Double, height: Double, angle: Double), color: Color) -> some ChartContent {
         PointMark(
@@ -92,7 +96,6 @@ struct PoincareMapComponent: View {
                 .scaleEffect(x: ellipsoid.width, y: ellipsoid.height)
                 .rotationEffect(.degrees(ellipsoid.angle))
                 .foregroundStyle(color.opacity(0.5))  // Use a semi-transparent color
-
         }
     }
 
@@ -132,13 +135,14 @@ struct PoincareMapComponent: View {
     }
 }
 
+/// Preview provider for the `PoincareMapComponent`, showcasing the component with sample data.
 struct PoincareMapComponent_Previews: PreviewProvider {
     static var previews: some View {
         // Example IBI data for preview purposes
-        let exampleIBIData: [UUID: [Double]] = [
-            UUID(): [0.2, 0.85, 0.9, 0.88, 0.87, 0.86, 0.89],
-            UUID(): [0.35, 0.78, 0.77, 0.76, 0.75, 0.79, 0.74],
-            UUID(): [0.15, 0.92, 0.91, 0.93, 0.94, 0.95, 0.96]
+        let exampleIBIData: [String: [Double]] = [
+            "Blue": [0.2, 0.85, 0.9, 0.88, 0.87, 0.86, 0.89],
+            "Green": [0.35, 0.78, 0.77, 0.76, 0.75, 0.79, 0.74],
+            "Red": [0.15, 0.92, 0.91, 0.93, 0.94, 0.95, 0.96]
         ]
 
         PoincareMapComponent(

@@ -36,11 +36,7 @@ struct SessionRecordingComponent: View {
             } else {
                 // Button to start a new recording session
                 Button(action: {
-                    sessionManager.startNewSession() // Start a new session
-                    if let currentSession = sessionManager.currentSession {
-                        sensorDataProcessor.setCurrentSession(currentSession) // Set the current session in SensorDataProcessor
-                    }
-                    isRecording = true // Update the recording state to true
+                    startRecordingSession()
                 }) {
                     Text("Start Recording")
                         .padding()
@@ -57,24 +53,40 @@ struct SessionRecordingComponent: View {
                 message: Text("Would you like to save or delete the recording?"),
                 buttons: [
                     .default(Text("Save")) {
-                        // Save the session and stop recording
-                        sessionManager.stopSession()
-                        sensorDataProcessor.clearCurrentSession()
-                        isRecording = false
+                        stopAndSaveSession()
                     },
                     .destructive(Text("Delete")) {
-                        // Delete the current session and stop recording
-                        sessionManager.deleteCurrentSession()
-                        sensorDataProcessor.clearCurrentSession()
-                        isRecording = false
+                        stopAndDeleteSession()
                     },
                     .cancel(Text("Cancel")) {
-                        // Cancel the action sheet without making changes
                         showStopActionSheet = false
                     }
                 ]
             )
         }
+    }
+    
+    /// Starts a new recording session and updates the state accordingly.
+    private func startRecordingSession() {
+        sessionManager.startNewSession() // Start a new session
+        if let currentSession = sessionManager.currentSession {
+            sensorDataProcessor.setCurrentSession(currentSession) // Set the current session in SensorDataProcessor
+        }
+        isRecording = true // Update the recording state to true
+    }
+    
+    /// Stops the current session and saves the recorded data.
+    private func stopAndSaveSession() {
+        sessionManager.stopSession()
+        sensorDataProcessor.clearCurrentSession()
+        isRecording = false
+    }
+    
+    /// Stops the current session and deletes the recorded data.
+    private func stopAndDeleteSession() {
+        sessionManager.deleteCurrentSession()
+        sensorDataProcessor.clearCurrentSession()
+        isRecording = false
     }
 }
 
@@ -82,5 +94,7 @@ struct SessionRecordingComponent: View {
 struct SessionRecordingComponent_Previews: PreviewProvider {
     static var previews: some View {
         SessionRecordingComponent()
+            .environment(SessionManager()) // Injecting a mock environment object for preview
+            .environment(SensorDataProcessor()) // Injecting a mock environment object for preview
     }
 }

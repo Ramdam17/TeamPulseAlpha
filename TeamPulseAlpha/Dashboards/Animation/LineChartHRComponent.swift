@@ -8,72 +8,75 @@
 import Charts
 import SwiftUI
 
+/// A SwiftUI view that displays a line chart representing heart rate data over time for multiple sensors.
 struct LineChartHRComponent: View {
 
-    var data: [UUID: [HRDataPoint]]
-    let colors: [Color]  // Colors for each line
+    // Data source containing heart rate data points for different sensors.
+    var data: [String: [HRDataPoint]]
+    
+    // Colors to represent each sensor line on the chart.
+    let colors: [Color]
+    
+    // Array of sensor names corresponding to the data keys.
     let names = ["Blue", "Green", "Red"]
 
     var body: some View {
-        
         VStack {
+            // Title for the chart
             Text("Heart Rate Over Time")
                 .font(.headline)
                 .padding(.bottom, 10)
-            
 
+            // The Chart view where heart rate data is visualized
             Chart {
-                // Iterate over each sensor ID and its corresponding HR data
-                ForEach(Array(data.keys.enumerated()), id: \.offset) {
-                    index, sensorID in
-                    if let sensorData = data[sensorID] {
-                        // Ensure we're only taking the last 60 values
+                // Iterate over each sensor data entry by its index
+                ForEach(Array(data.keys.enumerated()), id: \.offset) { index, sensorID in
+                    let name = names[index]  // Get the sensor name based on the index
+                    if let sensorData = data[name] {
+                        // Only consider the last 60 data points for each sensor
                         let last60Data = Array(sensorData.suffix(60))
 
-                        // Use a `ForEach` to create a distinct series for each sensor
+                        // For each data point in the last 60, create a LineMark for the chart
                         ForEach(last60Data.indices, id: \.self) { pointIndex in
                             let hrValue = last60Data[pointIndex].hrValue
-                            let color = colors[index % colors.count]
-                            let sensorSeriesID = sensorID.uuidString  // Convert UUID to String
-                            let name = names[index % colors.count]
+                            let color = colors[index % colors.count]  // Cycle through colors
 
                             LineMark(
-                                x: .value("Time", pointIndex),  // X value as index
-                                y: .value("Heart Rate", hrValue)  // Y value as HR value
+                                x: .value("Time", pointIndex),  // X-axis represents time (using the index as a proxy)
+                                y: .value("Heart Rate", hrValue)  // Y-axis represents the heart rate value
                             )
-                            .interpolationMethod(.catmullRom)  // Apply smoothing using Catmull-Rom interpolation
-                            .lineStyle(StrokeStyle(lineWidth: 2))
-                            .foregroundStyle(
-                                by: .value("Sensor", name)
-                            )  // Distinguish lines by sensorID String
-                            .foregroundStyle(color)  // Color based on sensorID
+                            .interpolationMethod(.catmullRom)  // Apply Catmull-Rom interpolation for smoother lines
+                            .lineStyle(StrokeStyle(lineWidth: 2))  // Set the line width
+                            .foregroundStyle(by: .value("Sensor", name))  // Color lines by sensor name
+                            .foregroundStyle(color)  // Apply the color to the line
                         }
                     }
                 }
             }
-            .animation(.easeInOut(duration: 1.0), value: data)
-            .chartYScale(domain: 40...200)  // Example range for heart rate values
-            .frame(height: 200)
-            .padding()
+            .animation(.easeInOut(duration: 0.1), value: data)  // Animate the chart when data changes
+            .chartYScale(domain: 40...200)  // Set the Y-axis range for heart rate values
+            .frame(height: 200)  // Set the height of the chart
+            .padding()  // Add padding around the chart for better spacing
         }
     }
 }
 
+// Preview provider for SwiftUI previews, allowing real-time design feedback.
 struct LineChartHRComponent_Previews: PreviewProvider {
     static var previews: some View {
-        // Example HR data for preview purposes
-        let exampleHRData: [UUID: [HRDataPoint]] = [
-            UUID(): (0..<60).map {
+        // Example heart rate data for preview purposes
+        let exampleHRData: [String: [HRDataPoint]] = [
+            "Blue": (0..<60).map {
                 HRDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
                     hrValue: Double.random(in: 60...200))
             },
-            UUID(): (0..<60).map {
+            "Green": (0..<60).map {
                 HRDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
                     hrValue: Double.random(in: 60...200))
             },
-            UUID(): (0..<60).map {
+            "Red": (0..<60).map {
                 HRDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
                     hrValue: Double.random(in: 60...200))

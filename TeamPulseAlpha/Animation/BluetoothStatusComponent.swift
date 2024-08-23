@@ -21,9 +21,9 @@ struct BluetoothStatusComponent: View {
             // Iterate over the list of sensors managed by the BluetoothManager.
             ForEach(bluetoothManager.sensors) { sensor in
                 HStack {
-                    // Display the color of the sensor.
+                    // Display the name of the sensor.
                     Text("Sensor \(sensor.name ?? "Unknown")")
-                    Spacer() // Add space between the sensor color and the status text.
+                    Spacer() // Add space between the sensor name and the status text.
                     
                     // Display the connection status of the sensor.
                     Text(sensor.isConnected ? "Connected" : "Disconnected")

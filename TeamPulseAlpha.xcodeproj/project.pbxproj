@@ -19,7 +19,6 @@
 		30348A102C4F20C20041F47D /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A0F2C4F20C20041F47D /* AuthView.swift */; };
 		30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A122C4F20DC0041F47D /* MainMenuView.swift */; };
 		30348A152C4F20F40041F47D /* DeviceConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A142C4F20F40041F47D /* DeviceConnectionView.swift */; };
-		30348A172C4F21030041F47D /* SessionRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A162C4F21030041F47D /* SessionRecordingView.swift */; };
 		30348A192C4F21100041F47D /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A182C4F21100041F47D /* SessionListView.swift */; };
 		30348A1B2C4F21260041F47D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A1A2C4F21260041F47D /* SettingsView.swift */; };
 		30567F7C2C4FF1E800A83322 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30567F7B2C4FF1E300A83322 /* AuthenticationManager.swift */; };
@@ -37,9 +36,9 @@
 		3061741A2C73808B000BA239 /* SensorEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174142C73808B000BA239 /* SensorEntity+CoreDataProperties.swift */; };
 		3061741B2C73808B000BA239 /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */; };
 		3061741C2C73808B000BA239 /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */; };
-		30AEE3DF2C513441000687F8 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3DE2C51343F000687F8 /* Sensor.swift */; };
 		30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3E02C513455000687F8 /* BluetoothManager.swift */; };
 		30CB166B2C77B4C90085AAEA /* PointcareMapComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CB166A2C77B4C00085AAEA /* PointcareMapComponent.swift */; };
+		30CB166D2C78EC090085AAEA /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CB166C2C78EC090085AAEA /* SessionDetailView.swift */; };
 		30EB9BC42C74A5EE007A619B /* BoxPlotComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC32C74A5E3007A619B /* BoxPlotComponent.swift */; };
 		30EB9BC62C74A60E007A619B /* ProximityRingChartComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BC52C74A607007A619B /* ProximityRingChartComponent.swift */; };
 		30EB9BCB2C7500A5007A619B /* LineChartHRVComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB9BCA2C7500A5007A619B /* LineChartHRVComponent.swift */; };
@@ -81,7 +80,6 @@
 		30348A0F2C4F20C20041F47D /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		30348A122C4F20DC0041F47D /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		30348A142C4F20F40041F47D /* DeviceConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceConnectionView.swift; sourceTree = "<group>"; };
-		30348A162C4F21030041F47D /* SessionRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecordingView.swift; sourceTree = "<group>"; };
 		30348A182C4F21100041F47D /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		30348A1A2C4F21260041F47D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		30567F7B2C4FF1E300A83322 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
@@ -99,9 +97,9 @@
 		306174142C73808B000BA239 /* SensorEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		30AEE3DE2C51343F000687F8 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		30AEE3E02C513455000687F8 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		30CB166A2C77B4C00085AAEA /* PointcareMapComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointcareMapComponent.swift; sourceTree = "<group>"; };
+		30CB166C2C78EC090085AAEA /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		30EB9BC32C74A5E3007A619B /* BoxPlotComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxPlotComponent.swift; sourceTree = "<group>"; };
 		30EB9BC52C74A607007A619B /* ProximityRingChartComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityRingChartComponent.swift; sourceTree = "<group>"; };
 		30EB9BC92C7500A5007A619B /* LineChartHRComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartHRComponent.swift; sourceTree = "<group>"; };
@@ -263,7 +261,6 @@
 		30567F7E2C4FF20400A83322 /* DeviceConnection */ = {
 			isa = PBXGroup;
 			children = (
-				30AEE3DE2C51343F000687F8 /* Sensor.swift */,
 				30348A142C4F20F40041F47D /* DeviceConnectionView.swift */,
 			);
 			path = DeviceConnection;
@@ -272,7 +269,7 @@
 		30567F7F2C4FF22F00A83322 /* SessionRecording */ = {
 			isa = PBXGroup;
 			children = (
-				30348A162C4F21030041F47D /* SessionRecordingView.swift */,
+				30CB166C2C78EC090085AAEA /* SessionDetailView.swift */,
 			);
 			path = SessionRecording;
 			sourceTree = "<group>";
@@ -459,7 +456,7 @@
 				306173D52C736EDD000BA239 /* AnimationView.swift in Sources */,
 				30EB9BC42C74A5EE007A619B /* BoxPlotComponent.swift in Sources */,
 				301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */,
-				30AEE3DF2C513441000687F8 /* Sensor.swift in Sources */,
+				30CB166D2C78EC090085AAEA /* SessionDetailView.swift in Sources */,
 				30348A102C4F20C20041F47D /* AuthView.swift in Sources */,
 				306174022C737C88000BA239 /* SessionManager.swift in Sources */,
 				30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */,
@@ -486,7 +483,6 @@
 				30348A192C4F21100041F47D /* SessionListView.swift in Sources */,
 				306173D72C736EFB000BA239 /* AnimationComponent.swift in Sources */,
 				301CB9872C4F0F3100A0D85E /* TeamPulseAlphaApp.swift in Sources */,
-				30348A172C4F21030041F47D /* SessionRecordingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
