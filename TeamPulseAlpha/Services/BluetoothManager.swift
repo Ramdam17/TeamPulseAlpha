@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 struct PacketToSend: Codable {
-    var uuid: UUID = UUID()
+    var id: UUID = UUID()
     var hr: Double = 60.0
     var ibis: [Double] = []
 }
@@ -19,13 +19,12 @@ struct PacketToSend: Codable {
 @Observable
 class BluetoothManager: NSObject {
     
-    
     var packetToSend = PacketToSend()
         
     var sensors: [SensorEntity] = [] {
         didSet {
             print(
-                "Sensors updated: \(sensors.map { "\($0.macAddress ?? "Unknown") - Connected: \($0.isConnected)" })"
+                "Sensors updated: \(sensors.map { "\($0.uuid ?? "Unknown") - Connected: \($0.isConnected)" })"
             )
         }
     }
@@ -56,8 +55,6 @@ class BluetoothManager: NSObject {
         centralManager = CBCentralManager(delegate: self, queue: nil)  // Initialize the Bluetooth central manager
         resetSensorConnections()  // Reset the connection status of all sensors
         fetchSensors()  // Fetch sensors from Core Data
-
-        // Initialize the SensorDataProcessor with the sensor IDs, filtering out any nil values
     }
 
     /// Resets the connection status of all sensors to `false` at the start of the app.
@@ -83,7 +80,7 @@ class BluetoothManager: NSObject {
         do {
             sensors = try CoreDataStack.shared.context.fetch(fetchRequest)
             print(
-                "Fetched sensors from CoreData: \(sensors.map { $0.macAddress })"
+                "Fetched sensors from CoreData: \(sensors.map { $0.name })"
             )
         } catch {
             print("Failed to fetch sensors: \(error)")
@@ -106,20 +103,21 @@ class BluetoothManager: NSObject {
         isScanning = false
         print("Stopping scan for peripherals.")
         centralManager.stopScan()
+        triggerUpdate()
     }
 
     /// Updates the connection status of a sensor and refreshes the UI.
     private func updateSensorConnectionStatus(uuid: String, isConnected: Bool) {
-        if let index = sensors.firstIndex(where: { $0.macAddress == uuid }) {
+        if let index = sensors.firstIndex(where: { $0.uuid == uuid }) {
             sensors[index].isConnected = isConnected
             saveContextAndRefreshSensors()
             print(
-                "Updated sensor \(uuid) to \(isConnected ? "Connected" : "Disconnected")"
+                "Updated sensor \(String(describing: sensors[index].name?.description)) to \(isConnected ? "Connected" : "Disconnected")"
             )
             triggerUpdate()
         }
     }
-
+    
     /// Saves the current context and refreshes the sensors array to trigger UI updates.
     private func saveContextAndRefreshSensors() {
         do {
@@ -131,7 +129,7 @@ class BluetoothManager: NSObject {
     }
 
     /// Checks if all sensors are connected and stops scanning if they are.
-    private func checkIfAllSensorsConnected() {
+    func checkIfAllSensorsConnected() {
         let allConnected = sensors.allSatisfy { $0.isConnected }
         print("Checking if all sensors are connected. Result: \(allConnected)")
 
@@ -164,24 +162,23 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
         advertisementData: [String: Any], rssi RSSI: NSNumber
     ) {
         let peripheralUUID = peripheral.identifier.uuidString
-        print("Discovered peripheral with UUID: \(peripheralUUID)")
+        //print("Discovered peripheral with name \(String(describing: peripheral.name)) and UUID: \(peripheralUUID)")
+        
 
         // Check if the discovered peripheral matches any sensor
-        if let sensor = sensors.first(where: { $0.macAddress == peripheralUUID }
+        if let sensor = sensors.first(where: { $0.uuid == peripheralUUID }
         ) {
             print("Matched sensor with UUID: \(peripheralUUID)")
             discoveredPeripherals[peripheralUUID] = peripheral
-
-            // Mark the sensor as connected
-            updateSensorConnectionStatus(
-                uuid: peripheralUUID, isConnected: true)
+            updateSensorConnectionStatus(uuid: sensor.uuid!, isConnected: true)
 
             // Connect to the peripheral
             centralManager.connect(peripheral, options: nil)
+            
         } else {
-            print(
-                "Peripheral with UUID \(peripheralUUID) does not match any known sensors."
-            )
+            //print(
+            //    "Peripheral with UUID \(peripheralUUID) does not match any known sensors."
+            //)
         }
     }
 
@@ -193,19 +190,31 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
         print("Successfully connected to peripheral with UUID: \(uuid)")
 
         // Check if the connected peripheral matches any sensor
-        if let sensor = sensors.first(where: { $0.macAddress == uuid }) {
-            updateSensorConnectionStatus(uuid: uuid, isConnected: true)
+        if let sensor = sensors.first(where: { $0.uuid == uuid }) {
+            updateSensorConnectionStatus(uuid: sensor.uuid!, isConnected: true)
             peripheral.delegate = self
             print("Discovering services for peripheral with UUID: \(uuid)")
+            checkIfAllSensorsConnected()  // <-- Check and stop scanning here if needed
+
             peripheral.discoverServices([CBUUID(string: "180D")])  // Heart Rate Service UUID
 
             // Check if all sensors are connected
-            checkIfAllSensorsConnected()  // <-- Check and stop scanning here if needed
         } else {
             print(
                 "Error: Connected peripheral with UUID \(uuid) does not match any sensor in the list."
             )
         }
+    }
+
+    /// Handles the disconnection of a Bluetooth peripheral.
+    func centralManager(
+        _ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?
+    ) {
+        let uuid = peripheral.identifier.uuidString
+        print("Peripheral with UUID \(uuid) disconnected.")
+
+        // Update the connection status of the sensor to disconnected
+        updateSensorConnectionStatus(uuid: uuid, isConnected: false)
     }
 
     /// Handles the discovery of services on a connected Bluetooth peripheral.
@@ -219,7 +228,7 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 
         if let services = peripheral.services {
             for service in services {
-                print("Discovered service with UUID: \(service.uuid)")
+                //print("Discovered service with UUID: \(service.uuid)")
                 if service.uuid == CBUUID(string: "180D") {  // Heart Rate Service UUID
                     print(
                         "Discovering characteristics for service with UUID: \(service.uuid)"
@@ -265,8 +274,7 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
     ) {
         if let error = error {
             print(
-                "Error updating value for characteristic: \(error.localizedDescription)"
-            )
+                "Error updating value for characteristic: \(error.localizedDescription)")
             return
         }
 
@@ -274,32 +282,18 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 
         if characteristic.uuid == CBUUID(string: "2A37") {
             let (heartRate, IBI) = parseHeartRateMeasurement(data)
-            print("Heart Rate: \(heartRate), IBI: \(IBI)")
+            //print("Heart Rate: \(heartRate), IBI: \(IBI)")
 
             // Ensure IBI array has the expected number of elements before accessing
             if !IBI.isEmpty {
-                if let sensorID = sensors.first(where: {
-                    $0.macAddress == peripheral.identifier.uuidString
-                })?.id {
-                    packetToSend.uuid = sensorID
+                if let sensor = sensors.first(where: {
+                    $0.uuid == peripheral.identifier.uuidString
+                }) {
+                    packetToSend.id = sensor.id!
                     packetToSend.hr = Double(heartRate)
                     packetToSend.ibis = IBI
                     
                     triggerHasNewValues()
-
-                    // Print statistics, HRV, and distance matrix
-                    /*
-                    if let stats = sensorDataProcessor.calculateStatistics(sensorID: sensorID) {
-                        print("Sensor \(sensorID) Stats - Min: \(stats.min), Max: \(stats.max), Median: \(stats.median), Mean: \(stats.mean)")
-                    }
-                    let proximityMatrix = sensorDataProcessor.getProximityMatrix()
-                    print("Proximity Matrix: \(proximityMatrix)")
-                     */
-
-                    // Update clusters
-                    //sensorDataProcessor.updateClusterState(sensorIDs: sensors.compactMap { $0.id }, proximityMatrix: proximityMatrix)
-                    //print("Soft Clusters: \(sensorDataProcessor.getSoftClusters())")
-                    //print("Hard Clusters: \(sensorDataProcessor.getHardClusters())")
                 }
             } else {
                 print("IBI array is empty, skipping updateHRData.")
@@ -353,8 +347,8 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
         }
     }
     
-    func getLatestValues() -> (uuid: UUID, hr: Double, ibis: [Double])
+    func getLatestValues() -> (id: UUID, hr: Double, ibis: [Double])
     {
-        return (uuid: packetToSend.uuid, hr: packetToSend.hr, ibis: packetToSend.ibis)
+        return (id: packetToSend.id, hr: packetToSend.hr, ibis: packetToSend.ibis)
     }
 }

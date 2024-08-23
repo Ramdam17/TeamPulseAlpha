@@ -76,13 +76,13 @@ struct AuthView: View {
                 errorMessage = nil
             }
         }
-        .onChange(of: authManager.isAuthenticated) { isAuthenticated in
+        .onChange(of: authManager.isAuthenticated) { _, isAuthenticated in
             // Clears the error message if authentication succeeds.
             if isAuthenticated {
                 errorMessage = nil
             }
         }
-        .onChange(of: authManager.errorMessage) { errorMessage in
+        .onChange(of: authManager.errorMessage) { _, errorMessage in
             // Updates the error message if authentication fails.
             self.errorMessage = errorMessage
         }

@@ -16,10 +16,10 @@
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="events" inverseEntity="SessionEntity"/>
     </entity>
     <entity name="SensorEntity" representedClassName=".SensorEntity" syncable="YES">
-        <attribute name="color" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isConnected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="macAddress" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="uuid" optional="YES" attributeType="String"/>
         <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="sensor" inverseEntity="SessionEntity"/>
     </entity>
     <entity name="SessionEntity" representedClassName=".SessionEntity" syncable="YES">

@@ -5,32 +5,38 @@
 //  Created by blackstar on 23/07/2024.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 /// A view that displays the connection status of sensors and provides options to navigate when all sensors are connected.
 struct DeviceConnectionView: View {
-    
-    @Environment(BluetoothManager.self) var bluetoothManager // Access the BluetoothManager from the environment
-    @State private var connectionStatuses: [UUID: Bool] = [:] // Dictionary to track connection statuses of sensors by their UUIDs
-    @Environment(SensorDataProcessor.self) var sensorDataProcessor // Access the SensorDataProcessor from the environment
+
+    @Environment(BluetoothManager.self) var bluetoothManager  // Access the BluetoothManager from the environment
+    @Environment(SensorDataProcessor.self) var sensorDataProcessor  // Access the SensorDataProcessor from the environment
+
+    @State var connectionStatus: [UUID: Bool] = [:]
 
     var body: some View {
         VStack {
             Text("Device Connection")
-                .font(.largeTitle) // Set the font size of the title
-                .padding() // Add padding around the title
+                .font(.largeTitle)  // Set the font size of the title
+                .padding()  // Add padding around the title
 
             // List of sensors and their connection statuses
             List {
                 ForEach(bluetoothManager.sensors.compactMap { $0 }) { sensor in
-                    if let sensorID = sensor.id { // Safely unwrap sensor's UUID
+                    if let sensorID = sensor.id {  // Safely unwrap sensor's ID
                         HStack {
-                            Text("Sensor \(sensor.color ?? "Unknown")") // Display the color of the sensor
+                            Text("Sensor \(sensor.name ?? "Unknown")")  // Display the color of the sensor
                             Spacer()
                             // Display the connection status of the sensor
-                            Text(connectionStatuses[sensorID] == true ? "Connected" : "Searching")
-                                .foregroundColor(connectionStatuses[sensorID] == true ? .green : .red)
+                            Text(
+                                connectionStatus[sensor.id!] == true
+                                    ? "Connected" : "Searching"
+                            )
+                            .foregroundColor(
+                                connectionStatus[sensor.id!] == true
+                                    ? .green : .red)
                         }
                     }
                 }
@@ -38,9 +44,9 @@ struct DeviceConnectionView: View {
 
             // Display scanning status or the "Go to Next Screen" button
             if bluetoothManager.isScanning {
-                Text("Scanning for sensors...")
+                Text("Scanning for sensors ...")
                     .padding()
-            } else if connectionStatuses.values.allSatisfy({ $0 == true }) {
+            } else if connectionStatus.values.allSatisfy({ $0 == true }) {
                 // Show the button only if all sensors are connected
                 NavigationLink(destination: AnimationView()) {
                     Text("Go to Animation")
@@ -57,34 +63,26 @@ struct DeviceConnectionView: View {
             }
         }
         .onAppear {
-            bluetoothManager.startScanning() // Start scanning for sensors when the view appears
-            initializeConnectionStatuses() // Initialize the connection statuses
+            bluetoothManager.startScanning()  // Start scanning for sensors when the view appears
+            initializeConnectionStatus()
         }
         .onChange(of: bluetoothManager.isUpdated) { _, _ in
-            updateConnectionStatuses(updatedSensors: bluetoothManager.sensors) // Update the connection statuses when sensors array changes
+            updateConnectionStatus()
+        }
+
+    }
+
+    private func initializeConnectionStatus() {
+        for sensor in bluetoothManager.sensors {
+            connectionStatus[sensor.id!] = sensor.isConnected
         }
     }
 
-    /// Initializes the connection statuses for all sensors.
-    private func initializeConnectionStatuses() {
-        // Create a dictionary mapping sensor UUIDs to their initial connection status
-        connectionStatuses = Dictionary(uniqueKeysWithValues: bluetoothManager.sensors.compactMap { sensor in
-            if let id = sensor.id { // Safely unwrap the optional UUID
-                return (id, sensor.isConnected)
-            }
-            return nil
-        })
-        print("Initial Connection Statuses: \(connectionStatuses)")
+    private func updateConnectionStatus() {
+        connectionStatus = [:]
+        for sensor in bluetoothManager.sensors {
+            connectionStatus[sensor.id!] = sensor.isConnected
+        }
     }
 
-    /// Updates the connection statuses based on the latest sensor data.
-    private func updateConnectionStatuses(updatedSensors: [SensorEntity]) {
-        // Update the connection status for each sensor in the dictionary
-        for sensor in updatedSensors {
-            if let id = sensor.id { // Safely unwrap the optional UUID
-                connectionStatuses[id] = sensor.isConnected
-            }
-        }
-        print("Updated Connection Statuses: \(connectionStatuses)")
-    }
 }

@@ -16,17 +16,17 @@ extension SensorEntity {
         return NSFetchRequest<SensorEntity>(entityName: "SensorEntity")
     }
 
-    /// The color associated with the sensor, representing it visually in the app.
-    @NSManaged public var color: String?
-
-    /// The unique identifier (UUID) of the sensor.
+    /// The unique identifier of the sensor.
     @NSManaged public var id: UUID?
+
+    /// The nameof the sensor.
+    @NSManaged public var name: String?
 
     /// A boolean flag indicating whether the sensor is currently connected.
     @NSManaged public var isConnected: Bool
 
     /// The MAC address of the sensor, used to uniquely identify it during Bluetooth communication.
-    @NSManaged public var macAddress: String?
+    @NSManaged public var uuid: String?
 
     /// The sessions associated with this sensor. This represents a one-to-many relationship between `SensorEntity` and `SessionEntity`.
     @NSManaged public var sessions: SessionEntity?

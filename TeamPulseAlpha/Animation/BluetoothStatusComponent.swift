@@ -22,7 +22,7 @@ struct BluetoothStatusComponent: View {
             ForEach(bluetoothManager.sensors) { sensor in
                 HStack {
                     // Display the color of the sensor.
-                    Text("Sensor \(sensor.color ?? "Unknown")")
+                    Text("Sensor \(sensor.name ?? "Unknown")")
                     Spacer() // Add space between the sensor color and the status text.
                     
                     // Display the connection status of the sensor.

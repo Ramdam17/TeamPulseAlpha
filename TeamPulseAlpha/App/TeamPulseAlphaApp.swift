@@ -5,39 +5,45 @@
 //  Created by blackstar on 23/07/2024.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 @main
 struct TeamPulseAlphaApp: App {
 
     @State private var sensorDataProcessor = SensorDataProcessor()
     @State private var sessionManager = SessionManager()
-    @State private var authManager = AuthenticationManager() // Manages the authentication state
-    @State private var bluetoothManager = BluetoothManager() // Manages the Bluetooth connections and sensor data
+    @State private var authManager = AuthenticationManager()  // Manages the authentication state
+    @State private var bluetoothManager = BluetoothManager()  // Manages the Bluetooth connections and sensor data
 
     // Fetch sensor UUIDs and initialize objects lazily
     init() {
         // Register the custom transformer for transforming arrays to and from data in Core Data.
-        ValueTransformer.setValueTransformer(ArrayTransformer(), forName: NSValueTransformerName("ArrayTransformer"))
+        ValueTransformer.setValueTransformer(
+            ArrayTransformer(),
+            forName: NSValueTransformerName("ArrayTransformer"))
+        
     }
 
     /// The main entry point for the app. Sets up the main scene and injects the CoreData context.
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, CoreDataStack.shared.context) // Inject CoreData context into the environment for all views
-                .environment(sensorDataProcessor) // Provide SensorDataProcessor to the environment
-                .environment(sessionManager) // Provide SessionManager to the environment
-                .environment(authManager) // Provide AuthenticationManager to the environment
-                .environment(bluetoothManager) // Provide BluetoothManager to the environment
+                .environment(
+                    \.managedObjectContext, CoreDataStack.shared.context
+                )  // Inject CoreData context into the environment for all views
+                .environment(sensorDataProcessor)  // Provide SensorDataProcessor to the environment
+                .environment(sessionManager)  // Provide SessionManager to the environment
+                .environment(authManager)  // Provide AuthenticationManager to the environment
+                .environment(bluetoothManager)  // Provide BluetoothManager to the environment
         }
     }
 
     /// Fetches the sensor UUIDs from CoreData.
     private static func fetchSensorUUIDs() -> [UUID] {
         let context = CoreDataStack.shared.context
-        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<SensorEntity> =
+            SensorEntity.fetchRequest()
         do {
             let sensors = try context.fetch(fetchRequest)
             return sensors.compactMap { $0.id }
@@ -46,12 +52,44 @@ struct TeamPulseAlphaApp: App {
             return []
         }
     }
+
+    func resetCoreData() {
+        let context = CoreDataStack.shared.context
+        let entityNames =
+            context.persistentStoreCoordinator?.managedObjectModel.entities.map
+        { $0.name } ?? []
+
+        context.performAndWait {
+            for entityName in entityNames {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(
+                    entityName: entityName ?? "")
+                let deleteRequest = NSBatchDeleteRequest(
+                    fetchRequest: fetchRequest)
+                do {
+                    try context.execute(deleteRequest)
+                } catch {
+                    print("Failed to delete entity \(entityName): \(error)")
+                }
+            }
+
+            do {
+                try context.save()
+            } catch {
+                print("Failed to save context after deletion: \(error)")
+            }
+        }
+    }
+
 }
 
 /// Main content view that controls which view to show based on the authentication status of the user.
 struct ContentView: View {
 
-    @Environment(AuthenticationManager.self) var authManager // Use the authentication manager from the environment
+    @Environment(AuthenticationManager.self) var authManager  // Use the authentication manager from the environment
+
+    init() {
+        DataManager.shared.initializeSensors()
+    }
 
     var body: some View {
         NavigationView {

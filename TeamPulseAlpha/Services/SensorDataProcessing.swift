@@ -22,20 +22,20 @@ struct ClusterState {
 }
 
 /// Data structure that holds a heart rate (HR) value and its corresponding timestamp.
-struct HRDataPoint {
+struct HRDataPoint: Equatable {
     let timestamp: Date  // Timestamp when the HR value was recorded
     let hrValue: Double  // The HR value recorded at the timestamp
 }
 
 /// Data structure that holds a heart rate (HR) value and its corresponding timestamp.
-struct HRVDataPoint {
+struct HRVDataPoint: Equatable {
     let timestamp: Date  // Timestamp when the HRV value was recorded
     let hrvValue: Double  // The HRV value recorded at the timestamp
 }
 
 @Observable
 class SensorDataProcessor {
-
+    
     // will trigger a view update
     var isUpdated: Bool = false {
         didSet {
@@ -51,6 +51,9 @@ class SensorDataProcessor {
     /// Stores an array of the last 100 HR data points (with timestamps) for each sensor.
     var hrArray: [UUID: [HRDataPoint]] = [:]
 
+    /// Stores an array of the last 100 IHR data points (with timestamps) for each sensor.
+    var ihrArray: [UUID: [HRDataPoint]] = [:]
+    
     /// Stores an array of the last 100 HRV values for each sensor.
     var hrvArray: [UUID: [HRVDataPoint]] = [:]
 
@@ -76,6 +79,7 @@ class SensorDataProcessor {
 
     /// Initializes the data processor with an array of sensor IDs.
     /// Sets up the `hrArray` for each sensor with 100 initial HR values set to 60.
+    /// Sets up the `ihrArray` for each sensor with 100 initial HR values set to 60.
     /// Sets up the `hrvArray` for each sensor with 100 initial HRV values set to 0.
     ///
     /// - Parameter sensorIDs: An array of UUIDs representing the sensors being monitored.
@@ -85,7 +89,7 @@ class SensorDataProcessor {
         let sensorIDs = SensorDataProcessor.fetchSensorUUIDs()
 
         // Ensure the sensor IDs are ordered: blue, green, red
-        sensorOrder = sensorIDs.sorted()
+        sensorOrder = sensorIDs
 
         // Initialize the HR array, HRV array, IBI array, and matrices
         for id in sensorOrder {
@@ -93,6 +97,9 @@ class SensorDataProcessor {
             lastIHR[id] = 0.0
 
             hrArray[id] = Array(
+                repeating: HRDataPoint(timestamp: Date(), hrValue: 60.0),
+                count: 100)
+            ihrArray[id] = Array(
                 repeating: HRDataPoint(timestamp: Date(), hrValue: 60.0),
                 count: 100)
             hrvArray[id] = Array(
@@ -114,7 +121,8 @@ class SensorDataProcessor {
         let fetchRequest: NSFetchRequest<SensorEntity> =
             SensorEntity.fetchRequest()
         do {
-            let sensors = try context.fetch(fetchRequest)
+            var sensors = try context.fetch(fetchRequest)
+            sensors.sort(by: {$0.name! < $1.name! })
             return sensors.compactMap { $0.id }
         } catch {
             print("Failed to fetch sensors: \(error)")
@@ -133,6 +141,23 @@ class SensorDataProcessor {
 
         // Update the last HR for the sensor
         lastHR[sensorID] = hr
+        
+        // Create a new HR data point
+        let newHRDataPoint = HRDataPoint(
+            timestamp: currentTimestamp, hrValue: hr)
+
+        // Ensure the hrArray exists for the given sensorID
+        guard var sensorHRArray = hrArray[sensorID] else {
+            hrArray[sensorID] = [newHRDataPoint]
+            return
+        }
+
+        // Update the HR array
+        sensorHRArray.append(newHRDataPoint)
+        if sensorHRArray.count > 100 {
+            sensorHRArray.removeFirst(sensorHRArray.count - 100)
+        }
+        hrArray[sensorID] = sensorHRArray
 
         // Ensure that the ibiArray exists for the given sensorID; if not, initialize it
         if self.ibiArray[sensorID] == nil {
@@ -153,21 +178,21 @@ class SensorDataProcessor {
             lastIHR[sensorID] = instantaneousHR
 
             // Create a new HR data point
-            let newHRDataPoint = HRDataPoint(
+            let newIHRDataPoint = HRDataPoint(
                 timestamp: currentTimestamp, hrValue: instantaneousHR)
 
             // Ensure the hrArray exists for the given sensorID
-            guard var sensorHRArray = hrArray[sensorID] else {
-                hrArray[sensorID] = [newHRDataPoint]
+            guard var sensorIHRArray = ihrArray[sensorID] else {
+                ihrArray[sensorID] = [newHRDataPoint]
                 continue
             }
 
             // Update the HR array
-            sensorHRArray.append(newHRDataPoint)
-            if sensorHRArray.count > 100 {
-                sensorHRArray.removeFirst(sensorHRArray.count - 100)
+            sensorIHRArray.append(newIHRDataPoint)
+            if sensorIHRArray.count > 100 {
+                sensorIHRArray.removeFirst(sensorIHRArray.count - 100)
             }
-            hrArray[sensorID] = sensorHRArray
+            ihrArray[sensorID] = sensorIHRArray
 
             // Calculate HRV and update the HRV array
             if let hrv = computeHRV(sensorID: sensorID) {
@@ -194,7 +219,6 @@ class SensorDataProcessor {
 
         // Trigger UI update
         triggerUpdate()
-        print("UI should be updated")
     }
 
     /// Updates all the matrices (distance, proximity, etc.) in place.
@@ -206,7 +230,7 @@ class SensorDataProcessor {
 
                 // Update Distance Matrix
                 let distance = computeDistance(
-                    from: lastIHR[sensorID1]!, to: lastIHR[sensorID2]!)
+                    from: lastHR[sensorID1]!, to: lastHR[sensorID2]!)
                 lastDistanceMatrix[i][j] = distance
                 lastDistanceMatrix[j][i] = distance
 
@@ -297,8 +321,8 @@ class SensorDataProcessor {
     /// - Returns: A dictionary with UUIDs as keys and arrays of the last 60 HR values as values.
     func getInstantaneousHRData() -> [UUID: [Double]] {
         var result: [UUID: [Double]] = [:]
-        for (sensorID, hrData) in hrArray {
-            result[sensorID] = Array(hrData.suffix(60).map { $0.hrValue })
+        for (sensorID, ihrData) in ihrArray {
+            result[sensorID] = Array(ihrData.suffix(60).map { $0.hrValue })
         }
         return result
     }
@@ -313,6 +337,23 @@ class SensorDataProcessor {
         return result
     }
 
+    /// Calculates the minimum, maximum, median, and mean HR values for all sensors.
+    ///
+    /// - Returns: A dictionary where each UUID maps to an array of [min, max, median, mean] values.
+    func getStatistics() -> [UUID: [Double]] {
+        var statistics: [UUID: [Double]] = [:]
+
+        for sensorID in ihrArray.keys {
+            if let stats = calculateStatistics(sensorID: sensorID) {
+                statistics[sensorID] = [
+                    stats.min, stats.max, stats.median, stats.mean,
+                ]
+            }
+        }
+
+        return statistics
+    }
+
     /// Calculates the minimum, maximum, median, and mean HR values for a specific sensor.
     ///
     /// - Parameter sensorID: The UUID of the sensor.
@@ -320,7 +361,7 @@ class SensorDataProcessor {
     func calculateStatistics(sensorID: UUID) -> (
         min: Double, max: Double, median: Double, mean: Double
     )? {
-        guard let hrDataPoints = hrArray[sensorID] else { return nil }
+        guard let hrDataPoints = ihrArray[sensorID] else { return nil }
         let hrValues = hrDataPoints.map { $0.hrValue }
 
         let min = hrValues.min() ?? 0

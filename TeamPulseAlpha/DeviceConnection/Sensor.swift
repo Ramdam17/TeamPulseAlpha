@@ -12,11 +12,13 @@ import Foundation
 // It conforms to the Identifiable protocol, making it easy to use in SwiftUI lists.
 struct Sensor: Identifiable {
     
-    // The unique identifier for the sensor, represented as a UUID.
+    // The unique identifier for the sensor, represented as a String.
     let id: UUID
     
+    let name: String
+    
     // The MAC address of the sensor, stored as a String.
-    let macAddress: String
+    let uuid: String
     
     // A Boolean indicating whether the sensor is currently connected.
     // This property is mutable, meaning it can be updated after the sensor is created.

@@ -11,59 +11,79 @@ import Charts
 /// A SwiftUI view that displays the dashboard, including various charts and statistics related to sensor data.
 struct DashboardComponent: View {
 
-    // Access the SensorDataProcessor from the environment to use the sensor data in the view.
-    @Environment(SensorDataProcessor.self) var sensorDataProcessor
-    @Environment(BluetoothManager.self) var bluetoothManager
+    @Environment(SensorDataProcessor.self) var sensorDataProcessor  // Listen to the sensor data processor
 
     var body: some View {
-        VStack {
-            // Display the title of the dashboard.
-            Text("Dashboard")
-                .font(.headline) // Set the font style for the title
-            
-            // Display the last recorded heart rate value.
-            Text("Last heart rate value: \(sensorDataProcessor.lastIHR.description)")
-
-            // Placeholder for the line chart displaying instantaneous heart rate.
-            // Uncomment and configure this section when the LineChartHRComponent is available.
-            
-            LineChartHRComponent(
-                colors: [.blue, .green, .red]
-            )
-
-            // Placeholder for the line chart displaying heart rate variability (HRV).
-            // Uncomment and configure this section when the LineChartHRVComponent is available.
-            /*
-            LineChartHRVComponent(
-                colors: [.blue, .green, .red]
-            )
-            */
-
-            // Placeholder for the box plot displaying HR data.
-            // Uncomment and configure this section when the BoxPlotComponent is available.
-            /*
-            BoxPlotComponent(
-                data: sensorDataProcessor.getInstantaneousHRData(), // Assuming it returns [UUID: [Double]]
-                colors: [.blue, .green, .red]
-            )
-            */
-
-            // Placeholder for the proximity ring chart displaying sensor proximity.
-            // Uncomment and configure this section when the ProximityRingChartComponent is available.
-            /*
-            ProximityRingChartComponent()
-            */
-        }
-        .onChange(of: bluetoothManager.hasNewValues) { oldValue, newValue in
-            if (oldValue == false && newValue == true) {
-                let valuesToUnpack = bluetoothManager.getLatestValues()
-                sensorDataProcessor.updateHRData(
-                    sensorID: valuesToUnpack.uuid,
-                    hr: valuesToUnpack.hr,
-                    ibiArray: valuesToUnpack.ibis
+        ScrollView {
+            VStack {
+                // Display the title of the dashboard.
+                Text("Dashboard")
+                    .font(.headline) // Set the font style for the title
+                
+                LineChartHRComponent(
+                    data: sensorDataProcessor.hrArray,
+                    colors: [.blue, .green, .red]
                 )
+                
+                LineChartHRVComponent(
+                    data: sensorDataProcessor.hrvArray,
+                    colors: [.blue, .green, .red]
+                )
+                
+                PoincareMapComponent(
+                    data: sensorDataProcessor.ibiArray,
+                    colors: [.blue, .green, .red]
+                )
+                
+                BoxPlotComponent(
+                    data: sensorDataProcessor.getStatistics(), // Assuming it returns [UUID: [Double]]
+                    colors: [.blue, .green, .red]
+                )
+                
+                
+                ProximityRingChartComponent(
+                    data: sensorDataProcessor.computeProximityScore(),
+                    color: Color(red: 1.0, green: 0.84, blue: 0.0)
+                )
+                
             }
+            .padding() // Add padding around the entire VStack for better spacing.
         }
-        .padding() // Add padding around the entire VStack for better spacing.
+    }
+}
+
+
+struct DashboardComponent_Previews: PreviewProvider {
+    static var previews: some View {
+        // Example data for preview purposes
+        let exampleHRData: [UUID: [HRDataPoint]] = [
+            UUID(): (0..<60).map { HRDataPoint(timestamp: Date().addingTimeInterval(Double($0)), hrValue: Double.random(in: 60...100)) },
+            UUID(): (0..<60).map { HRDataPoint(timestamp: Date().addingTimeInterval(Double($0)), hrValue: Double.random(in: 60...100)) },
+            UUID(): (0..<60).map { HRDataPoint(timestamp: Date().addingTimeInterval(Double($0)), hrValue: Double.random(in: 60...100)) }
+        ]
+        
+        let exampleHRVData: [UUID: [HRVDataPoint]] = [
+            UUID(): (0..<60).map { HRVDataPoint(timestamp: Date().addingTimeInterval(Double($0)), hrvValue: Double.random(in: 20...40)) },
+            UUID(): (0..<60).map { HRVDataPoint(timestamp: Date().addingTimeInterval(Double($0)), hrvValue: Double.random(in: 20...40)) },
+            UUID(): (0..<60).map { HRVDataPoint(timestamp: Date().addingTimeInterval(Double($0)), hrvValue: Double.random(in: 20...40)) }
+        ]
+        
+        let exampleIBIData: [UUID: [Double]] = [
+            UUID(): [0.85, 0.88, 0.87, 0.86, 0.89, 0.84],
+            UUID(): [0.78, 0.77, 0.76, 0.75, 0.79, 0.74],
+            UUID(): [0.92, 0.91, 0.93, 0.94, 0.95, 0.96]
+        ]
+        
+
+        // Mock SensorDataProcessor to inject example data
+        let mockSensorDataProcessor = SensorDataProcessor()
+        mockSensorDataProcessor.hrArray = exampleHRData
+        mockSensorDataProcessor.hrvArray = exampleHRVData
+        mockSensorDataProcessor.ibiArray = exampleIBIData
+
+        return DashboardComponent()
+            .environment(mockSensorDataProcessor)
+            .previewLayout(.sizeThatFits)
+            .padding()
     }
 }
