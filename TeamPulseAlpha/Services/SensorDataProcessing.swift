@@ -8,26 +8,6 @@
 import CoreData
 import Foundation
 
-/// Structure to represent the state of a soft cluster.
-struct SoftClusterInfo {
-    var uuids: Set<String>  // The set of UUIDs in the cluster
-    var isActive: Bool = false  // Whether this cluster is currently active
-    var activationCount: Int = 0  // How many times this cluster has been active
-}
-
-/// Structure to represent the state of a hard cluster.
-struct HardClusterInfo {
-    var uuids: Set<String>  // The set of UUIDs in the cluster
-    var isActive: Bool = false  // Whether this cluster is currently active
-    var activationCount: Int = 0  // How many times this cluster has been active
-}
-
-/// Structure to encapsulate the current state of clusters.
-struct ClusterState {
-    var softClusters: [SoftClusterInfo] = []  // Array of soft clusters
-    var hardClusters: [HardClusterInfo] = []  // Array of hard clusters
-}
-
 /// Data structure that holds a heart rate (HR) value and its corresponding timestamp.
 struct HRDataPoint: Equatable {
     let timestamp: Date  // Timestamp when the HR value was recorded
@@ -75,7 +55,7 @@ class SensorDataProcessor {
     private var lastProximityMatrix: [[Double]] = []
 
     /// Container for cluster states.
-    private var currentClusterState = ClusterState()
+    private var currentClusterState: [Bool] = [false, false, false, false, false, false]
 
     /// Threshold for proximity to determine clusters.
     private let threshold: Double = 0.025
@@ -165,7 +145,10 @@ class SensorDataProcessor {
 
         // After updating HR data, compute the distance and proximity matrices
         updateMatrices()
-
+        
+        // After updating distance and proximity matrices, compute the cluster state
+        updateClusterState()
+        
         // Trigger UI update
         triggerUpdate()
     }
@@ -325,114 +308,46 @@ class SensorDataProcessor {
     /// - Parameters:
     ///   - sensorIDs: An array of sensor IDs.
     ///   - proximityMatrix: A matrix representing the proximity between sensors.
-    func updateClusterState(sensorIDs: [String], proximityMatrix: [[Double]]) {
-        // Reset the active state for all clusters before updating
-        resetClusterActiveStates()
-
-        // Generate clusters based on the proximity matrix
-        generateClusters(sensorIDs: sensorIDs, proximityMatrix: proximityMatrix)
-    }
-
-    /// Resets the active state for all clusters before recalculating.
-    private func resetClusterActiveStates() {
-        for i in 0..<currentClusterState.softClusters.count {
-            currentClusterState.softClusters[i].isActive = false
+    func updateClusterState() {
+        // Reset the active state for all clusters before updatingoximityMatrix)
+        var newState: [Bool] = [false, false, false, false, false, false]
+        
+        newState[1] = lastProximityMatrix[0][1] > 1 - threshold
+        newState[2] = lastProximityMatrix[0][2] > 1 - threshold
+        newState[3] = lastProximityMatrix[1][2] > 1 - threshold
+        
+        if newState[1] && newState[2] && newState[3] {
+            newState[5] = true
+            newState[1] = false
+            newState[2] = false
+            newState[3] = false
         }
-        for i in 0..<currentClusterState.hardClusters.count {
-            currentClusterState.hardClusters[i].isActive = false
+        else if (newState[1] && newState[2]) || (newState[1] && newState[3]) || (newState[2] && newState[3]) {
+            newState[4] = true
+            newState[1] = false
+            newState[2] = false
+            newState[3] = false
         }
-    }
-
-    /// Generates clusters (both soft and hard) based on the proximity matrix.
-    ///
-    /// - Parameters:
-    ///   - sensorIDs: An array of sensor IDs.
-    ///   - proximityMatrix: A matrix representing the proximity between sensors.
-    private func generateClusters(sensorIDs: [String], proximityMatrix: [[Double]]) {
-        let proximityThreshold = 1.0 - threshold
-
-        var includedUUIDs = Set<Set<String>>()  // Keep track of UUIDs already included in larger clusters
-
-        // Check for 3-member clusters first (to avoid redundant smaller clusters)
-        for i in 0..<sensorIDs.count {
-            for j in i + 1..<sensorIDs.count {
-                for k in j + 1..<sensorIDs.count {
-                    let clusterSet: Set<String> = [sensorIDs[i], sensorIDs[j], sensorIDs[k]]
-
-                    if proximityMatrix[i][j] >= proximityThreshold
-                        && proximityMatrix[j][k] >= proximityThreshold
-                        && proximityMatrix[i][k] >= proximityThreshold {
-
-                        // Hard cluster
-                        updateOrCreateCluster(clusterSet: clusterSet, isHard: true)
-                        includedUUIDs.insert(clusterSet)
-                    } else if (proximityMatrix[i][j] >= proximityThreshold
-                        || proximityMatrix[j][k] >= proximityThreshold
-                        || proximityMatrix[i][k] >= proximityThreshold)
-                        && !includedUUIDs.contains(clusterSet) {
-
-                        // Soft cluster
-                        updateOrCreateCluster(clusterSet: clusterSet, isHard: false)
-                        includedUUIDs.insert(clusterSet)
-                    }
-                }
+        
+        var flag: Bool = false
+        
+        for i in 1...newState.count-1 {
+            if newState[i] != currentClusterState[i] {
+                    flag = true
             }
         }
-
-        // Handle smaller 2-member clusters, avoiding overlaps with existing larger clusters
-        for i in 0..<sensorIDs.count {
-            for j in i + 1..<sensorIDs.count {
-                let pairSet: Set<String> = [sensorIDs[i], sensorIDs[j]]
-                if proximityMatrix[i][j] >= proximityThreshold
-                    && !includedUUIDs.contains(pairSet) {
-                    updateOrCreateCluster(clusterSet: pairSet, isHard: false)
-                    includedUUIDs.insert(pairSet)
-                }
-            }
-        }
+        
+        newState[0] = flag
+        
+        currentClusterState = newState
+        
     }
 
-    /// Updates an existing cluster or creates a new one if it doesn't exist.
+    /// Getter function to retrieve the current clusters.
     ///
-    /// - Parameters:
-    ///   - clusterSet: The set of UUIDs representing the cluster.
-    ///   - isHard: Boolean indicating if the cluster is hard or soft.
-    private func updateOrCreateCluster(clusterSet: Set<String>, isHard: Bool) {
-        if isHard {
-            // Update or create a hard cluster
-            if let index = currentClusterState.hardClusters.firstIndex(where: { $0.uuids == clusterSet }) {
-                currentClusterState.hardClusters[index].isActive = true
-                currentClusterState.hardClusters[index].activationCount += 1
-            } else {
-                currentClusterState.hardClusters.append(
-                    HardClusterInfo(uuids: clusterSet, isActive: true, activationCount: 1)
-                )
-            }
-        } else {
-            // Update or create a soft cluster
-            if let index = currentClusterState.softClusters.firstIndex(where: { $0.uuids == clusterSet }) {
-                currentClusterState.softClusters[index].isActive = true
-                currentClusterState.softClusters[index].activationCount += 1
-            } else {
-                currentClusterState.softClusters.append(
-                    SoftClusterInfo(uuids: clusterSet, isActive: true, activationCount: 1)
-                )
-            }
-        }
-    }
-
-    /// Getter function to retrieve the current soft clusters.
-    ///
-    /// - Returns: An array of `SoftClusterInfo` representing the current soft clusters.
-    func getSoftClusters() -> [SoftClusterInfo] {
-        return currentClusterState.softClusters
-    }
-
-    /// Getter function to retrieve the current hard clusters.
-    ///
-    /// - Returns: An array of `HardClusterInfo` representing the current hard clusters.
-    func getHardClusters() -> [HardClusterInfo] {
-        return currentClusterState.hardClusters
+    /// - Returns: An array of `Bool` representing the current clusters.
+    func getClusterState() -> [Bool] {
+        return currentClusterState
     }
 
     /// Sets the current session for data processing.
@@ -464,9 +379,7 @@ class SensorDataProcessor {
         event.proximityMatrix = ArrayTransformer().transformedValue(lastProximityMatrix) as? Data
 
         // Optionally save cluster state
-        event.softClusters = ArrayTransformer().transformedValue(currentClusterState.softClusters) as? Data
-        event.hardClusters = ArrayTransformer().transformedValue(currentClusterState.hardClusters) as? Data
-
+        event.clusters = ArrayTransformer().transformedValue(currentClusterState) as? Data
         event.session = session
 
         // Save the context

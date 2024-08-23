@@ -52,11 +52,8 @@ extension EventEntity {
     /// The proximity matrix data, stored as binary `Data`. Represents the proximity scores between different sensor data points.
     @NSManaged public var proximityMatrix: Data?
 
-    /// The soft clusters data, stored as binary `Data`. Represents clusters where sensors are loosely grouped based on proximity.
-    @NSManaged public var softClusters: Data?
-
-    /// The hard clusters data, stored as binary `Data`. Represents clusters where sensors are tightly grouped based on proximity.
-    @NSManaged public var hardClusters: Data?
+    /// The clusters data, stored as binary `Data`. Represents clusters where sensors are grouped based on proximity.
+    @NSManaged public var clusters: Data?
 
     /// The relationship to the `SessionEntity` that this event is associated with.
     /// Allows for linking events to specific recording sessions.
