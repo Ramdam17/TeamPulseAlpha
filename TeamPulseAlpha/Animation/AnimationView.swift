@@ -133,7 +133,7 @@ struct AnimationView: View {
                 sensorDataProcessor.updateHRData(
                     sensorID: valuesToUnpack.id,
                     hr: valuesToUnpack.hr,
-                    ibiArray: valuesToUnpack.ibis
+                    ibiArray: valuesToUnpack.ibis, isRecording: sessionManager.isRecording
                 )
             }
         }

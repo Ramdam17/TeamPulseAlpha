@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23173.10" systemVersion="24B5024e" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="EventEntity" representedClassName=".EventEntity" syncable="YES">
-        <attribute name="clusters" optional="YES" attributeType="Binary"/>
+    <entity name="ClusterDataEvent" representedClassName="ClusterDataEvent" syncable="YES">
+        <attribute name="clusterState" optional="YES" attributeType="Binary"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="clusterDataEvent" inverseEntity="SessionEntity"/>
+    </entity>
+    <entity name="MatrixDataEvent" representedClassName="MatrixDataEvent" syncable="YES">
         <attribute name="conditionalEntropyMatrix" optional="YES" attributeType="Binary"/>
-        <attribute name="correlationMatrix" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
-        <attribute name="crossEntropyMatrix" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
-        <attribute name="distanceMatrix" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
-        <attribute name="eventType" optional="YES" attributeType="String"/>
-        <attribute name="hr" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="ibi" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
+        <attribute name="correlationMatrix" optional="YES" attributeType="Binary"/>
+        <attribute name="crossEntropyMatrix" optional="YES" attributeType="Binary"/>
         <attribute name="mutualInformationMatrix" optional="YES" attributeType="Binary"/>
         <attribute name="proximityMatrix" optional="YES" attributeType="Binary"/>
-        <attribute name="threshold" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="events" inverseEntity="SessionEntity"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="matrixDataEvent" inverseEntity="SessionEntity"/>
+    </entity>
+    <entity name="SensorDataEvent" representedClassName="SensorDataEvent" syncable="YES">
+        <attribute name="hrData" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="hrvData" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="ibiData" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="sensor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SensorEntity" inverseName="sensorDataEvent" inverseEntity="SensorEntity"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="sensorDataEvent" inverseEntity="SessionEntity"/>
     </entity>
     <entity name="SensorEntity" representedClassName=".SensorEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isConnected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="String"/>
-        <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SessionEntity" inverseName="sensors" inverseEntity="SessionEntity"/>
+        <relationship name="sensorDataEvent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SensorDataEvent" inverseName="sensor" inverseEntity="SensorDataEvent"/>
     </entity>
     <entity name="SessionEntity" representedClassName=".SessionEntity" syncable="YES">
+        <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="events" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EventEntity" inverseName="session" inverseEntity="EventEntity"/>
-        <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SensorEntity" inverseName="sessions" inverseEntity="SensorEntity"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="clusterDataEvent" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ClusterDataEvent" inverseName="session" inverseEntity="ClusterDataEvent"/>
+        <relationship name="matrixDataEvent" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MatrixDataEvent" inverseName="session" inverseEntity="MatrixDataEvent"/>
+        <relationship name="sensorDataEvent" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SensorDataEvent" inverseName="session" inverseEntity="SensorDataEvent"/>
     </entity>
 </model>

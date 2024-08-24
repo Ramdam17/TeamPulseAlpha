@@ -13,20 +13,32 @@ import Foundation
 /// and deleting a session along with its associated data.
 @Observable
 class SessionManager {
-    
+
     /// The currently active session, if any. This is published to notify observers of changes.
     var currentSession: SessionEntity?
     var isRecording: Bool = false
-    
+
     /// Starts a new session by creating a `SessionEntity` and setting it as the current session.
     /// The session is initialized with a unique identifier and the current timestamp.
     func startNewSession() {
+
+        guard currentSession == nil else {
+            print(
+                "Session already in progress. Please stop the current session before starting a new one."
+            )
+            return
+        }
         let context = CoreDataStack.shared.context
         let newSession = SessionEntity(context: context)
-        
+
         newSession.id = UUID()  // Assign a unique identifier to the session.
-        newSession.timestamp = Date()  // Set the session's start timestamp to the current date/time.
-        
+        newSession.startTime = Date()  // Set the session's start timestamp to the current date/time.
+
+        // Format the date as "YY-MM-DD-HH-MM"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yy-MM-dd-HH-mm"
+        newSession.name = formatter.string(from: newSession.startTime!)
+
         CoreDataStack.shared.saveContext()  // Save the new session in CoreData.
         currentSession = newSession  // Set this as the active session.
         isRecording = true
@@ -35,6 +47,8 @@ class SessionManager {
     /// Stops the current session, effectively marking the session as inactive
     /// by clearing the `currentSession` property.
     func stopSession() {
+        currentSession?.endTime = Date()  // Record the end time of the session.
+        CoreDataStack.shared.saveContext()  // Save the updated session.
         currentSession = nil  // Clear the current session to indicate no active session.
         isRecording = false
     }
@@ -58,16 +72,5 @@ class SessionManager {
         // Clear the current session to reflect that it has been deleted.
         currentSession = nil
         isRecording = false
-    }
-
-    /// Saves the sensor data during the session to Core Data.
-    /// This function would typically involve saving sensor readings, events, or other session-related data.
-    ///
-    /// - Parameter sensor: The sensor entity whose data is being saved.
-    func saveData(for sensor: SensorEntity) {
-        // Placeholder function for saving sensor data to the current session.
-        // Uncomment and implement when ready.
-        // guard let session = currentSession else { return }
-        // sensorDataProcessor.saveDataToCoreData(session: session, sensorID: sensor.id!)
     }
 }

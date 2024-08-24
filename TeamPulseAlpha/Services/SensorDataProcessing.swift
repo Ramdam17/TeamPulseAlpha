@@ -38,6 +38,9 @@ class SensorDataProcessor {
     /// Stores the last recorded instantaneous HR value for each sensor.
     private(set) var lastIHR: [String: Double] = [:]
 
+    /// Stores the last recorded instantaneous HRV value for each sensor.
+    private(set) var lastHRV: [String: Double] = [:]
+    
     /// Stores an array of the last 100 HR data points (with timestamps) for each sensor.
     private(set) var hrArray: [String: [HRDataPoint]] = [:]
 
@@ -94,6 +97,7 @@ class SensorDataProcessor {
         for id in sensorOrder {
             lastHR[id] = 0.0
             lastIHR[id] = 0.0
+            lastHRV[id] = 0.0
 
             hrArray[id] = Array(
                 repeating: HRDataPoint(timestamp: Date(), hrValue: 60.0),
@@ -124,18 +128,21 @@ class SensorDataProcessor {
     }
 
     /// Updates the HR and HRV data for a specific sensor with new IBI values.
-    func updateHRData(sensorID: String, hr: Double, ibiArray: [Double]) {
+    /// - Parameters:
+    ///   - sensorID: The identifier of the sensor.
+    ///   - hr: The heart rate value to update.
+    ///   - ibiArray: The array of new IBI values received.
+    ///   - isRecording: A Boolean value that indicates if a session is currently recording.
+    func updateHRData(
+        sensorID: String, hr: Double, ibiArray: [Double], isRecording: Bool
+    ) {
         let currentTimestamp = Date()
 
         updateLastHR(sensorID: sensorID, hr: hr)
         updateHRArray(sensorID: sensorID, hr: hr, timestamp: currentTimestamp)
+
         updateIHRArray(
-            sensorID: sensorID, ibiArray: ibiArray, timestamp: currentTimestamp)
-
-        updateMatrices()
-        updateClusterState()
-
-        triggerUpdate()
+            sensorID: sensorID, ibiArray: ibiArray, isRecording: isRecording, currentTimestamp: currentTimestamp)
     }
 
     /// Sets the current session for data processing.
@@ -148,42 +155,89 @@ class SensorDataProcessor {
         self.currentSession = nil
     }
 
-    /// Saves the processed sensor data to Core Data.
-    func saveDataToCoreData(session: SessionEntity, sensorID: String) {
+    /// Saves a sensor data event to Core Data.
+    /// - Parameters:
+    ///   - sensorID: The identifier of the sensor.
+    ///   - timestamp: The timestamp for the event.
+    ///   - session: The session entity associated with this event.
+    private func saveSensorDataEvent(sensorID: String, timestamp: Date, session: SessionEntity) {
         let context = CoreDataStack.shared.context
-        let event = EventEntity(context: context)
+        let event = SensorDataEvent(context: context)
+        
+        // Fetch the SensorEntity corresponding to the sensorID
+        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", sensorID)
+        
+        do {
+            if let sensor = try context.fetch(fetchRequest).first {
+                event.sensor = sensor
+            } else {
+                print("No sensor found with ID: \(sensorID)")
+            }
+        } catch {
+            print("Failed to fetch sensor with ID \(sensorID): \(error)")
+        }
 
-        event.timestamp = Date()
-        event.hr = lastHR[sensorID] ?? 0.0
-        event.ibi =
-            ArrayTransformer().transformedValue(ibiArray[sensorID]) as? Data
-        event.distanceMatrix =
-            ArrayTransformer().transformedValue(lastDistanceMatrix) as? Data
-        event.proximityMatrix =
-            ArrayTransformer().transformedValue(lastProximityMatrix) as? Data
-        event.correlationMatrix =
-            ArrayTransformer().transformedValue(lastCorrelationMatrix) as? Data
-        event.crossEntropyMatrix =
-            ArrayTransformer().transformedValue(lastCrossEntropyMatrix) as? Data
-        event.conditionalEntropyMatrix =
-            ArrayTransformer().transformedValue(lastConditionalEntropyMatrix)
-            as? Data
-        event.mutualInformationMatrix =
-            ArrayTransformer().transformedValue(lastMutualInformationMatrix)
-            as? Data
-        event.clusters =
-            ArrayTransformer().transformedValue(currentClusterState) as? Data
+        // Assign other values to the event
+        event.timestamp = timestamp
+        event.hrData = lastHR[sensorID] ?? 0.0
+        event.hrvData = lastHRV[sensorID] ?? 0.0
+        let ihr = lastIHR[sensorID] ?? 60.0
+        event.ibiData = 60.0 / ihr
         event.session = session
 
         do {
             try context.save()
         } catch {
-            print("Failed to save event data: \(error)")
+            print("Failed to save sensor data event: \(error)")
         }
     }
 
+    /// Saves a matrix data event to Core Data.
+    /// - Parameters:
+    ///   - timestamp: The timestamp for the event.
+    ///   - session: The session entity associated with this event.
+    private func saveMatrixDataEvent(timestamp: Date, session: SessionEntity) {
+        let context = CoreDataStack.shared.context
+        let event = MatrixDataEvent(context: context)
+        
+        event.timestamp = timestamp
+        event.proximityMatrix = ArrayTransformer().transformedValue(lastProximityMatrix) as? Data
+        event.correlationMatrix = ArrayTransformer().transformedValue(lastCorrelationMatrix) as? Data
+        event.crossEntropyMatrix = ArrayTransformer().transformedValue(lastCrossEntropyMatrix) as? Data
+        event.conditionalEntropyMatrix = ArrayTransformer().transformedValue(lastConditionalEntropyMatrix) as? Data
+        event.mutualInformationMatrix = ArrayTransformer().transformedValue(lastMutualInformationMatrix) as? Data
+        event.session = session
+
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save matrix data event: \(error)")
+        }
+    }
+
+    /// Saves a cluster data event to Core Data.
+    /// - Parameters:
+    ///   - timestamp: The timestamp for the event.
+    ///   - session: The session entity associated with this event.
+    private func saveClusterDataEvent(timestamp: Date, session: SessionEntity) {
+        let context = CoreDataStack.shared.context
+        let event = ClusterDataEvent(context: context)
+        
+        event.timestamp = timestamp
+        event.clusterState = ArrayTransformer().transformedValue(currentClusterState) as? Data
+        event.session = session
+
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save cluster data event: \(error)")
+        }
+    }
+
+
     // MARK: - Getter Functions
-    
+
     func getLastHRData() -> [String: Double] {
         return lastHR
     }
@@ -215,7 +269,7 @@ class SensorDataProcessor {
     func getMutualInformationMatrix() -> [[Double]] {
         return lastMutualInformationMatrix
     }
-    
+
     func getHRData() -> [String: [HRDataPoint]] {
         var result: [String: [HRDataPoint]] = [:]
         for (sensorID, hrData) in hrArray {
@@ -263,26 +317,26 @@ class SensorDataProcessor {
     func getClusterState() -> [Bool] {
         return currentClusterState
     }
-    
+
     // MARK: - Setter Functions
-    
+
     /// Sets the HR array for all sensors at once.
     /// This function initializes or replaces the HR arrays for all specified sensors with the provided data.
     ///
     /// - Parameter hrData: A dictionary where each key is a sensor ID and the value is an array of `HRDataPoint`.
     func setHRArray(hrData: [String: [HRDataPoint]]) {
         for (sensorID, dataPoints) in hrData {
-            hrArray[sensorID] = Array(dataPoints.suffix(100)) // Keep only the last 100 entries
+            hrArray[sensorID] = Array(dataPoints.suffix(100))  // Keep only the last 100 entries
         }
     }
-    
+
     /// Sets the IHR array for all sensors at once.
     /// This function initializes or replaces the IHR arrays for all specified sensors with the provided data.
     ///
     /// - Parameter ihrData: A dictionary where each key is a sensor ID and the value is an array of `HRDataPoint`.
     func setIHRArray(ihrData: [String: [HRDataPoint]]) {
         for (sensorID, dataPoints) in ihrData {
-            ihrArray[sensorID] = Array(dataPoints.suffix(100)) // Keep only the last 100 entries
+            ihrArray[sensorID] = Array(dataPoints.suffix(100))  // Keep only the last 100 entries
         }
     }
 
@@ -292,7 +346,7 @@ class SensorDataProcessor {
     /// - Parameter hrvData: A dictionary where each key is a sensor ID and the value is an array of `HRVDataPoint`.
     func setHRVArray(hrvData: [String: [HRVDataPoint]]) {
         for (sensorID, dataPoints) in hrvData {
-            hrvArray[sensorID] = Array(dataPoints.suffix(100)) // Keep only the last 100 entries
+            hrvArray[sensorID] = Array(dataPoints.suffix(100))  // Keep only the last 100 entries
         }
     }
 
@@ -302,7 +356,7 @@ class SensorDataProcessor {
     /// - Parameter ibiData: A dictionary where each key is a sensor ID and the value is an array of `Double`.
     func setIBIArray(ibiData: [String: [Double]]) {
         for (sensorID, dataPoints) in ibiData {
-            ibiArray[sensorID] = Array(dataPoints.suffix(100)) // Keep only the last 100 entries
+            ibiArray[sensorID] = Array(dataPoints.suffix(100))  // Keep only the last 100 entries
         }
     }
 
@@ -311,6 +365,16 @@ class SensorDataProcessor {
     /// Updates the last HR value for a given sensor.
     private func updateLastHR(sensorID: String, hr: Double) {
         lastHR[sensorID] = hr
+    }
+    
+    /// Updates the last IHR value for a given sensor.
+    private func updateLastIHR(sensorID: String, ihr: Double) {
+        lastIHR[sensorID] = ihr
+    }
+    
+    /// Updates the last IHR value for a given sensor.
+    private func updateLastHRV(sensorID: String, hrv: Double) {
+        lastHRV[sensorID] = hrv
     }
 
     /// Updates the HR array for a given sensor with a new data point.
@@ -327,7 +391,7 @@ class SensorDataProcessor {
 
     /// Updates the IHR array and HRV array for a given sensor with new IBI values.
     private func updateIHRArray(
-        sensorID: String, ibiArray: [Double], timestamp: Date
+        sensorID: String, ibiArray: [Double], isRecording: Bool, currentTimestamp: Date
     ) {
         self.ibiArray[sensorID] = (self.ibiArray[sensorID] ?? []) + ibiArray
         if let sensorIBIArray = self.ibiArray[sensorID],
@@ -340,7 +404,7 @@ class SensorDataProcessor {
             let instantaneousHR = 60.0 / ibi
             lastIHR[sensorID] = instantaneousHR
             let newIHRDataPoint = HRDataPoint(
-                timestamp: timestamp, hrValue: instantaneousHR)
+                timestamp: currentTimestamp, hrValue: instantaneousHR)
 
             var sensorIHRArray = ihrArray[sensorID] ?? []
             sensorIHRArray.append(newIHRDataPoint)
@@ -351,8 +415,24 @@ class SensorDataProcessor {
 
             if let hrv = computeHRV(sensorID: sensorID) {
                 updateHRVArray(
-                    sensorID: sensorID, hrv: hrv, timestamp: timestamp)
+                    sensorID: sensorID, hrv: hrv, timestamp: currentTimestamp)
             }
+            
+            updateMatrices()
+            updateClusterState()
+
+            triggerUpdate()
+
+            if isRecording, let currentSession = currentSession {
+                saveSensorDataEvent(
+                    sensorID: sensorID, timestamp: currentTimestamp,
+                    session: currentSession)
+                saveMatrixDataEvent(
+                    timestamp: currentTimestamp, session: currentSession)
+                saveClusterDataEvent(
+                    timestamp: currentTimestamp, session: currentSession)
+            }
+
         }
     }
 
@@ -367,6 +447,7 @@ class SensorDataProcessor {
             sensorHRVArray.removeFirst(sensorHRVArray.count - 100)
         }
         hrvArray[sensorID] = sensorHRVArray
+        lastHRV[sensorID] = hrv
     }
 
     /// Updates all the matrices (distance, proximity, correlation, etc.).
@@ -694,7 +775,7 @@ class SensorDataProcessor {
         let total = ihrArray.reduce(0) { $0 + $1.hrValue }
         return ihrArray.map { $0.hrValue / total }
     }
-    
+
     /// Computes the proximity score, which is the mean of the upper triangular part of the proximity matrix.
     /// The proximity score indicates how close the sensors' heart rates are to each other.
     /// It is calculated as the average of the upper triangle of the proximity matrix.

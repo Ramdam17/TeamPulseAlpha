@@ -29,12 +29,16 @@
 		306173DF2C73739D000BA239 /* SensorDataProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173DE2C737397000BA239 /* SensorDataProcessing.swift */; };
 		306173F32C737ABD000BA239 /* CustomTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173F22C737ABA000BA239 /* CustomTransformers.swift */; };
 		306174022C737C88000BA239 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174012C737C85000BA239 /* SessionManager.swift */; };
-		306174172C73808B000BA239 /* EventEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174112C73808B000BA239 /* EventEntity+CoreDataClass.swift */; };
-		306174182C73808B000BA239 /* EventEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174122C73808B000BA239 /* EventEntity+CoreDataProperties.swift */; };
-		306174192C73808B000BA239 /* SensorEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174132C73808B000BA239 /* SensorEntity+CoreDataClass.swift */; };
-		3061741A2C73808B000BA239 /* SensorEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174142C73808B000BA239 /* SensorEntity+CoreDataProperties.swift */; };
-		3061741B2C73808B000BA239 /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */; };
-		3061741C2C73808B000BA239 /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */; };
+		3068C47F2C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C4752C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataClass.swift */; };
+		3068C4802C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C4762C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataProperties.swift */; };
+		3068C4812C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C4772C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataClass.swift */; };
+		3068C4822C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C4782C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataProperties.swift */; };
+		3068C4832C7A7A7F008C4A68 /* SensorDataEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C4792C7A7A7F008C4A68 /* SensorDataEvent+CoreDataClass.swift */; };
+		3068C4842C7A7A7F008C4A68 /* SensorDataEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C47A2C7A7A7F008C4A68 /* SensorDataEvent+CoreDataProperties.swift */; };
+		3068C4852C7A7A7F008C4A68 /* SensorEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C47B2C7A7A7F008C4A68 /* SensorEntity+CoreDataClass.swift */; };
+		3068C4862C7A7A7F008C4A68 /* SensorEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C47C2C7A7A7F008C4A68 /* SensorEntity+CoreDataProperties.swift */; };
+		3068C4872C7A7A7F008C4A68 /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C47D2C7A7A7F008C4A68 /* SessionEntity+CoreDataClass.swift */; };
+		3068C4882C7A7A7F008C4A68 /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C47E2C7A7A7F008C4A68 /* SessionEntity+CoreDataProperties.swift */; };
 		30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3E02C513455000687F8 /* BluetoothManager.swift */; };
 		30B402F82C7A0C1600A84373 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30B402F72C7A0C1600A84373 /* Storyboard.storyboard */; };
 		30B402FB2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B402FA2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift */; };
@@ -95,12 +99,16 @@
 		306173DE2C737397000BA239 /* SensorDataProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataProcessing.swift; sourceTree = "<group>"; };
 		306173F22C737ABA000BA239 /* CustomTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransformers.swift; sourceTree = "<group>"; };
 		306174012C737C85000BA239 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		306174112C73808B000BA239 /* EventEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		306174122C73808B000BA239 /* EventEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		306174132C73808B000BA239 /* SensorEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		306174142C73808B000BA239 /* SensorEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3068C4752C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClusterDataEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3068C4762C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClusterDataEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3068C4772C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixDataEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3068C4782C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixDataEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3068C4792C7A7A7F008C4A68 /* SensorDataEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorDataEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3068C47A2C7A7A7F008C4A68 /* SensorDataEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorDataEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3068C47B2C7A7A7F008C4A68 /* SensorEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3068C47C2C7A7A7F008C4A68 /* SensorEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3068C47D2C7A7A7F008C4A68 /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3068C47E2C7A7A7F008C4A68 /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		30AEE3E02C513455000687F8 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		30B402F72C7A0C1600A84373 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		30B402F92C7A19E200A84373 /* AnimationBottomDashboardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationBottomDashboardComponent.swift; sourceTree = "<group>"; };
@@ -237,12 +245,16 @@
 		301CB9D52C4F1DDA00A0D85E /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				306174112C73808B000BA239 /* EventEntity+CoreDataClass.swift */,
-				306174122C73808B000BA239 /* EventEntity+CoreDataProperties.swift */,
-				306174132C73808B000BA239 /* SensorEntity+CoreDataClass.swift */,
-				306174142C73808B000BA239 /* SensorEntity+CoreDataProperties.swift */,
-				306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */,
-				306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */,
+				3068C4752C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataClass.swift */,
+				3068C4762C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataProperties.swift */,
+				3068C4772C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataClass.swift */,
+				3068C4782C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataProperties.swift */,
+				3068C4792C7A7A7F008C4A68 /* SensorDataEvent+CoreDataClass.swift */,
+				3068C47A2C7A7A7F008C4A68 /* SensorDataEvent+CoreDataProperties.swift */,
+				3068C47B2C7A7A7F008C4A68 /* SensorEntity+CoreDataClass.swift */,
+				3068C47C2C7A7A7F008C4A68 /* SensorEntity+CoreDataProperties.swift */,
+				3068C47D2C7A7A7F008C4A68 /* SessionEntity+CoreDataClass.swift */,
+				3068C47E2C7A7A7F008C4A68 /* SessionEntity+CoreDataProperties.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -496,6 +508,16 @@
 				30B402FC2C7A19E200A84373 /* AnimationBottomDashboardComponent.swift in Sources */,
 				306174022C737C88000BA239 /* SessionManager.swift in Sources */,
 				30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */,
+				3068C47F2C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataClass.swift in Sources */,
+				3068C4802C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataProperties.swift in Sources */,
+				3068C4812C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataClass.swift in Sources */,
+				3068C4822C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataProperties.swift in Sources */,
+				3068C4832C7A7A7F008C4A68 /* SensorDataEvent+CoreDataClass.swift in Sources */,
+				3068C4842C7A7A7F008C4A68 /* SensorDataEvent+CoreDataProperties.swift in Sources */,
+				3068C4852C7A7A7F008C4A68 /* SensorEntity+CoreDataClass.swift in Sources */,
+				3068C4862C7A7A7F008C4A68 /* SensorEntity+CoreDataProperties.swift in Sources */,
+				3068C4872C7A7A7F008C4A68 /* SessionEntity+CoreDataClass.swift in Sources */,
+				3068C4882C7A7A7F008C4A68 /* SessionEntity+CoreDataProperties.swift in Sources */,
 				306173F32C737ABD000BA239 /* CustomTransformers.swift in Sources */,
 				301CB9C82C4F1BC800A0D85E /* DataManager.swift in Sources */,
 				30348A1B2C4F21260041F47D /* SettingsView.swift in Sources */,
@@ -508,12 +530,6 @@
 				306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */,
 				306173DB2C736F24000BA239 /* SessionRecordingComponent.swift in Sources */,
 				30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */,
-				306174172C73808B000BA239 /* EventEntity+CoreDataClass.swift in Sources */,
-				306174182C73808B000BA239 /* EventEntity+CoreDataProperties.swift in Sources */,
-				306174192C73808B000BA239 /* SensorEntity+CoreDataClass.swift in Sources */,
-				3061741A2C73808B000BA239 /* SensorEntity+CoreDataProperties.swift in Sources */,
-				3061741B2C73808B000BA239 /* SessionEntity+CoreDataClass.swift in Sources */,
-				3061741C2C73808B000BA239 /* SessionEntity+CoreDataProperties.swift in Sources */,
 				306173DF2C73739D000BA239 /* SensorDataProcessing.swift in Sources */,
 				30348A192C4F21100041F47D /* SessionListView.swift in Sources */,
 				30CB16702C78FDBB0085AAEA /* AnimationScene.swift in Sources */,

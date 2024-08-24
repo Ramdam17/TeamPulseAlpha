@@ -14,9 +14,11 @@ struct SessionListView: View {
         entity: SessionEntity.entity(),
         sortDescriptors: [
             NSSortDescriptor(
-                keyPath: \SessionEntity.timestamp, ascending: false)
+                keyPath: \SessionEntity.startTime, ascending: false)
         ]
-    ) var sessions: FetchedResults<SessionEntity>  // FetchRequest to retrieve recorded sessions from Core Data
+    )
+    
+    var sessions: FetchedResults<SessionEntity>  // FetchRequest to retrieve recorded sessions from Core Data
 
     @Environment(\.managedObjectContext) private var viewContext  // Access the Core Data context from the environment
 
@@ -39,8 +41,7 @@ struct SessionListView: View {
                         NavigationLink(destination: SessionDetailView()) {
                             HStack {
                                 Text(
-                                    session.timestamp ?? Date(),
-                                    formatter: dateFormatter
+                                    session.name ?? ""
                                 )
                                 .font(.headline)  // Display the session's timestamp
 
@@ -70,14 +71,6 @@ struct SessionListView: View {
         }
     }
 }
-
-/// DateFormatter to format the session timestamps.
-private let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .medium
-    formatter.timeStyle = .short
-    return formatter
-}()
 
 // Preview provider for SwiftUI previews, allowing for real-time design feedback.
 struct SessionListView_Previews: PreviewProvider {
