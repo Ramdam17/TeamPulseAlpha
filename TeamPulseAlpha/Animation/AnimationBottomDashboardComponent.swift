@@ -20,7 +20,7 @@ struct AnimationBottomDashboardComponent: View {
                 // Display the title of the dashboard.
                 // Line chart showing HR data from the sensors.
                 LineChartHRComponent(
-                    data: sensorDataProcessor.hrArray,
+                    data: sensorDataProcessor.getHRData(),
                     colors: [.blue, .green, .red]
                 )
                 .frame(width: metrics.size.width * 0.30, height: .infinity )
@@ -29,7 +29,7 @@ struct AnimationBottomDashboardComponent: View {
                 
                 // Line chart showing HRV data from the sensors.
                 LineChartHRVComponent(
-                    data: sensorDataProcessor.hrvArray,
+                    data: sensorDataProcessor.getHRVData(),
                     colors: [.blue, .green, .red]
                 )
                 .frame(width: metrics.size.width * 0.30, height: .infinity )
@@ -96,9 +96,9 @@ struct AnimationBottomDashboardComponent_Previews: PreviewProvider {
 
         // Mock SensorDataProcessor to inject example data
         let mockSensorDataProcessor = SensorDataProcessor()
-        mockSensorDataProcessor.hrArray = exampleHRData
-        mockSensorDataProcessor.hrvArray = exampleHRVData
-        mockSensorDataProcessor.ibiArray = exampleIBIData
+        mockSensorDataProcessor.setHRArray(hrData: exampleHRData)
+        mockSensorDataProcessor.setHRVArray(hrvData: exampleHRVData)
+        mockSensorDataProcessor.setIBIArray(ibiData: exampleIBIData)
 
         return Group {
             // iPhone 15 Pro Preview

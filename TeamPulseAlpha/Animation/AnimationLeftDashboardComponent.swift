@@ -19,7 +19,7 @@ struct AnimationLeftDashboardComponent: View {
                 // Poincare map visualization for IBI data from the sensors.
                 
                 PoincareMapComponent(
-                    data: sensorDataProcessor.ibiArray,
+                    data: sensorDataProcessor.getIBIData(),
                     colors: [.blue, .green, .red]
                 )
                 .frame(height: metrics.size.height * 0.75)
@@ -84,9 +84,9 @@ struct AnimationLeftDashboardComponent_Previews: PreviewProvider {
 
         // Mock SensorDataProcessor to inject example data
         let mockSensorDataProcessor = SensorDataProcessor()
-        mockSensorDataProcessor.hrArray = exampleHRData
-        mockSensorDataProcessor.hrvArray = exampleHRVData
-        mockSensorDataProcessor.ibiArray = exampleIBIData
+        mockSensorDataProcessor.setHRArray(hrData: exampleHRData)
+        mockSensorDataProcessor.setHRVArray(hrvData: exampleHRVData)
+        mockSensorDataProcessor.setIBIArray(ibiData: exampleIBIData)
 
         return Group {
             // iPhone 15 Pro Preview

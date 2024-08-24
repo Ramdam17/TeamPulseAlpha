@@ -60,7 +60,7 @@ struct AnimationComponent: View {
     // Function to update heart positions on the scene
     private func updateHeartPositions() {
         DispatchQueue.main.async {
-            let lastValues = sensorDataProcessor.lastHR
+            let lastValues = sensorDataProcessor.getLastHRData()
             animationScene.updateHeartPositions(
                 blueHR: lastValues["Blue"]!,
                 greenHR: lastValues["Green"]!,
