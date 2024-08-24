@@ -83,6 +83,25 @@ class SensorDataProcessor {
         lastDistanceMatrix = Array(repeating: Array(repeating: 1.0, count: 3), count: 3)
         lastProximityMatrix = Array(repeating: Array(repeating: 0.0, count: 3), count: 3)
     }
+    
+    func reset() {
+        // Initialize the HR, IHR, HRV arrays, and matrices
+        for id in sensorOrder {
+            lastHR[id] = 0.0
+            lastIHR[id] = 0.0
+
+            hrArray[id] = Array(repeating: HRDataPoint(timestamp: Date(), hrValue: 60.0), count: 100)
+            ihrArray[id] = Array(repeating: HRDataPoint(timestamp: Date(), hrValue: 60.0), count: 100)
+            hrvArray[id] = Array(repeating: HRVDataPoint(timestamp: Date(), hrvValue: 0.0), count: 100)
+            ibiArray[id] = Array(repeating: 1.0, count: 100)  // Initialize with dummy IBI data
+        }
+
+        // Initialize matrices as 3x3 with zeros
+        lastDistanceMatrix = Array(repeating: Array(repeating: 1.0, count: 3), count: 3)
+        lastProximityMatrix = Array(repeating: Array(repeating: 0.0, count: 3), count: 3)
+        
+        currentClusterState = [false, false, false, false, false, false]
+    }
 
     /// Updates the HR and HRV data for a specific sensor with new IBI values.
     ///

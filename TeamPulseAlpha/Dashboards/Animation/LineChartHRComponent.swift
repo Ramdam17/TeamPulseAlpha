@@ -22,10 +22,6 @@ struct LineChartHRComponent: View {
 
     var body: some View {
         VStack {
-            // Title for the chart
-            Text("Heart Rate Over Time")
-                .font(.headline)
-                .padding(.bottom, 10)
 
             // The Chart view where heart rate data is visualized
             Chart {
@@ -53,9 +49,10 @@ struct LineChartHRComponent: View {
                     }
                 }
             }
+            .chartLegend(.hidden)
             .animation(.easeInOut(duration: 0.1), value: data)  // Animate the chart when data changes
             .chartYScale(domain: 40...200)  // Set the Y-axis range for heart rate values
-            .frame(height: 200)  // Set the height of the chart
+            .frame(height: .infinity)  // Set the height of the chart
             .padding()  // Add padding around the chart for better spacing
         }
     }
@@ -82,13 +79,46 @@ struct LineChartHRComponent_Previews: PreviewProvider {
                     hrValue: Double.random(in: 60...200))
             },
         ]
+        
+        Group {
+            // iPhone 15 Pro Preview
+            LineChartHRComponent(
+                data: exampleHRData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+            .previewDisplayName("iPhone 15 Pro")
 
-        return LineChartHRComponent(
-            data: exampleHRData,
-            colors: [.blue, .green, .red]
-        )
-        .frame(height: 300)
-        .previewLayout(.sizeThatFits)
-        .padding()
+            // iPad Pro 11-inch Preview
+            LineChartHRComponent(
+                data: exampleHRData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(
+                PreviewDevice(
+                    rawValue: "iPad Pro (11-inch) (6th generation)")
+            )
+            .previewDisplayName("iPad Pro 11-inch")
+
+            // iPad Pro 13-inch Preview
+            LineChartHRComponent(
+                data: exampleHRData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(
+                PreviewDevice(
+                    rawValue: "iPad Pro (12.9-inch) (6th generation)")
+            )
+            .previewDisplayName("iPad Pro 13-inch")
+        }
     }
 }

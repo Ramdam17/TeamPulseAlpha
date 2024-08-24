@@ -22,10 +22,6 @@ struct LineChartHRVComponent: View {
 
     var body: some View {
         VStack {
-            // Title for the chart
-            Text("Heart Rate Variability Over Time")
-                .font(.headline)
-                .padding(.bottom, 10)
 
             // The Chart view where HRV data is visualized
             Chart {
@@ -38,7 +34,7 @@ struct LineChartHRVComponent: View {
                         
                         // For each data point in the last 60, create a LineMark for the chart
                         ForEach(last60Data.indices, id: \.self) { pointIndex in
-                            let hrvValue = last60Data[pointIndex].hrvValue * 1000  // Scale HRV for better visualization
+                            let hrvValue = last60Data[pointIndex].hrvValue  // Scale HRV for better visualization
                             let color = colors[index % colors.count]  // Cycle through colors
 
                             LineMark(
@@ -53,9 +49,10 @@ struct LineChartHRVComponent: View {
                     }
                 }
             }
+            .chartLegend(.hidden)
             .animation(.easeInOut(duration: 0.1), value: data)  // Animate the chart when data changes
-            .chartYScale(domain: 0...800)  // Set the Y-axis range for HRV values
-            .frame(height: 200)  // Set the height of the chart
+            .chartYScale(domain: 0...2)  // Set the Y-axis range for HRV values
+            .frame(height: .infinity)  // Set the height of the chart
             .padding()  // Add padding around the chart for better spacing
         }
     }
@@ -82,13 +79,46 @@ struct LineChartHRVComponent_Previews: PreviewProvider {
                     hrvValue: Double.random(in: 0...1))
             },
         ]
+        
+        Group {
+            // iPhone 15 Pro Preview
+            LineChartHRVComponent(
+                data: exampleHRVData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+            .previewDisplayName("iPhone 15 Pro")
 
-        return LineChartHRVComponent(
-            data: exampleHRVData,
-            colors: [.blue, .green, .red]
-        )
-        .frame(height: 300)
-        .previewLayout(.sizeThatFits)
-        .padding()
+            // iPad Pro 11-inch Preview
+            LineChartHRVComponent(
+                data: exampleHRVData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(
+                PreviewDevice(
+                    rawValue: "iPad Pro (11-inch) (6th generation)")
+            )
+            .previewDisplayName("iPad Pro 11-inch")
+
+            // iPad Pro 13-inch Preview
+            LineChartHRVComponent(
+                data: exampleHRVData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(
+                PreviewDevice(
+                    rawValue: "iPad Pro (12.9-inch) (6th generation)")
+            )
+            .previewDisplayName("iPad Pro 13-inch")
+        }
     }
 }

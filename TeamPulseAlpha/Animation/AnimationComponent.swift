@@ -12,24 +12,49 @@ struct AnimationComponent: View {
     @Environment(SensorDataProcessor.self) var sensorDataProcessor
     @Environment(BluetoothManager.self) var bluetoothManager
 
+    @State private var isAnimationRunning: Bool = false
+
     @State private var animationScene: AnimationScene = AnimationScene(
         size: CGSize(width: 300, height: 400))  // Initialize the scene
-    
+
     var body: some View {
-        SpriteView(scene: animationScene)
-            .ignoresSafeArea()
-            .onAppear {
-                //
-            }
-            .onChange(of: sensorDataProcessor.isUpdated) { oldValue, newValue in
-                
-                if oldValue == false && newValue == true {
-                    updateHeartPositions()
-                    updateClusterCircles()
+
+        GeometryReader { metrics in
+
+            SpriteView(scene: animationScene)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(.black))
+                .cornerRadius(20)
+                .ignoresSafeArea()
+                .onAppear {
+                    //
                 }
-                
-            }
-            .frame(width: 400, height: 300)
+                .onChange(of: sensorDataProcessor.isUpdated) {
+                    oldValue, newValue in
+
+                    if isAnimationRunning {
+                        if oldValue == false && newValue == true {
+                            updateHeartPositions()
+                            updateClusterCircles()
+                        }
+                    }
+
+                }
+                .onAppear {
+                    animationScene.isPaused = false
+                    isAnimationRunning = true
+                    animationScene.size = CGSize(width: metrics.size.width, height: metrics.size.height)
+                    animationScene.scaleMode = .aspectFit
+                }
+                .onDisappear {
+                    animationScene.isPaused = true
+                    animationScene.reset()
+                    isAnimationRunning = false
+                    animationScene.removeAllChildren()
+                    animationScene.removeAllActions()
+                    bluetoothManager.disconnectAllSensors()
+                }
+        }
     }
 
     // Function to update heart positions on the scene
@@ -43,18 +68,47 @@ struct AnimationComponent: View {
             )
         }
     }
-    
+
     private func updateClusterCircles() {
         DispatchQueue.main.async {
             animationScene.updateClusterCircles(
                 clusterState: sensorDataProcessor.getClusterState()
             )
         }
-    }    
+    }
 }
 
-#Preview {
-    AnimationComponent()
-        .environment(SensorDataProcessor())
-        .environment(BluetoothManager())
+// Preview provider for SwiftUI previews, allowing for real-time design feedback.
+struct AnimationComponent_Previews: PreviewProvider {
+    static var previews: some View {
+
+        Group {
+            // iPhone 15 Pro Preview
+            AnimationComponent()
+                .environment(SensorDataProcessor())
+                .environment(BluetoothManager())
+                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+                .previewDisplayName("iPhone 15 Pro")
+
+            // iPad Pro 11-inch Preview
+            AnimationComponent()
+                .environment(SensorDataProcessor())
+                .environment(BluetoothManager())
+                .previewDevice(
+                    PreviewDevice(
+                        rawValue: "iPad Pro (11-inch) (6th generation)")
+                )
+                .previewDisplayName("iPad Pro 11-inch")
+
+            // iPad Pro 13-inch Preview
+            AnimationComponent()
+                .environment(SensorDataProcessor())
+                .environment(BluetoothManager())
+                .previewDevice(
+                    PreviewDevice(
+                        rawValue: "iPad Pro (12.9-inch) (6th generation)")
+                )
+                .previewDisplayName("iPad Pro 13-inch")
+        }
+    }
 }

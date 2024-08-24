@@ -26,7 +26,6 @@
 		306173D72C736EFB000BA239 /* AnimationComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173D62C736EF6000BA239 /* AnimationComponent.swift */; };
 		306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173D82C736F08000BA239 /* BluetoothStatusComponent.swift */; };
 		306173DB2C736F24000BA239 /* SessionRecordingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173DA2C736F1E000BA239 /* SessionRecordingComponent.swift */; };
-		306173DD2C736F38000BA239 /* DashboardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173DC2C736F31000BA239 /* DashboardComponent.swift */; };
 		306173DF2C73739D000BA239 /* SensorDataProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173DE2C737397000BA239 /* SensorDataProcessing.swift */; };
 		306173F32C737ABD000BA239 /* CustomTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173F22C737ABA000BA239 /* CustomTransformers.swift */; };
 		306174022C737C88000BA239 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174012C737C85000BA239 /* SessionManager.swift */; };
@@ -37,6 +36,9 @@
 		3061741B2C73808B000BA239 /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */; };
 		3061741C2C73808B000BA239 /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */; };
 		30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3E02C513455000687F8 /* BluetoothManager.swift */; };
+		30B402F82C7A0C1600A84373 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30B402F72C7A0C1600A84373 /* Storyboard.storyboard */; };
+		30B402FB2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B402FA2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift */; };
+		30B402FC2C7A19E200A84373 /* AnimationBottomDashboardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B402F92C7A19E200A84373 /* AnimationBottomDashboardComponent.swift */; };
 		30CB166B2C77B4C90085AAEA /* PointcareMapComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CB166A2C77B4C00085AAEA /* PointcareMapComponent.swift */; };
 		30CB166D2C78EC090085AAEA /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CB166C2C78EC090085AAEA /* SessionDetailView.swift */; };
 		30CB16702C78FDBB0085AAEA /* AnimationScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CB166F2C78FDB60085AAEA /* AnimationScene.swift */; };
@@ -90,7 +92,6 @@
 		306173D62C736EF6000BA239 /* AnimationComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationComponent.swift; sourceTree = "<group>"; };
 		306173D82C736F08000BA239 /* BluetoothStatusComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatusComponent.swift; sourceTree = "<group>"; };
 		306173DA2C736F1E000BA239 /* SessionRecordingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecordingComponent.swift; sourceTree = "<group>"; };
-		306173DC2C736F31000BA239 /* DashboardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardComponent.swift; sourceTree = "<group>"; };
 		306173DE2C737397000BA239 /* SensorDataProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataProcessing.swift; sourceTree = "<group>"; };
 		306173F22C737ABA000BA239 /* CustomTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransformers.swift; sourceTree = "<group>"; };
 		306174012C737C85000BA239 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
@@ -101,6 +102,9 @@
 		306174152C73808B000BA239 /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		306174162C73808B000BA239 /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		30AEE3E02C513455000687F8 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		30B402F72C7A0C1600A84373 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		30B402F92C7A19E200A84373 /* AnimationBottomDashboardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationBottomDashboardComponent.swift; sourceTree = "<group>"; };
+		30B402FA2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationLeftDashboardComponent.swift; sourceTree = "<group>"; };
 		30CB166A2C77B4C00085AAEA /* PointcareMapComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointcareMapComponent.swift; sourceTree = "<group>"; };
 		30CB166C2C78EC090085AAEA /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		30CB166F2C78FDB60085AAEA /* AnimationScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationScene.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 				301CB98C2C4F0F3200A0D85E /* Preview Content */,
 				301CB9B62C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld */,
 				301CB9B42C4F148B00A0D85E /* TeamPulseAlpha.entitlements */,
+				30B402F72C7A0C1600A84373 /* Storyboard.storyboard */,
 			);
 			path = TeamPulseAlpha;
 			sourceTree = "<group>";
@@ -301,7 +306,8 @@
 		306173D32C736ED2000BA239 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
-				306173DC2C736F31000BA239 /* DashboardComponent.swift */,
+				30B402F92C7A19E200A84373 /* AnimationBottomDashboardComponent.swift */,
+				30B402FA2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift */,
 				306173DA2C736F1E000BA239 /* SessionRecordingComponent.swift */,
 				306173D82C736F08000BA239 /* BluetoothStatusComponent.swift */,
 				306173D62C736EF6000BA239 /* AnimationComponent.swift */,
@@ -455,6 +461,7 @@
 				301CB98B2C4F0F3200A0D85E /* Assets.xcassets in Resources */,
 				30CB16742C7906380085AAEA /* clusterSound.mp3 in Resources */,
 				30CB16752C7906380085AAEA /* backgroundMusic.mp3 in Resources */,
+				30B402F82C7A0C1600A84373 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +492,8 @@
 				301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */,
 				30CB166D2C78EC090085AAEA /* SessionDetailView.swift in Sources */,
 				30348A102C4F20C20041F47D /* AuthView.swift in Sources */,
+				30B402FB2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift in Sources */,
+				30B402FC2C7A19E200A84373 /* AnimationBottomDashboardComponent.swift in Sources */,
 				306174022C737C88000BA239 /* SessionManager.swift in Sources */,
 				30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */,
 				306173F32C737ABD000BA239 /* CustomTransformers.swift in Sources */,
@@ -495,7 +504,6 @@
 				30567F7C2C4FF1E800A83322 /* AuthenticationManager.swift in Sources */,
 				30EB9BCB2C7500A5007A619B /* LineChartHRVComponent.swift in Sources */,
 				30EB9BCC2C7500A5007A619B /* LineChartHRComponent.swift in Sources */,
-				306173DD2C736F38000BA239 /* DashboardComponent.swift in Sources */,
 				30EB9BC62C74A60E007A619B /* ProximityRingChartComponent.swift in Sources */,
 				306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */,
 				306173DB2C736F24000BA239 /* SessionRecordingComponent.swift in Sources */,
@@ -685,6 +693,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = Storyboard.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -719,6 +729,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = Storyboard.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

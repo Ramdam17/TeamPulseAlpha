@@ -29,18 +29,27 @@ struct TeamPulseAlphaApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, CoreDataStack.shared.context)  // Inject CoreData context
+                .environment(
+                    \.managedObjectContext, CoreDataStack.shared.context
+                )  // Inject CoreData context
                 .environment(sensorDataProcessor)  // Provide SensorDataProcessor to the environment
                 .environment(sessionManager)  // Provide SessionManager to the environment
                 .environment(authManager)  // Provide AuthenticationManager to the environment
                 .environment(bluetoothManager)  // Provide BluetoothManager to the environment
+                .onAppear {
+                    UIDevice.current.setValue(
+                        UIInterfaceOrientation.landscapeLeft.rawValue,
+                        forKey: "orientation")
+                    AppDelegate.orientationLock = .landscape
+                }
         }
     }
 
     /// Fetches the sensor UUIDs from CoreData.
     private static func fetchSensorUUIDs() -> [UUID] {
         let context = CoreDataStack.shared.context
-        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<SensorEntity> =
+            SensorEntity.fetchRequest()
         do {
             let sensors = try context.fetch(fetchRequest)
             return sensors.compactMap { $0.id }
@@ -53,12 +62,16 @@ struct TeamPulseAlphaApp: App {
     /// Resets CoreData by deleting all entries and saving the context.
     func resetCoreData() {
         let context = CoreDataStack.shared.context
-        let entityNames = context.persistentStoreCoordinator?.managedObjectModel.entities.compactMap { $0.name } ?? []
+        let entityNames =
+            context.persistentStoreCoordinator?.managedObjectModel.entities
+            .compactMap { $0.name } ?? []
 
         context.performAndWait {
             for entityName in entityNames {
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(
+                    entityName: entityName)
+                let deleteRequest = NSBatchDeleteRequest(
+                    fetchRequest: fetchRequest)
                 do {
                     try context.execute(deleteRequest)
                 } catch {
@@ -93,6 +106,8 @@ struct ContentView: View {
                 UnauthenticatedView()  // Show authentication view if not authenticated
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea(edges: .all)
     }
 }
 
@@ -110,17 +125,13 @@ struct UnauthenticatedView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .environment(AuthenticationManager())  // Provide mock environment for preview
+class AppDelegate: NSObject, UIApplicationDelegate {
+    static var orientationLock = UIInterfaceOrientationMask.landscape
+
+    func application(
+        _ application: UIApplication,
+        supportedInterfaceOrientationsFor window: UIWindow?
+    ) -> UIInterfaceOrientationMask {
+        return AppDelegate.orientationLock
     }
 }
-
-struct AuthenticatedView_Previews: PreviewProvider {
-    static var previews: some View {
-        AuthenticatedView()
-            .environment(AuthenticationManager())  // Provide mock environment for preview
-    }
-}
-

@@ -24,10 +24,12 @@ class BluetoothManager: NSObject {
 
     var sensors: [SensorEntity] = [] {
         didSet {
-            print("Sensors updated: \(sensors.map { "\($0.uuid ?? "Unknown") - Connected: \($0.isConnected)" })")
+            print(
+                "Sensors updated: \(sensors.map { "\($0.uuid ?? "Unknown") - Connected: \($0.isConnected)" })"
+            )
         }
     }
-    
+
     var isScanning = false {
         didSet {
             print("Scanning state changed: \(isScanning)")
@@ -47,7 +49,7 @@ class BluetoothManager: NSObject {
     }
 
     private var centralManager: CBCentralManager!  // Core Bluetooth manager instance
-    private var discoveredPeripherals: [String: CBPeripheral] = [:]  // Cache of discovered peripherals
+    var discoveredPeripherals: [String: CBPeripheral] = [:]  // Cache of discovered peripherals
 
     /// Initializes the Bluetooth manager and sets up necessary configurations.
     override init() {
@@ -59,7 +61,8 @@ class BluetoothManager: NSObject {
 
     /// Resets the connection status of all sensors to `false` at the start of the app.
     private func resetSensorConnections() {
-        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<SensorEntity> =
+            SensorEntity.fetchRequest()
         do {
             let sensors = try CoreDataStack.shared.context.fetch(fetchRequest)
             for sensor in sensors {
@@ -74,7 +77,8 @@ class BluetoothManager: NSObject {
 
     /// Fetches the sensors from Core Data and updates the sensors array.
     func fetchSensors() {
-        let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<SensorEntity> =
+            SensorEntity.fetchRequest()
         do {
             sensors = try CoreDataStack.shared.context.fetch(fetchRequest)
             print("Fetched sensors from CoreData: \(sensors.map { $0.name })")
@@ -102,12 +106,25 @@ class BluetoothManager: NSObject {
         triggerUpdate()
     }
 
+    func disconnectAllSensors() {
+        for peripheral in centralManager.retrieveConnectedPeripherals(withServices: [CBUUID(string: "180D")]) {
+            disconnectPeripheral(peripheral)
+        }
+    }
+
+    // Method to disconnect a specific peripheral (sensor)
+    private func disconnectPeripheral(_ peripheral: CBPeripheral) {
+        centralManager.cancelPeripheralConnection(peripheral)
+    }
+
     /// Updates the connection status of a sensor and refreshes the UI.
     private func updateSensorConnectionStatus(uuid: String, isConnected: Bool) {
         if let index = sensors.firstIndex(where: { $0.uuid == uuid }) {
             sensors[index].isConnected = isConnected
             saveContextAndRefreshSensors()
-            print("Updated sensor \(sensors[index].name ?? "Unknown") to \(isConnected ? "Connected" : "Disconnected")")
+            print(
+                "Updated sensor \(sensors[index].name ?? "Unknown") to \(isConnected ? "Connected" : "Disconnected")"
+            )
             triggerUpdate()
         }
     }
@@ -145,13 +162,17 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
         if central.state == .poweredOn {
             print("Bluetooth is powered on.")
         } else {
-            print("Bluetooth is not available. State: \(central.state.rawValue)")
+            print(
+                "Bluetooth is not available. State: \(central.state.rawValue)")
             stopScanning()
         }
     }
 
     /// Handles the discovery of Bluetooth peripherals.
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+    func centralManager(
+        _ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
+        advertisementData: [String: Any], rssi RSSI: NSNumber
+    ) {
         let peripheralUUID = peripheral.identifier.uuidString
         //print("Discovered peripheral with name \(peripheral.name ?? "Unknown") and UUID: \(peripheralUUID)")
 
@@ -167,7 +188,9 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
     }
 
     /// Handles successful connection to a Bluetooth peripheral.
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+    func centralManager(
+        _ central: CBCentralManager, didConnect peripheral: CBPeripheral
+    ) {
         let uuid = peripheral.identifier.uuidString
         print("Successfully connected to peripheral with UUID: \(uuid)")
 
@@ -179,19 +202,26 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
             checkIfAllSensorsConnected()  // Check and stop scanning here if needed
             peripheral.discoverServices([CBUUID(string: "180D")])  // Heart Rate Service UUID
         } else {
-            print("Error: Connected peripheral with UUID \(uuid) does not match any sensor in the list.")
+            print(
+                "Error: Connected peripheral with UUID \(uuid) does not match any sensor in the list."
+            )
         }
     }
 
     /// Handles the disconnection of a Bluetooth peripheral.
-    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    func centralManager(
+        _ central: CBCentralManager,
+        didDisconnectPeripheral peripheral: CBPeripheral, error: Error?
+    ) {
         let uuid = peripheral.identifier.uuidString
         print("Peripheral with UUID \(uuid) disconnected.")
         updateSensorConnectionStatus(uuid: uuid, isConnected: false)
     }
 
     /// Handles the discovery of services on a connected Bluetooth peripheral.
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+    func peripheral(
+        _ peripheral: CBPeripheral, didDiscoverServices error: Error?
+    ) {
         if let error = error {
             print("Error discovering services: \(error.localizedDescription)")
             return
@@ -201,25 +231,37 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
             for service in services {
                 //print("Discovered service with UUID: \(service.uuid)")
                 if service.uuid == CBUUID(string: "180D") {  // Heart Rate Service UUID
-                    print("Discovering characteristics for service with UUID: \(service.uuid)")
-                    peripheral.discoverCharacteristics([CBUUID(string: "2A37")], for: service)  // Heart Rate Measurement UUID
+                    print(
+                        "Discovering characteristics for service with UUID: \(service.uuid)"
+                    )
+                    peripheral.discoverCharacteristics(
+                        [CBUUID(string: "2A37")], for: service)  // Heart Rate Measurement UUID
                 }
             }
         }
     }
 
     /// Handles the discovery of characteristics for a service on a connected Bluetooth peripheral.
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+    func peripheral(
+        _ peripheral: CBPeripheral,
+        didDiscoverCharacteristicsFor service: CBService, error: Error?
+    ) {
         if let error = error {
-            print("Error discovering characteristics: \(error.localizedDescription)")
+            print(
+                "Error discovering characteristics: \(error.localizedDescription)"
+            )
             return
         }
 
         if let characteristics = service.characteristics {
             for characteristic in characteristics {
-                print("Discovered characteristic with UUID: \(characteristic.uuid)")
+                print(
+                    "Discovered characteristic with UUID: \(characteristic.uuid)"
+                )
                 if characteristic.uuid == CBUUID(string: "2A37") {  // Heart Rate Measurement UUID
-                    print("Subscribing to notifications for characteristic with UUID: \(characteristic.uuid)")
+                    print(
+                        "Subscribing to notifications for characteristic with UUID: \(characteristic.uuid)"
+                    )
                     peripheral.setNotifyValue(true, for: characteristic)
                 }
             }
@@ -227,9 +269,14 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
     }
 
     /// Handles updates to the value of a characteristic on a connected Bluetooth peripheral.
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+    func peripheral(
+        _ peripheral: CBPeripheral,
+        didUpdateValueFor characteristic: CBCharacteristic, error: Error?
+    ) {
         if let error = error {
-            print("Error updating value for characteristic: \(error.localizedDescription)")
+            print(
+                "Error updating value for characteristic: \(error.localizedDescription)"
+            )
             return
         }
 
@@ -240,7 +287,9 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
             //print("Heart Rate: \(heartRate), IBI: \(IBI)")
 
             if !IBI.isEmpty {
-                if let sensor = sensors.first(where: { $0.uuid == peripheral.identifier.uuidString }) {
+                if let sensor = sensors.first(where: {
+                    $0.uuid == peripheral.identifier.uuidString
+                }) {
                     packetToSend.id = sensor.name ?? "Unknown"
                     packetToSend.hr = Double(heartRate)
                     packetToSend.ibis = IBI
@@ -253,7 +302,9 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
     }
 
     /// Parses the heart rate measurement data received from a Bluetooth peripheral.
-    private func parseHeartRateMeasurement(_ data: Data) -> (heartRate: Int, IBI: [Double]) {
+    private func parseHeartRateMeasurement(_ data: Data) -> (
+        heartRate: Int, IBI: [Double]
+    ) {
         let flag = data[0]
         var heartRate = 0
         var IBI: [Double] = []
@@ -298,6 +349,8 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 
     /// Returns the latest sensor data as a tuple.
     func getLatestValues() -> (id: String, hr: Double, ibis: [Double]) {
-        return (id: packetToSend.id, hr: packetToSend.hr, ibis: packetToSend.ibis)
+        return (
+            id: packetToSend.id, hr: packetToSend.hr, ibis: packetToSend.ibis
+        )
     }
 }

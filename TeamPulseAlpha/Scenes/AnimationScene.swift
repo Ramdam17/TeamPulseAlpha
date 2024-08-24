@@ -39,9 +39,10 @@ class AnimationScene: SKScene {
     var startTime:TimeInterval = 0
     
     override func didMove(to view: SKView) {
-        backgroundColor = .black // Set the background to black (cosmos)
         
-        scene?.scaleMode = .aspectFit
+        //backgroundColor = .black // Set the background to black (cosmos)
+        
+        scene?.scaleMode = .resizeFill
         
         // Initialize hearts
         blueHeart = createHeart(color: .blue)
@@ -88,6 +89,10 @@ class AnimationScene: SKScene {
         else {
             return currentTime - startTime
         }
+    }
+    
+    func reset() {
+        
     }
     
     

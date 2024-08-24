@@ -43,6 +43,9 @@ extension EventEntity {
     /// The cross-entropy matrix data, stored as binary `Data`. Used for calculating dissimilarities between probability distributions.
     @NSManaged public var crossEntropyMatrix: Data?
 
+    /// The conditional entropy matrix data, stored as binary `Data`. Used for calculating the amount of information needed to describe the outcome of a random variable Y given that the value of another random variable X
+    @NSManaged public var conditionalEntropyMatrix: Data?
+
     /// The mutual information matrix data, stored as binary `Data`. Represents shared information between sensors' data.
     @NSManaged public var mutualInformationMatrix: Data?
 

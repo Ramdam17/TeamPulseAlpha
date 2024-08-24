@@ -17,9 +17,6 @@ struct BoxPlotComponent: View {
 
     var body: some View {
         VStack {
-            Text("Box Plot of Heart Rate Statistics")
-                .font(.headline)
-                .padding(.bottom, 10)
 
             Chart {
                 // Loop through each sensor's data and render its box plot.
@@ -35,8 +32,8 @@ struct BoxPlotComponent: View {
                         let mean = stats[3]
 
                         // Define the X-axis position using a fixed coordinate system
-                        let xPositionStart = Double(index) * 30 + 10  // Start of the rectangle
-                        let xPositionEnd = Double(index) * 30 + 30  // End of the rectangle
+                        let xPositionStart = Double(index) * 33 + 10  // Start of the rectangle
+                        let xPositionEnd = Double(index) * 33 + 30  // End of the rectangle
 
                         // Draw the interquartile range as a rectangle (from min to median)
                         RectangleMark(
@@ -77,6 +74,7 @@ struct BoxPlotComponent: View {
                     }
                 }
             }
+            .chartLegend(.hidden)
             .chartYAxis {
                 AxisMarks(position: .leading)
             }
@@ -86,7 +84,7 @@ struct BoxPlotComponent: View {
                 }
             }
             .chartYScale(domain: 0...200)  // Adjust this domain based on expected HR range
-            .frame(height: 300)
+            .frame(height: .infinity)
             .padding()
         }
     }
@@ -101,13 +99,46 @@ struct BoxPlotComponent_Previews: PreviewProvider {
             "Green": [60, 120, 90, 85],
             "Red": [55, 110, 80, 82],
         ]
+        
+        Group {
+            // iPhone 15 Pro Preview
+            BoxPlotComponent(
+                data: exampleData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+            .previewDisplayName("iPhone 15 Pro")
 
-        BoxPlotComponent(
-            data: exampleData,
-            colors: [.blue, .green, .red]
-        )
-        .frame(height: 300)
-        .previewLayout(.sizeThatFits)
-        .padding()
+            // iPad Pro 11-inch Preview
+            BoxPlotComponent(
+                data: exampleData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(
+                PreviewDevice(
+                    rawValue: "iPad Pro (11-inch) (6th generation)")
+            )
+            .previewDisplayName("iPad Pro 11-inch")
+
+            // iPad Pro 13-inch Preview
+            BoxPlotComponent(
+                data: exampleData,
+                colors: [.blue, .green, .red]
+            )
+            .frame(height: 300)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .previewDevice(
+                PreviewDevice(
+                    rawValue: "iPad Pro (12.9-inch) (6th generation)")
+            )
+            .previewDisplayName("iPad Pro 13-inch")
+        }
     }
 }

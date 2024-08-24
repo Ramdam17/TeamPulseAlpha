@@ -16,6 +16,7 @@ class SessionManager {
     
     /// The currently active session, if any. This is published to notify observers of changes.
     var currentSession: SessionEntity?
+    var isRecording: Bool = false
     
     /// Starts a new session by creating a `SessionEntity` and setting it as the current session.
     /// The session is initialized with a unique identifier and the current timestamp.
@@ -28,12 +29,14 @@ class SessionManager {
         
         CoreDataStack.shared.saveContext()  // Save the new session in CoreData.
         currentSession = newSession  // Set this as the active session.
+        isRecording = true
     }
 
     /// Stops the current session, effectively marking the session as inactive
     /// by clearing the `currentSession` property.
     func stopSession() {
         currentSession = nil  // Clear the current session to indicate no active session.
+        isRecording = false
     }
 
     /// Deletes the current session and all its associated data from Core Data.
@@ -54,6 +57,7 @@ class SessionManager {
 
         // Clear the current session to reflect that it has been deleted.
         currentSession = nil
+        isRecording = false
     }
 
     /// Saves the sensor data during the session to Core Data.

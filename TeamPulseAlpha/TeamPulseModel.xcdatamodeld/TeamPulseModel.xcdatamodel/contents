@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23173.10" systemVersion="24B5024e" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="EventEntity" representedClassName=".EventEntity" syncable="YES">
         <attribute name="clusters" optional="YES" attributeType="Binary"/>
+        <attribute name="conditionalEntropyMatrix" optional="YES" attributeType="Binary"/>
         <attribute name="correlationMatrix" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
         <attribute name="crossEntropyMatrix" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>
         <attribute name="distanceMatrix" optional="YES" attributeType="Binary" customClassName="ArrayTransformer"/>

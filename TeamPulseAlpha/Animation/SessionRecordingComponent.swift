@@ -12,12 +12,11 @@ struct SessionRecordingComponent: View {
     @Environment(SessionManager.self) var sessionManager // Access the SessionManager from the environment
     @Environment(SensorDataProcessor.self) var sensorDataProcessor // Access the SensorDataProcessor from the environment
     
-    @State private var isRecording = false // Tracks whether the recording is currently active
     @State private var showStopActionSheet = false // Controls the display of the stop recording action sheet
     
     var body: some View {
         VStack {
-            if isRecording {
+            if sessionManager.isRecording {
                 // Display a message indicating that the session is currently being recorded
                 Text("Recording Session...")
                     .font(.largeTitle)
@@ -72,21 +71,18 @@ struct SessionRecordingComponent: View {
         if let currentSession = sessionManager.currentSession {
             sensorDataProcessor.setCurrentSession(currentSession) // Set the current session in SensorDataProcessor
         }
-        isRecording = true // Update the recording state to true
     }
     
     /// Stops the current session and saves the recorded data.
     private func stopAndSaveSession() {
         sessionManager.stopSession()
         sensorDataProcessor.clearCurrentSession()
-        isRecording = false
     }
     
     /// Stops the current session and deletes the recorded data.
     private func stopAndDeleteSession() {
         sessionManager.deleteCurrentSession()
         sensorDataProcessor.clearCurrentSession()
-        isRecording = false
     }
 }
 

@@ -11,39 +11,43 @@ import SwiftUI
 /// It provides navigation to different sections of the app, such as starting a new session,
 /// viewing recorded sessions, and accessing settings.
 struct MainMenuView: View {
-    
-    @Environment(SensorDataProcessor.self) var sensorDataProcessor // Access the SensorDataProcessor from the environment
-    
+
+    @Environment(SensorDataProcessor.self) var sensorDataProcessor  // Access the SensorDataProcessor from the environment
+
     var body: some View {
-        VStack(spacing: 40) {
+        VStack {
+            HStack {
+                Spacer()
+                NavigationLink(destination: SettingsView()) {
+                    Image(systemName: "gearshape.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 60, height: 60)  // Adjusted size for the gear icon
+                        .foregroundColor(.black)
+                        .padding(20)
+                }
+            }
             Spacer()
-            
-            // Header for the main menu
-            HeaderView(title: "Main Menu")
-            
+
             // Navigation buttons for the main menu
-            MenuButtonView(title: "Start New Session", destination: DeviceConnectionView(), backgroundColor: .blue)
-            MenuButtonView(title: "View Recorded Sessions", destination: SessionListView(), backgroundColor: .green)
-            MenuButtonView(title: "Settings", destination: SettingsView(), backgroundColor: .gray)
-            
+            VStack(spacing: 80) {
+                MenuButtonView(
+                    title: "Start New Session",
+                    destination: DeviceConnectionView(),
+                    backgroundColor: .black)
+
+                MenuButtonView(
+                    title: "View Recorded Sessions",
+                    destination: SessionListView(),
+                    backgroundColor: .gray)
+            }
+            .padding(.horizontal)
+
             Spacer()
         }
-        .padding()
-        .background(Color.white) // Set background color for the entire view
-        .edgesIgnoringSafeArea(.all) // Extend the background to the edges of the screen
-    }
-}
-
-/// HeaderView is a reusable view for displaying headers in the app.
-struct HeaderView: View {
-    let title: String
-    
-    var body: some View {
-        Text(title)
-            .font(.largeTitle) // Large title font for the header
-            .fontWeight(.bold) // Bold font weight
-            .foregroundColor(Color.black) // Black color for the text
-            .padding(.bottom, 50) // Space below the header text
+        .frame(width: .infinity, height: .infinity)  // Ensure the VStack takes up the full screen width
+        .background(Color.yellow)  // Set background color for the entire view
+        .edgesIgnoringSafeArea(.all)  // Extend the background to the edges of the screen
     }
 }
 
@@ -53,29 +57,54 @@ struct MenuButtonView<Destination: View>: View {
     let title: String
     let destination: Destination
     let backgroundColor: Color
-    
+
     var body: some View {
         NavigationLink(destination: destination) {
             Text(title)
-                .font(.title2) // Title font for the button
-                .fontWeight(.bold) // Bold font weight
-                .foregroundColor(.white) // White text color
-                .padding() // Padding around the text
-                .frame(maxWidth: .infinity) // Expand button to fill the available width
-                .background(backgroundColor) // Background color for the button
-                .cornerRadius(15) // Rounded corners for the button
-                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5) // Drop shadow for a 3D effect
+                .font(.largeTitle)  // Title font for the button
+                .fontWeight(.bold)  // Bold font weight
+                .foregroundColor(.white)  // White text color
+                .padding()  // Padding around the text
+                .frame(maxWidth: .infinity, maxHeight: .infinity)  // Expand button to fill the available width
+                .background(backgroundColor)  // Background color for the button
+                .cornerRadius(15)  // Rounded corners for the button
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)  // Drop shadow for a 3D effect
         }
-        .padding(.horizontal) // Horizontal padding around the button
+        .frame(
+            width: UIScreen.main.bounds.width / 3,  // Set the button width to 1/4 of the screen width
+            height: 100  // Adjusted height for the button
+        )
+        .padding(.horizontal)  // Horizontal padding around the button
     }
 }
 
 // Preview provider for MainMenuView
 struct MainMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView { // Embed in NavigationView for correct preview behavior
+        Group {
+            // iPhone 15 Pro Preview
             MainMenuView()
-                .environment(SensorDataProcessor()) // Inject a mock SensorDataProcessor for preview
+                .environment(SensorDataProcessor())  // Inject a mock SensorDataProcessor for preview
+                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+                .previewDisplayName("iPhone 15 Pro")
+
+            // iPad Pro 11-inch Preview
+            MainMenuView()
+                .environment(SensorDataProcessor())  // Inject a mock SensorDataProcessor for preview
+                .previewDevice(
+                    PreviewDevice(
+                        rawValue: "iPad Pro (11-inch) (6th generation)")
+                )
+                .previewDisplayName("iPad Pro 11-inch")
+
+            // iPad Pro 13-inch Preview
+            MainMenuView()
+                .environment(SensorDataProcessor())  // Inject a mock SensorDataProcessor for preview
+                .previewDevice(
+                    PreviewDevice(
+                        rawValue: "iPad Pro (12.9-inch) (6th generation)")
+                )
+                .previewDisplayName("iPad Pro 13-inch")
         }
     }
 }

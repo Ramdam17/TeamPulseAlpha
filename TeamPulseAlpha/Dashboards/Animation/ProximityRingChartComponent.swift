@@ -15,11 +15,6 @@ struct ProximityRingChartComponent: View {
 
     var body: some View {
         VStack {
-            // Title of the chart
-            Text("Proximity Score")
-                .font(.headline)
-                .padding()
-
             // Custom ring view displaying the proximity score
             ProximityRingView(score: data, color: color)
         }
@@ -45,7 +40,7 @@ struct ProximityRingView: View {
                 .trim(from: 0.0, to: CGFloat(score))  // Trim the circle based on the score
                 .stroke(
                     style: StrokeStyle(
-                        lineWidth: 20, lineCap: .round, lineJoin: .round
+                        lineWidth: 2, lineCap: .round, lineJoin: .round
                     )
                 )
                 .foregroundColor(color)  // Set the color of the active portion
@@ -58,37 +53,50 @@ struct ProximityRingView: View {
                 .foregroundColor(color)
         }
         .animation(.easeInOut(duration: 1.0), value: score)  // Smooth transition for the ring
-        .frame(width: 150, height: 150)  // Set the size of the ring view
+        .frame(maxWidth: .infinity, maxHeight: .infinity)  // Set the size of the ring view
     }
 }
 
 /// Preview provider for the `ProximityRingChartComponent`, showcasing different score values.
 struct ProximityRingChartComponent_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            // Preview with a 50% proximity score
+        
+        Group {
+            // iPhone 15 Pro Preview
             ProximityRingChartComponent(
                 data: 0.5,
                 color: Color(red: 1.0, green: 0.84, blue: 0.0)  // Yellow color
             )
             .previewLayout(.sizeThatFits)
             .padding()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+            .previewDisplayName("iPhone 15 Pro")
 
-            // Preview with a 75% proximity score
+            // iPad Pro 11-inch Preview
             ProximityRingChartComponent(
-                data: 0.75,
-                color: Color.blue
+                data: 0.5,
+                color: Color(red: 1.0, green: 0.84, blue: 0.0)  // Yellow color
             )
             .previewLayout(.sizeThatFits)
             .padding()
+            .previewDevice(
+                PreviewDevice(
+                    rawValue: "iPad Pro (11-inch) (6th generation)")
+            )
+            .previewDisplayName("iPad Pro 11-inch")
 
-            // Preview with a 100% proximity score
+            // iPad Pro 13-inch Preview
             ProximityRingChartComponent(
-                data: 1.0,
-                color: Color.green
+                data: 0.5,
+                color: Color(red: 1.0, green: 0.84, blue: 0.0)  // Yellow color
             )
             .previewLayout(.sizeThatFits)
             .padding()
+            .previewDevice(
+                PreviewDevice(
+                    rawValue: "iPad Pro (12.9-inch) (6th generation)")
+            )
+            .previewDisplayName("iPad Pro 13-inch")
         }
     }
 }

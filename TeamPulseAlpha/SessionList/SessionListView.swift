@@ -5,14 +5,17 @@
 //  Created by blackstar on 23/07/2024.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 /// A view that displays a list of recorded sessions.
 struct SessionListView: View {
     @FetchRequest(
         entity: SessionEntity.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \SessionEntity.timestamp, ascending: false)]
+        sortDescriptors: [
+            NSSortDescriptor(
+                keyPath: \SessionEntity.timestamp, ascending: false)
+        ]
     ) var sessions: FetchedResults<SessionEntity>  // FetchRequest to retrieve recorded sessions from Core Data
 
     @Environment(\.managedObjectContext) private var viewContext  // Access the Core Data context from the environment
@@ -35,9 +38,12 @@ struct SessionListView: View {
                     ForEach(sessions) { session in
                         NavigationLink(destination: SessionDetailView()) {
                             HStack {
-                                Text(session.timestamp ?? Date(), formatter: dateFormatter)
-                                    .font(.headline)  // Display the session's timestamp
-                                
+                                Text(
+                                    session.timestamp ?? Date(),
+                                    formatter: dateFormatter
+                                )
+                                .font(.headline)  // Display the session's timestamp
+
                             }
                         }
                     }
@@ -76,7 +82,30 @@ private let dateFormatter: DateFormatter = {
 // Preview provider for SwiftUI previews, allowing for real-time design feedback.
 struct SessionListView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionListView()
-            
+        Group {
+            // iPhone 15 Pro Preview
+            // Provide a mock AuthenticationManager for the preview
+            SessionListView()
+                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+                .previewDisplayName("iPhone 15 Pro")
+
+            // iPad Pro 11-inch Preview
+            // Provide a mock AuthenticationManager for the preview
+            SessionListView()
+                .previewDevice(
+                    PreviewDevice(
+                        rawValue: "iPad Pro (11-inch) (6th generation)")
+                )
+                .previewDisplayName("iPad Pro 11-inch")
+
+            // iPad Pro 13-inch Preview
+            // Provide a mock AuthenticationManager for the preview
+            SessionListView()
+                .previewDevice(
+                    PreviewDevice(
+                        rawValue: "iPad Pro (12.9-inch) (6th generation)")
+                )
+                .previewDisplayName("iPad Pro 13-inch")
+        }
     }
 }
