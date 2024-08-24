@@ -8,8 +8,32 @@
 import CoreData
 import SwiftUI
 
-/// A view that displays a list of recorded sessions.
+extension Date {
+    func formattedString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE d MMMM yyyy 'at' HH'h'mm"
+        formatter.locale = Locale(identifier: "en_US") // Set to your preferred locale
+        return formatter.string(from: self)
+    }
+}
+
+extension SessionEntity {
+    /// Computes the duration of the session in minutes and seconds.
+    func durationString() -> String {
+        guard let startTime = startTime, let endTime = endTime else {
+            return "Unknown"
+        }
+
+        let duration = endTime.timeIntervalSince(startTime)
+        let minutes = Int(duration) / 60
+        let seconds = Int(duration) % 60
+
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+}
+
 struct SessionListView: View {
+    @Environment(\.managedObjectContext) var context
     @FetchRequest(
         entity: SessionEntity.entity(),
         sortDescriptors: [
@@ -17,88 +41,178 @@ struct SessionListView: View {
                 keyPath: \SessionEntity.startTime, ascending: false)
         ]
     )
-    
-    var sessions: FetchedResults<SessionEntity>  // FetchRequest to retrieve recorded sessions from Core Data
+    var sessions: FetchedResults<SessionEntity>
 
-    @Environment(\.managedObjectContext) private var viewContext  // Access the Core Data context from the environment
+    @State private var filter: FilterOption = .allTime
 
-    var body: some View {
-        VStack {
-            // Title for the session list
-            Text("Recorded Sessions")
-                .font(.largeTitle)
-                .padding()
+    enum FilterOption: String, CaseIterable {
+        case today, thisWeek, thisMonth, thisYear, allTime
 
-            // List to display recorded sessions
-            List {
-                if sessions.isEmpty {
-                    // Show a message if no sessions are available
-                    Text("No recorded sessions available.")
-                        .foregroundColor(.gray)
-                } else {
-                    // Iterate through fetched sessions and display each session
-                    ForEach(sessions) { session in
-                        NavigationLink(destination: SessionDetailView()) {
-                            HStack {
-                                Text(
-                                    session.name ?? ""
-                                )
-                                .font(.headline)  // Display the session's timestamp
-
-                            }
-                        }
-                    }
-                    .onDelete(perform: deleteSessions)  // Enable swipe-to-delete functionality
-                }
+        var title: String {
+            switch self {
+            case .today: return "Today"
+            case .thisWeek: return "This Week"
+            case .thisMonth: return "This Month"
+            case .thisYear: return "This Year"
+            case .allTime: return "All Time"
             }
         }
-        .navigationBarTitle("Session List", displayMode: .inline)
-        .navigationBarItems(trailing: EditButton())  // Add an edit button to enable deleting sessions
     }
 
-    /// Deletes selected sessions from the Core Data store.
-    /// - Parameter offsets: The indices of the sessions to delete.
-    private func deleteSessions(at offsets: IndexSet) {
-        for index in offsets {
-            let sessionToDelete = sessions[index]
-            viewContext.delete(sessionToDelete)  // Remove the session from Core Data
-        }
+    init() {
+        UIScrollView.appearance().backgroundColor = .clear
+    }
 
+    var body: some View {
+
+        VStack {
+            // Navigation icon on the top right
+            HStack {
+                Spacer()
+                NavigationLink(destination: MainMenuView()) {
+                    Image(systemName: "arrow.backward.circle")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.black)
+                        .padding()
+                        .cornerRadius(10)
+                }
+                .padding()
+            }
+
+            HStack {
+
+                Spacer()
+
+                VStack {
+
+                    // Filter options
+
+                    HStack(alignment: .center) {
+
+                        Spacer()
+
+                        ForEach(FilterOption.allCases, id: \.self) { option in
+                            Button(action: {
+                                filter = option
+                            }) {
+                                Text(option.title)
+                                    .font(.headline)
+                                    .padding()
+                                    .background(
+                                        filter == option
+                                            ? Color("CustomYellow")
+                                            : Color.white
+                                    )
+                                    .foregroundColor(.black)
+                                    .cornerRadius(10)
+                                    .shadow(
+                                        color: Color.black.opacity(0.2),
+                                        radius: 5,
+                                        x: 0, y: 3)
+                            }
+                            .padding(.horizontal, 4)
+                        }
+
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    .padding(.horizontal, 20)
+                    .shadow(
+                        color: Color.black.opacity(0.2), radius: 5, x: 0, y: 3)
+
+                    // Session list
+
+                    List {
+                        ForEach(filteredSessions()) { session in
+                            NavigationLink(
+                                destination: SessionDetailView(session: session)
+                            ) {
+                                Text("\(session.startTime?.formattedString() ?? "Date unknown") - Duration: \(session.durationString())")
+                                    .padding()
+                                    .background(Color("CustomGrey"))
+                                    .cornerRadius(10)
+                                    .shadow(
+                                        color: Color.black.opacity(0.2),
+                                        radius: 5,
+                                        x: 0, y: 3)
+                            }
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    deleteSession(session)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .padding(20)
+                        }
+                    }
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+                    .shadow(
+                        color: Color.black.opacity(0.2), radius: 5, x: 0, y: 3
+                    )
+                    .listStyle(PlainListStyle())
+
+                    Spacer()
+                }
+                .frame(width: 800)
+
+                Spacer()
+            }
+            .padding()
+        }
+        .frame(width: .infinity)
+        .background(Color("CustomYellow"))
+        .edgesIgnoringSafeArea(.all)
+
+    }
+
+    // Filtering logic based on selected filter option
+    private func filteredSessions() -> [SessionEntity] {
+        let calendar = Calendar.current
+        let now = Date()
+
+        return sessions.filter { session in
+            guard let startTime = session.startTime else { return false }
+
+            switch filter {
+            case .today:
+                return calendar.isDateInToday(startTime)
+            case .thisWeek:
+                return calendar.isDate(
+                    startTime, equalTo: now, toGranularity: .weekOfYear)
+            case .thisMonth:
+                return calendar.isDate(
+                    startTime, equalTo: now, toGranularity: .month)
+            case .thisYear:
+                return calendar.isDate(
+                    startTime, equalTo: now, toGranularity: .year)
+            case .allTime:
+                return true
+            }
+        }
+    }
+
+    // Deleting a session
+    private func deleteSession(_ session: SessionEntity) {
+        context.delete(session)
         do {
-            try viewContext.save()  // Save the changes to the context
+            try context.save()
         } catch {
-            print("Failed to delete sessions: \(error.localizedDescription)")
+            print("Failed to delete session: \(error)")
         }
     }
 }
 
-// Preview provider for SwiftUI previews, allowing for real-time design feedback.
 struct SessionListView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            // iPhone 15 Pro Preview
-            // Provide a mock AuthenticationManager for the preview
-            SessionListView()
-                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
-                .previewDisplayName("iPhone 15 Pro")
-
-            // iPad Pro 11-inch Preview
-            // Provide a mock AuthenticationManager for the preview
-            SessionListView()
-                .previewDevice(
-                    PreviewDevice(
-                        rawValue: "iPad Pro (11-inch) (6th generation)")
-                )
-                .previewDisplayName("iPad Pro 11-inch")
-
-            // iPad Pro 13-inch Preview
-            // Provide a mock AuthenticationManager for the preview
-            SessionListView()
-                .previewDevice(
-                    PreviewDevice(
-                        rawValue: "iPad Pro (12.9-inch) (6th generation)")
-                )
-                .previewDisplayName("iPad Pro 13-inch")
-        }
+        SessionListView()
+            .environment(\.managedObjectContext, CoreDataStack.shared.context)
     }
 }

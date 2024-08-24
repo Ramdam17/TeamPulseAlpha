@@ -14,6 +14,8 @@ struct SessionDetailView: View {
     @Environment(\.presentationMode) var presentationMode  // Access the presentation mode to dismiss the view
 
     @State private var isRecording: Bool = true  // State to track if the session is recording
+    
+    @State var session: SessionEntity?
 
     var body: some View {
         VStack {
