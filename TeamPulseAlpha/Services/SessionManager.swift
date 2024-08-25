@@ -73,4 +73,34 @@ class SessionManager {
         currentSession = nil
         isRecording = false
     }
+
+    /// Deletes all sessions and their associated events from Core Data.
+    func deleteAllSessions() {
+        let context = CoreDataStack.shared.context
+
+        // Fetch request to get all sessions
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> =
+            SessionEntity.fetchRequest()
+
+        // Create a batch delete request for the sessions
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            // Execute the batch delete request
+            try context.execute(deleteRequest)
+
+            // Save the context to apply the changes
+            try context.save()
+
+            // Clear the current session and set recording status to false
+            currentSession = nil
+            isRecording = false
+
+            print(
+                "All sessions and their associated events have been successfully deleted."
+            )
+        } catch {
+            print("Failed to delete all sessions: \(error)")
+        }
+    }
 }

@@ -22,6 +22,8 @@
 		30348A192C4F21100041F47D /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A182C4F21100041F47D /* SessionListView.swift */; };
 		30348A1B2C4F21260041F47D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30348A1A2C4F21260041F47D /* SettingsView.swift */; };
 		30567F7C2C4FF1E800A83322 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30567F7B2C4FF1E300A83322 /* AuthenticationManager.swift */; };
+		305690F42C7B668000AA652F /* SensorSettingsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305690F32C7B666E00AA652F /* SensorSettingsComponent.swift */; };
+		305690F62C7B66AD00AA652F /* DataAuthManagementComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305690F52C7B66A600AA652F /* DataAuthManagementComponent.swift */; };
 		306173D52C736EDD000BA239 /* AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173D42C736ED8000BA239 /* AnimationView.swift */; };
 		306173D72C736EFB000BA239 /* AnimationComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173D62C736EF6000BA239 /* AnimationComponent.swift */; };
 		306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306173D82C736F08000BA239 /* BluetoothStatusComponent.swift */; };
@@ -92,6 +94,8 @@
 		30348A182C4F21100041F47D /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		30348A1A2C4F21260041F47D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		30567F7B2C4FF1E300A83322 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		305690F32C7B666E00AA652F /* SensorSettingsComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorSettingsComponent.swift; sourceTree = "<group>"; };
+		305690F52C7B66A600AA652F /* DataAuthManagementComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAuthManagementComponent.swift; sourceTree = "<group>"; };
 		306173D42C736ED8000BA239 /* AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationView.swift; sourceTree = "<group>"; };
 		306173D62C736EF6000BA239 /* AnimationComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationComponent.swift; sourceTree = "<group>"; };
 		306173D82C736F08000BA239 /* BluetoothStatusComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatusComponent.swift; sourceTree = "<group>"; };
@@ -310,6 +314,8 @@
 		30567F812C4FF24600A83322 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				305690F52C7B66A600AA652F /* DataAuthManagementComponent.swift */,
+				305690F32C7B666E00AA652F /* SensorSettingsComponent.swift */,
 				30348A1A2C4F21260041F47D /* SettingsView.swift */,
 			);
 			path = Settings;
@@ -512,6 +518,7 @@
 				3068C4802C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataProperties.swift in Sources */,
 				3068C4812C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataClass.swift in Sources */,
 				3068C4822C7A7A7F008C4A68 /* MatrixDataEvent+CoreDataProperties.swift in Sources */,
+				305690F62C7B66AD00AA652F /* DataAuthManagementComponent.swift in Sources */,
 				3068C4832C7A7A7F008C4A68 /* SensorDataEvent+CoreDataClass.swift in Sources */,
 				3068C4842C7A7A7F008C4A68 /* SensorDataEvent+CoreDataProperties.swift in Sources */,
 				3068C4852C7A7A7F008C4A68 /* SensorEntity+CoreDataClass.swift in Sources */,
@@ -532,6 +539,7 @@
 				30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */,
 				306173DF2C73739D000BA239 /* SensorDataProcessing.swift in Sources */,
 				30348A192C4F21100041F47D /* SessionListView.swift in Sources */,
+				305690F42C7B668000AA652F /* SensorSettingsComponent.swift in Sources */,
 				30CB16702C78FDBB0085AAEA /* AnimationScene.swift in Sources */,
 				306173D72C736EFB000BA239 /* AnimationComponent.swift in Sources */,
 				301CB9872C4F0F3100A0D85E /* TeamPulseAlphaApp.swift in Sources */,

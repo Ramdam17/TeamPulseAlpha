@@ -1,4 +1,3 @@
-//
 //  BluetoothManager.swift
 //  TeamPulseAlpha
 //
@@ -51,6 +50,8 @@ class BluetoothManager: NSObject {
     private var centralManager: CBCentralManager!  // Core Bluetooth manager instance
     var discoveredPeripherals: [String: CBPeripheral] = [:]  // Cache of discovered peripherals
 
+    private var autoconnect: Bool = true // Variable to track the autoconnect option
+
     /// Initializes the Bluetooth manager and sets up necessary configurations.
     override init() {
         super.init()
@@ -60,7 +61,7 @@ class BluetoothManager: NSObject {
     }
 
     /// Resets the connection status of all sensors to `false` at the start of the app.
-    private func resetSensorConnections() {
+    func resetSensorConnections() {
         let fetchRequest: NSFetchRequest<SensorEntity> =
             SensorEntity.fetchRequest()
         do {
@@ -70,6 +71,7 @@ class BluetoothManager: NSObject {
             }
             CoreDataStack.shared.saveContext()  // Save changes to Core Data
             self.sensors = sensors  // Update the sensors array
+            disconnectAllSensors()
         } catch {
             print("Failed to reset sensor connections: \(error)")
         }
@@ -88,14 +90,16 @@ class BluetoothManager: NSObject {
     }
 
     /// Starts scanning for Bluetooth peripherals.
-    func startScanning() {
+    /// - Parameter autoconnect: Determines whether the app should automatically connect to discovered peripherals. Defaults to `true`.
+    func startScanning(autoconnect: Bool = true) {
         guard centralManager.state == .poweredOn else {
             print("Bluetooth is not powered on.")
             return
         }
+        self.autoconnect = autoconnect // Store the autoconnect value
         isScanning = true
         print("Starting scan for peripherals...")
-        centralManager.scanForPeripherals(withServices: nil, options: nil)
+        centralManager.scanForPeripherals(withServices: [CBUUID(string: "180D")], options: nil)
     }
 
     /// Stops scanning for Bluetooth peripherals.
@@ -106,7 +110,7 @@ class BluetoothManager: NSObject {
         triggerUpdate()
     }
 
-    func disconnectAllSensors() {
+    private func disconnectAllSensors() {
         for peripheral in centralManager.retrieveConnectedPeripherals(withServices: [CBUUID(string: "180D")]) {
             disconnectPeripheral(peripheral)
         }
@@ -174,16 +178,20 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
         advertisementData: [String: Any], rssi RSSI: NSNumber
     ) {
         let peripheralUUID = peripheral.identifier.uuidString
-        //print("Discovered peripheral with name \(peripheral.name ?? "Unknown") and UUID: \(peripheralUUID)")
+        print("Discovered peripheral with name \(peripheral.name ?? "Unknown") and UUID: \(peripheralUUID)")
 
         // Check if the discovered peripheral matches any sensor
         if let sensor = sensors.first(where: { $0.uuid == peripheralUUID }) {
             print("Matched sensor with UUID: \(peripheralUUID)")
             discoveredPeripherals[peripheralUUID] = peripheral
-            updateSensorConnectionStatus(uuid: sensor.uuid!, isConnected: true)
-            centralManager.connect(peripheral, options: nil)  // Connect to the peripheral
+            
+            // Conditionally connect based on the autoconnect option
+            if autoconnect {
+                updateSensorConnectionStatus(uuid: sensor.uuid!, isConnected: true)
+                centralManager.connect(peripheral, options: nil)  // Connect to the peripheral
+            }
         } else {
-            //print("Peripheral with UUID \(peripheralUUID) does not match any known sensors.")
+            print("Peripheral with UUID \(peripheralUUID) does not match any known sensors.")
         }
     }
 
@@ -229,7 +237,7 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 
         if let services = peripheral.services {
             for service in services {
-                //print("Discovered service with UUID: \(service.uuid)")
+                print("Discovered service with UUID: \(service.uuid)")
                 if service.uuid == CBUUID(string: "180D") {  // Heart Rate Service UUID
                     print(
                         "Discovering characteristics for service with UUID: \(service.uuid)"
@@ -284,7 +292,7 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 
         if characteristic.uuid == CBUUID(string: "2A37") {
             let (heartRate, IBI) = parseHeartRateMeasurement(data)
-            //print("Heart Rate: \(heartRate), IBI: \(IBI)")
+            print("Heart Rate: \(heartRate), IBI: \(IBI)")
 
             if !IBI.isEmpty {
                 if let sensor = sensors.first(where: {

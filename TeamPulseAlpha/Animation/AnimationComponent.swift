@@ -52,7 +52,7 @@ struct AnimationComponent: View {
                     isAnimationRunning = false
                     animationScene.removeAllChildren()
                     animationScene.removeAllActions()
-                    bluetoothManager.disconnectAllSensors()
+                    bluetoothManager.resetSensorConnections()
                 }
         }
     }

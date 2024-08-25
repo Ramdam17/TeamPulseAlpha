@@ -15,6 +15,12 @@ class DataManager {
 
     // Private initializer to ensure the singleton pattern is enforced.
     private init() {}
+    
+    private var defaultUUID: [String: String] = [
+        "Blue": "0F099F27-18D8-8ACC-C895-54AC2C36C790",
+        "Green": "F3742462-63F6-131A-C487-9F78D8A4FCCC",
+        "Red": "EA61A349-6EFF-9A05-F9C1-F610C171579F"
+    ]
 
     /// Resets all sensor data by deleting all entries from the Core Data store and reinitializing them.
     func resetSensors() {
@@ -31,6 +37,16 @@ class DataManager {
             print("Failed to reset sensors: \(error)")
         }
     }
+    
+    func resetSensrsToDefaultValues() {
+        resetSensors()
+    }
+    
+    private func setSensorsToDefaultValues() {
+        for (key, value) in defaultUUID {
+            createSensor(uuid: value, name: key)
+        }
+    }
 
     /// Initializes sensors by checking if they exist in the database and creating them if necessary.
     /// Ensures that there are always three sensors with specific UUIDs and names.
@@ -42,9 +58,7 @@ class DataManager {
             let sensors = try context.fetch(fetchRequest)
             // Ensure that there are always three sensors in the database
             if sensors.count < 3 {
-                createSensor(uuid: "0F099F27-18D8-8ACC-C895-54AC2C36C790", name: "Blue")
-                createSensor(uuid: "F3742462-63F6-131A-C487-9F78D8A4FCCC", name: "Green")
-                createSensor(uuid: "EA61A349-6EFF-9A05-F9C1-F610C171579F", name: "Red")
+                setSensorsToDefaultValues()
             }
         } catch {
             print("Failed to fetch sensors: \(error)")
@@ -81,7 +95,7 @@ class DataManager {
     /// - Parameters:
     ///   - name: The name of the sensor to update.
     ///   - newUUID: The new UUID to assign to the sensor.
-    func updateSensorMacAddress(name: String, newUUID: String) {
+    func updateSensorUUID(name: String, newUUID: String) {
         let context = CoreDataStack.shared.context
         let fetchRequest: NSFetchRequest<SensorEntity> = SensorEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", name as CVarArg)
