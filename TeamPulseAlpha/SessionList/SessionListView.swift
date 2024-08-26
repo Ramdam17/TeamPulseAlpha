@@ -128,7 +128,7 @@ struct SessionListView: View {
                     List {
                         ForEach(filteredSessions()) { session in
                             NavigationLink(
-                                destination: SessionDetailView(session: session)
+                                destination: SessionDetailView(sessionID: session)
                             ) {
                                 Text("\(session.startTime?.formattedString() ?? "Date unknown") - Duration: \(session.durationString())")
                                     .padding()

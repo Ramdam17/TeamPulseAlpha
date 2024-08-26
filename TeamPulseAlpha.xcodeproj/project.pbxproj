@@ -41,12 +41,20 @@
 		3068C4862C7A7A7F008C4A68 /* SensorEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C47C2C7A7A7F008C4A68 /* SensorEntity+CoreDataProperties.swift */; };
 		3068C4872C7A7A7F008C4A68 /* SessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C47D2C7A7A7F008C4A68 /* SessionEntity+CoreDataClass.swift */; };
 		3068C4882C7A7A7F008C4A68 /* SessionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3068C47E2C7A7A7F008C4A68 /* SessionEntity+CoreDataProperties.swift */; };
+		3075C9232C7CDE3C006BB7B0 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C9222C7CDE37006BB7B0 /* SessionDetailView.swift */; };
+		3075C9252C7CDE51006BB7B0 /* SessionSensorDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C9242C7CDE43006BB7B0 /* SessionSensorDataDetailView.swift */; };
+		3075C9272C7CDE6D006BB7B0 /* SessionMatriceDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C9262C7CDE57006BB7B0 /* SessionMatriceDataDetailView.swift */; };
+		3075C9292C7CDE7A006BB7B0 /* SessionClusterDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C9282C7CDE71006BB7B0 /* SessionClusterDataDetailView.swift */; };
+		3075C92C2C7D1289006BB7B0 /* SessionSensorDataDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C92B2C7D127A006BB7B0 /* SessionSensorDataDetailRowView.swift */; };
+		3075C92E2C7D18F0006BB7B0 /* SessionSensorDataDetailLineHR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C92D2C7D18CF006BB7B0 /* SessionSensorDataDetailLineHR.swift */; };
+		3075C9302C7D1905006BB7B0 /* SessionSensorDataDetailLineHRV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C92F2C7D18FE006BB7B0 /* SessionSensorDataDetailLineHRV.swift */; };
+		3075C9322C7D190F006BB7B0 /* SessionSensorDataDetailLineIBI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C9312C7D1909006BB7B0 /* SessionSensorDataDetailLineIBI.swift */; };
+		3075C9342C7D191B006BB7B0 /* SessionSensorDataDetailBoxplot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075C9332C7D1913006BB7B0 /* SessionSensorDataDetailBoxplot.swift */; };
 		30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AEE3E02C513455000687F8 /* BluetoothManager.swift */; };
 		30B402F82C7A0C1600A84373 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30B402F72C7A0C1600A84373 /* Storyboard.storyboard */; };
 		30B402FB2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B402FA2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift */; };
 		30B402FC2C7A19E200A84373 /* AnimationBottomDashboardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B402F92C7A19E200A84373 /* AnimationBottomDashboardComponent.swift */; };
 		30CB166B2C77B4C90085AAEA /* PointcareMapComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CB166A2C77B4C00085AAEA /* PointcareMapComponent.swift */; };
-		30CB166D2C78EC090085AAEA /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CB166C2C78EC090085AAEA /* SessionDetailView.swift */; };
 		30CB16702C78FDBB0085AAEA /* AnimationScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CB166F2C78FDB60085AAEA /* AnimationScene.swift */; };
 		30CB16742C7906380085AAEA /* clusterSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30CB16732C7906380085AAEA /* clusterSound.mp3 */; };
 		30CB16752C7906380085AAEA /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30CB16722C7906380085AAEA /* backgroundMusic.mp3 */; };
@@ -113,12 +121,20 @@
 		3068C47C2C7A7A7F008C4A68 /* SensorEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SensorEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3068C47D2C7A7A7F008C4A68 /* SessionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3068C47E2C7A7A7F008C4A68 /* SessionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3075C9222C7CDE37006BB7B0 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		3075C9242C7CDE43006BB7B0 /* SessionSensorDataDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSensorDataDetailView.swift; sourceTree = "<group>"; };
+		3075C9262C7CDE57006BB7B0 /* SessionMatriceDataDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMatriceDataDetailView.swift; sourceTree = "<group>"; };
+		3075C9282C7CDE71006BB7B0 /* SessionClusterDataDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionClusterDataDetailView.swift; sourceTree = "<group>"; };
+		3075C92B2C7D127A006BB7B0 /* SessionSensorDataDetailRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSensorDataDetailRowView.swift; sourceTree = "<group>"; };
+		3075C92D2C7D18CF006BB7B0 /* SessionSensorDataDetailLineHR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSensorDataDetailLineHR.swift; sourceTree = "<group>"; };
+		3075C92F2C7D18FE006BB7B0 /* SessionSensorDataDetailLineHRV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSensorDataDetailLineHRV.swift; sourceTree = "<group>"; };
+		3075C9312C7D1909006BB7B0 /* SessionSensorDataDetailLineIBI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSensorDataDetailLineIBI.swift; sourceTree = "<group>"; };
+		3075C9332C7D1913006BB7B0 /* SessionSensorDataDetailBoxplot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSensorDataDetailBoxplot.swift; sourceTree = "<group>"; };
 		30AEE3E02C513455000687F8 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		30B402F72C7A0C1600A84373 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		30B402F92C7A19E200A84373 /* AnimationBottomDashboardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationBottomDashboardComponent.swift; sourceTree = "<group>"; };
 		30B402FA2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationLeftDashboardComponent.swift; sourceTree = "<group>"; };
 		30CB166A2C77B4C00085AAEA /* PointcareMapComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointcareMapComponent.swift; sourceTree = "<group>"; };
-		30CB166C2C78EC090085AAEA /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		30CB166F2C78FDB60085AAEA /* AnimationScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationScene.swift; sourceTree = "<group>"; };
 		30CB16722C7906380085AAEA /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundMusic.mp3; sourceTree = "<group>"; };
 		30CB16732C7906380085AAEA /* clusterSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clusterSound.mp3; sourceTree = "<group>"; };
@@ -176,13 +192,13 @@
 		301CB9852C4F0F3100A0D85E /* TeamPulseAlpha */ = {
 			isa = PBXGroup;
 			children = (
+				3075C9212C7CDE30006BB7B0 /* SessionDetail */,
 				30CB16712C7906190085AAEA /* Audio */,
 				30CB166E2C78FDB10085AAEA /* Scenes */,
 				30EB9BBD2C74A576007A619B /* Dashboards */,
 				306173D32C736ED2000BA239 /* Animation */,
 				30567F812C4FF24600A83322 /* Settings */,
 				30567F802C4FF23A00A83322 /* SessionList */,
-				30567F7F2C4FF22F00A83322 /* SessionRecording */,
 				30567F7E2C4FF20400A83322 /* DeviceConnection */,
 				30567F7D2C4FF1F700A83322 /* MainMenu */,
 				30567F7A2C4FF1D100A83322 /* Authentication */,
@@ -295,14 +311,6 @@
 			path = DeviceConnection;
 			sourceTree = "<group>";
 		};
-		30567F7F2C4FF22F00A83322 /* SessionRecording */ = {
-			isa = PBXGroup;
-			children = (
-				30CB166C2C78EC090085AAEA /* SessionDetailView.swift */,
-			);
-			path = SessionRecording;
-			sourceTree = "<group>";
-		};
 		30567F802C4FF23A00A83322 /* SessionList */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,6 +342,29 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
+		3075C9212C7CDE30006BB7B0 /* SessionDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3075C92B2C7D127A006BB7B0 /* SessionSensorDataDetailRowView.swift */,
+				3075C9282C7CDE71006BB7B0 /* SessionClusterDataDetailView.swift */,
+				3075C9262C7CDE57006BB7B0 /* SessionMatriceDataDetailView.swift */,
+				3075C9242C7CDE43006BB7B0 /* SessionSensorDataDetailView.swift */,
+				3075C9222C7CDE37006BB7B0 /* SessionDetailView.swift */,
+			);
+			path = SessionDetail;
+			sourceTree = "<group>";
+		};
+		3075C92A2C7CF5F9006BB7B0 /* SessionDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3075C9332C7D1913006BB7B0 /* SessionSensorDataDetailBoxplot.swift */,
+				3075C9312C7D1909006BB7B0 /* SessionSensorDataDetailLineIBI.swift */,
+				3075C92F2C7D18FE006BB7B0 /* SessionSensorDataDetailLineHRV.swift */,
+				3075C92D2C7D18CF006BB7B0 /* SessionSensorDataDetailLineHR.swift */,
+			);
+			path = SessionDetail;
+			sourceTree = "<group>";
+		};
 		30CB166E2C78FDB10085AAEA /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +385,7 @@
 		30EB9BBD2C74A576007A619B /* Dashboards */ = {
 			isa = PBXGroup;
 			children = (
+				3075C92A2C7CF5F9006BB7B0 /* SessionDetail */,
 				30EB9BBE2C74A581007A619B /* Animation */,
 			);
 			path = Dashboards;
@@ -506,12 +538,14 @@
 			files = (
 				30348A152C4F20F40041F47D /* DeviceConnectionView.swift in Sources */,
 				306173D52C736EDD000BA239 /* AnimationView.swift in Sources */,
+				3075C9322C7D190F006BB7B0 /* SessionSensorDataDetailLineIBI.swift in Sources */,
 				30EB9BC42C74A5EE007A619B /* BoxPlotComponent.swift in Sources */,
 				301CB9C62C4F1BAA00A0D85E /* CoreDataStack.swift in Sources */,
-				30CB166D2C78EC090085AAEA /* SessionDetailView.swift in Sources */,
 				30348A102C4F20C20041F47D /* AuthView.swift in Sources */,
+				3075C9342C7D191B006BB7B0 /* SessionSensorDataDetailBoxplot.swift in Sources */,
 				30B402FB2C7A19E200A84373 /* AnimationLeftDashboardComponent.swift in Sources */,
 				30B402FC2C7A19E200A84373 /* AnimationBottomDashboardComponent.swift in Sources */,
+				3075C9292C7CDE7A006BB7B0 /* SessionClusterDataDetailView.swift in Sources */,
 				306174022C737C88000BA239 /* SessionManager.swift in Sources */,
 				30AEE3E12C513459000687F8 /* BluetoothManager.swift in Sources */,
 				3068C47F2C7A7A7F008C4A68 /* ClusterDataEvent+CoreDataClass.swift in Sources */,
@@ -531,17 +565,23 @@
 				301CB9B82C4F1A1100A0D85E /* TeamPulseModel.xcdatamodeld in Sources */,
 				30CB166B2C77B4C90085AAEA /* PointcareMapComponent.swift in Sources */,
 				30567F7C2C4FF1E800A83322 /* AuthenticationManager.swift in Sources */,
+				3075C92E2C7D18F0006BB7B0 /* SessionSensorDataDetailLineHR.swift in Sources */,
 				30EB9BCB2C7500A5007A619B /* LineChartHRVComponent.swift in Sources */,
 				30EB9BCC2C7500A5007A619B /* LineChartHRComponent.swift in Sources */,
 				30EB9BC62C74A60E007A619B /* ProximityRingChartComponent.swift in Sources */,
 				306173D92C736F0E000BA239 /* BluetoothStatusComponent.swift in Sources */,
+				3075C9252C7CDE51006BB7B0 /* SessionSensorDataDetailView.swift in Sources */,
 				306173DB2C736F24000BA239 /* SessionRecordingComponent.swift in Sources */,
 				30348A132C4F20DC0041F47D /* MainMenuView.swift in Sources */,
 				306173DF2C73739D000BA239 /* SensorDataProcessing.swift in Sources */,
+				3075C9272C7CDE6D006BB7B0 /* SessionMatriceDataDetailView.swift in Sources */,
+				3075C9302C7D1905006BB7B0 /* SessionSensorDataDetailLineHRV.swift in Sources */,
 				30348A192C4F21100041F47D /* SessionListView.swift in Sources */,
+				3075C92C2C7D1289006BB7B0 /* SessionSensorDataDetailRowView.swift in Sources */,
 				305690F42C7B668000AA652F /* SensorSettingsComponent.swift in Sources */,
 				30CB16702C78FDBB0085AAEA /* AnimationScene.swift in Sources */,
 				306173D72C736EFB000BA239 /* AnimationComponent.swift in Sources */,
+				3075C9232C7CDE3C006BB7B0 /* SessionDetailView.swift in Sources */,
 				301CB9872C4F0F3100A0D85E /* TeamPulseAlphaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
