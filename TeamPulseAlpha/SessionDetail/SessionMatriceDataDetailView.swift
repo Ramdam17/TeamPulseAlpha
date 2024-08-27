@@ -8,36 +8,64 @@
 import SwiftUI
 
 struct SessionMatriceDataDetailView: View {
-    
-    let proximityMatrixArray: [[String: Any]]
+
     let correlationMatrixArray: [[String: Any]]
     let crossEntropyMatrixArray: [[String: Any]]
     let conditionalEntropyMatrixArray: [[String: Any]]
     let mutualInformationMatrixArray: [[String: Any]]
 
     var body: some View {
-        VStack {
-            // Placeholder for matrix data content
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
-        .cornerRadius(15)
-        .shadow(radius: 5)
-        .padding()
-    }
+        
+        GeometryReader { metrics in
+            VStack(spacing: 20) {
+                SessionMatriceDataDetailRowView(
+                    matrixData: correlationMatrixArray, title: "Correlation Matrix"
+                )
+                .frame(width : metrics.size.width, height: metrics.size.height * 0.2)
 
+                SessionMatriceDataDetailRowView(
+                    matrixData: crossEntropyMatrixArray,
+                    title: "Cross Entropy Matrix"
+                )
+                .frame(width : metrics.size.width, height: metrics.size.height * 0.2)
+
+                SessionMatriceDataDetailRowView(
+                    matrixData: conditionalEntropyMatrixArray,
+                    title: "Conditional Entropy Matrix"
+                )
+                .frame(width : metrics.size.width, height: metrics.size.height * 0.2)
+
+                SessionMatriceDataDetailRowView(
+                    matrixData: mutualInformationMatrixArray,
+                    title: "Mutual Information Matrix"
+                )
+                .frame(width : metrics.size.width, height: metrics.size.height * 0.2)
+
+            }
+            .padding()
+        }
+    }
 }
 
 struct SessionMatriceDataDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionMatriceDataDetailView(
-            proximityMatrixArray: [],
-            correlationMatrixArray: [],
-            crossEntropyMatrixArray: [],
-            conditionalEntropyMatrixArray: [],
-            mutualInformationMatrixArray: []
+        let mockMatrix: [[String: Any]] = [
+            [
+                "matrix": [
+                    [0.1, 0.2, 0.3],
+                    [0.4, 0.5, 0.6],
+                    [0.7, 0.8, 0.9],
+                ]
+            ]
+        ]
+
+        return SessionMatriceDataDetailView(
+            correlationMatrixArray: mockMatrix,
+            crossEntropyMatrixArray: mockMatrix,
+            conditionalEntropyMatrixArray: mockMatrix,
+            mutualInformationMatrixArray: mockMatrix
         )
-            .previewLayout(.sizeThatFits)
-            .padding()
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

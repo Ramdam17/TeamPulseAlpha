@@ -38,12 +38,15 @@ struct SessionSensorDataDetailLineIBI: View {
 
 struct SessionSensorDataDetailLineIBI_Previews: PreviewProvider {
     static var previews: some View {
-        let previewData: [[String: Any]] = [
-            ["timestamp": Date(), "ibiValue": 272.0],
-            ["timestamp": Date().addingTimeInterval(60), "ibiValue": 175.0],
-            ["timestamp": Date().addingTimeInterval(120), "ibiValue": 78.0],
-            ["timestamp": Date().addingTimeInterval(180), "ibiValue": 180.0]
-        ]
+        var previewData: [[String: Any]] = []
+
+        for i in 0...60 {
+            previewData.append([
+                "timestamp": Date().addingTimeInterval(Double(i)),
+                "ibiValue": Double.random(in: 0..<1),
+            ])
+        }
+
 
         return SessionSensorDataDetailLineIBI(ibiData: previewData, color: .blue)
             .previewLayout(.sizeThatFits)

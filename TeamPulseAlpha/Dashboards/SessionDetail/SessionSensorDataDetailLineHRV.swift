@@ -19,7 +19,7 @@ struct SessionSensorDataDetailLineHRV: View {
                    let hrvValue = dataPoint["hrvValue"] as? Double {
                     LineMark(
                         x: .value("Time", timestamp),
-                        y: .value("HR", hrvValue)
+                        y: .value("HRV", hrvValue)
                     )
                     .interpolationMethod(.catmullRom)  // Apply Catmull-Rom interpolation for smoother lines
                     .lineStyle(StrokeStyle(lineWidth: 2))  // Set the line width
@@ -38,14 +38,16 @@ struct SessionSensorDataDetailLineHRV: View {
 
 struct SessionSensorDataDetailLineHRV_Previews: PreviewProvider {
     static var previews: some View {
-        let previewData: [[String: Any]] = [
-            ["timestamp": Date(), "hrvValue": 0.13],
-            ["timestamp": Date().addingTimeInterval(60), "hrvValue": 0.15],
-            ["timestamp": Date().addingTimeInterval(120), "hrvValue": 0.24],
-            ["timestamp": Date().addingTimeInterval(180), "hrvValue": 0.30]
-        ]
+        var previewData: [[String: Any]] = []
 
-        return SessionSensorDataDetailLineHR(hrData: previewData, color: .blue)
+        for i in 0...60 {
+            previewData.append([
+                "timestamp": Date().addingTimeInterval(Double(i)),
+                "hrvValue": Double.random(in: 0..<0.5),
+            ])
+        }
+
+        return SessionSensorDataDetailLineHRV(hrvData: previewData, color: .blue)
             .previewLayout(.sizeThatFits)
             .padding()
     }

@@ -5,8 +5,8 @@
 //  Created by blackstar on 8/26/24.
 //
 
-import SwiftUI
 import Charts
+import SwiftUI
 
 struct SessionSensorDataDetailLineHR: View {
     var hrData: [[String: Any]]
@@ -14,9 +14,11 @@ struct SessionSensorDataDetailLineHR: View {
 
     var body: some View {
         Chart {
-            ForEach(Array(hrData.enumerated()), id: \.offset) { index, dataPoint in
+            ForEach(Array(hrData.enumerated()), id: \.offset) {
+                index, dataPoint in
                 if let timestamp = dataPoint["timestamp"] as? Date,
-                   let hrValue = dataPoint["hrValue"] as? Double {
+                    let hrValue = dataPoint["hrValue"] as? Double
+                {
                     LineMark(
                         x: .value("Time", timestamp),
                         y: .value("HR", hrValue)
@@ -37,18 +39,20 @@ struct SessionSensorDataDetailLineHR: View {
             print(hrData.count)
             print(hrData)
         }
-        
+
     }
 }
 
 struct SessionSensorDataDetailLineHR_Previews: PreviewProvider {
     static var previews: some View {
-        let previewData: [[String: Any]] = [
-            ["timestamp": Date(), "hrValue": 72.0],
-            ["timestamp": Date().addingTimeInterval(60), "hrValue": 75.0],
-            ["timestamp": Date().addingTimeInterval(120), "hrValue": 78.0],
-            ["timestamp": Date().addingTimeInterval(180), "hrValue": 80.0]
-        ]
+        var previewData: [[String: Any]] = []
+
+        for i in 0...60 {
+            previewData.append([
+                "timestamp": Date().addingTimeInterval(Double(i)),
+                "hrValue": Double.random(in: 40..<200),
+            ])
+        }
 
         return SessionSensorDataDetailLineHR(hrData: previewData, color: .blue)
             .previewLayout(.sizeThatFits)

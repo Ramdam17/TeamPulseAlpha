@@ -590,119 +590,170 @@ class SensorDataProcessor {
         return denominator == 0.0 ? 0.0 : numerator / denominator
     }
 
-    /// Computes the cross entropy between two sensors' IHR arrays.
-    /// Cross entropy is a measure of the difference between two probability distributions for a given random variable.
-    /// It quantifies how well the distribution of `sensorID1` matches the distribution of `sensorID2`.
-    ///
-    /// - Parameters:
-    ///   - sensorID1: The identifier of the first sensor.
-    ///   - sensorID2: The identifier of the second sensor.
-    /// - Returns: The cross entropy between the IHR arrays of `sensorID1` and `sensorID2`.
-    private func computeCrossEntropy(sensorID1: String, sensorID2: String)
-        -> Double
-    {
+    private func computeCrossEntropy(sensorID1: String, sensorID2: String, bins: Int = 10) -> Double {
         guard let ihrArray1 = ihrArray[sensorID1],
-            let ihrArray2 = ihrArray[sensorID2],
-            ihrArray1.count == ihrArray2.count, !ihrArray1.isEmpty
-        else {
+              let ihrArray2 = ihrArray[sensorID2],
+              ihrArray1.count == ihrArray2.count, !ihrArray1.isEmpty else {
             return 0.0  // Return 0.0 if arrays are not of equal length or empty
         }
 
-        var crossEntropy: Double = 0.0
+        // Determine the range of the data (you can adjust this as needed)
+        let hrMin = 0.0
+        let hrMax = 200.0
 
-        // Convert IHR values to a normalized probability distribution
-        let total1 = ihrArray1.reduce(0) { $0 + $1.hrValue }
-        let total2 = ihrArray2.reduce(0) { $0 + $1.hrValue }
+        // Create empty histograms
+        var histogram1 = [Double](repeating: 0.0, count: bins)
+        var histogram2 = [Double](repeating: 0.0, count: bins)
 
+        // Bin the data
         for i in 0..<ihrArray1.count {
-            let p1 = ihrArray1[i].hrValue / total1
-            let p2 = ihrArray2[i].hrValue / total2
-            crossEntropy -= p1 * log(p2 + 1e-9)  // Avoid log(0) by adding a small constant
+            let hr1 = ihrArray1[i].hrValue
+            let hr2 = ihrArray2[i].hrValue
+
+            let bin1 = min(Int((hr1 - hrMin) / (hrMax - hrMin) * Double(bins)), bins - 1)
+            let bin2 = min(Int((hr2 - hrMin) / (hrMax - hrMin) * Double(bins)), bins - 1)
+
+            histogram1[bin1] += 1.0
+            histogram2[bin2] += 1.0
+        }
+
+        // Normalize the histograms
+        let total1 = histogram1.reduce(0, +)
+        let total2 = histogram2.reduce(0, +)
+
+        for i in 0..<bins {
+            histogram1[i] = histogram1[i] / total1
+            histogram2[i] = histogram2[i] / total2
+        }
+
+        // Compute the cross-entropy
+        var crossEntropy: Double = 0.0
+        let epsilon = 1e-12
+
+        for i in 0..<bins {
+            let p1 = histogram1[i] + epsilon
+            let p2 = histogram2[i] + epsilon
+            crossEntropy -= p1 * log(p2)
         }
 
         return crossEntropy
     }
 
-    /// Computes the conditional entropy between two sensors' IHR arrays.
-    /// Conditional entropy quantifies the amount of uncertainty in one random variable (sensorID1) given that we know the value of another (sensorID2).
-    ///
-    /// - Parameters:
-    ///   - sensorID1: The identifier of the first sensor.
-    ///   - sensorID2: The identifier of the second sensor.
-    /// - Returns: The conditional entropy between the IHR arrays of `sensorID1` given `sensorID2`.
-    private func computeConditionalEntropy(sensorID1: String, sensorID2: String)
-        -> Double
-    {
+    private func computeConditionalEntropy(sensorID1: String, sensorID2: String, bins: Int = 10) -> Double {
         guard let ihrArray1 = ihrArray[sensorID1],
-            let ihrArray2 = ihrArray[sensorID2],
-            ihrArray1.count == ihrArray2.count, !ihrArray1.isEmpty
-        else {
+              let ihrArray2 = ihrArray[sensorID2],
+              ihrArray1.count == ihrArray2.count, !ihrArray1.isEmpty else {
             return 0.0  // Return 0.0 if arrays are not of equal length or empty
         }
 
+        let epsilon = 1e-12
         var conditionalEntropy: Double = 0.0
 
-        let jointProbabilities = calculateJointProbabilities(
-            ihrArray1: ihrArray1, ihrArray2: ihrArray2)
-        let marginalProbabilities = calculateMarginalProbabilities(
-            ihrArray: ihrArray2)
+        // Define the range for binning (adjust as needed)
+        let hrMin = 0.0
+        let hrMax = 200.0
 
-        for (i, jointProbability) in jointProbabilities.enumerated() {
-            let marginalProbability = marginalProbabilities[i]
-            if marginalProbability > 0.0 {
-                conditionalEntropy -=
-                    jointProbability
-                    * log(jointProbability / marginalProbability + 1e-9)
+        // Create joint and marginal histograms (joint distribution and marginal of series1)
+        var jointHistogram = Array(repeating: Array(repeating: 0.0, count: bins), count: bins)
+        var marginalHistogram = Array(repeating: 0.0, count: bins)
+
+        for i in 0..<ihrArray1.count {
+            let hr1 = ihrArray1[i].hrValue
+            let hr2 = ihrArray2[i].hrValue
+
+            let binX = min(Int((hr1 - hrMin) / (hrMax - hrMin) * Double(bins)), bins - 1)
+            let binY = min(Int((hr2 - hrMin) / (hrMax - hrMin) * Double(bins)), bins - 1)
+
+            jointHistogram[binX][binY] += 1.0
+            marginalHistogram[binX] += 1.0
+        }
+
+        // Normalize the histograms to convert counts to probabilities
+        let totalJoint = jointHistogram.flatMap { $0 }.reduce(0, +)
+        let totalMarginal = marginalHistogram.reduce(0, +)
+
+        for i in 0..<bins {
+            marginalHistogram[i] = (marginalHistogram[i] + epsilon) / totalMarginal
+            for j in 0..<bins {
+                jointHistogram[i][j] = (jointHistogram[i][j] + epsilon) / totalJoint
+            }
+        }
+
+        // Calculate conditional entropy H(Y|X)
+        for i in 0..<bins {
+            for j in 0..<bins {
+                let jointProbability = jointHistogram[i][j]
+                let marginalProbability = marginalHistogram[i]
+
+                if jointProbability > 0.0 && marginalProbability > 0.0 {
+                    conditionalEntropy -= jointProbability * log(jointProbability / marginalProbability)
+                }
             }
         }
 
         return conditionalEntropy
     }
 
-    /// Computes the mutual information between two sensors' IHR arrays.
-    /// Mutual information measures the amount of information obtained about one random variable through the other.
-    /// It quantifies the reduction in uncertainty of `sensorID1` given the knowledge of `sensorID2`.
-    ///
-    /// - Parameters:
-    ///   - sensorID1: The identifier of the first sensor.
-    ///   - sensorID2: The identifier of the second sensor.
-    /// - Returns: The mutual information between the IHR arrays of `sensorID1` and `sensorID2`.
-    private func computeMutualInformation(sensorID1: String, sensorID2: String)
-        -> Double
-    {
+    private func computeMutualInformation(sensorID1: String, sensorID2: String, bins: Int = 10) -> Double {
         guard let ihrArray1 = ihrArray[sensorID1],
-            let ihrArray2 = ihrArray[sensorID2],
-            ihrArray1.count == ihrArray2.count, !ihrArray1.isEmpty
-        else {
+              let ihrArray2 = ihrArray[sensorID2],
+              ihrArray1.count == ihrArray2.count, !ihrArray1.isEmpty else {
             return 0.0  // Return 0.0 if arrays are not of equal length or empty
         }
 
-        let jointProbabilities = calculateJointProbabilities(
-            ihrArray1: ihrArray1, ihrArray2: ihrArray2)
-        let marginalProbabilities1 = calculateMarginalProbabilities(
-            ihrArray: ihrArray1)
-        let marginalProbabilities2 = calculateMarginalProbabilities(
-            ihrArray: ihrArray2)
-
+        let epsilon = 1e-12
         var mutualInformation: Double = 0.0
 
-        for i in 0..<jointProbabilities.count {
-            let jointProbability = jointProbabilities[i]
-            let marginalProbability1 = marginalProbabilities1[i]
-            let marginalProbability2 = marginalProbabilities2[i]
+        // Define the range for binning (adjust as needed)
+        let hrMin = 0.0
+        let hrMax = 200.0
 
-            if jointProbability > 0.0 {
-                mutualInformation +=
-                    jointProbability
-                    * log(
-                        jointProbability
-                            / (marginalProbability1 * marginalProbability2)
-                            + 1e-9)
+        // Create joint and marginal histograms
+        var jointHistogram = Array(repeating: Array(repeating: 0.0, count: bins), count: bins)
+        var marginalHistogram1 = Array(repeating: 0.0, count: bins)
+        var marginalHistogram2 = Array(repeating: 0.0, count: bins)
+
+        for i in 0..<ihrArray1.count {
+            let hr1 = ihrArray1[i].hrValue
+            let hr2 = ihrArray2[i].hrValue
+
+            let binX = min(Int((hr1 - hrMin) / (hrMax - hrMin) * Double(bins)), bins - 1)
+            let binY = min(Int((hr2 - hrMin) / (hrMax - hrMin) * Double(bins)), bins - 1)
+
+            jointHistogram[binX][binY] += 1.0
+            marginalHistogram1[binX] += 1.0
+            marginalHistogram2[binY] += 1.0
+        }
+
+        // Normalize the histograms to represent probability distributions
+        let totalJoint = jointHistogram.flatMap { $0 }.reduce(0, +)
+        let totalMarginal1 = marginalHistogram1.reduce(0, +)
+        let totalMarginal2 = marginalHistogram2.reduce(0, +)
+
+        for i in 0..<bins {
+            marginalHistogram1[i] = (marginalHistogram1[i] + epsilon) / totalMarginal1
+            marginalHistogram2[i] = (marginalHistogram2[i] + epsilon) / totalMarginal2
+            for j in 0..<bins {
+                jointHistogram[i][j] = (jointHistogram[i][j] + epsilon) / totalJoint
+            }
+        }
+
+        // Calculate mutual information
+        for i in 0..<bins {
+            for j in 0..<bins {
+                let jointProbability = jointHistogram[i][j]
+                let marginalProbability1 = marginalHistogram1[i]
+                let marginalProbability2 = marginalHistogram2[j]
+
+                if jointProbability > 0.0 {
+                    mutualInformation += jointProbability * log(jointProbability / (marginalProbability1 * marginalProbability2))
+                }
             }
         }
 
         return mutualInformation
     }
+
 
     /// Calculates the minimum, maximum, median, and mean HR values for a specific sensor.
     private func computeStatistics(sensorID: String) -> (
@@ -751,29 +802,6 @@ class SensorDataProcessor {
             derivatives.append(ihrArray[i].hrValue - ihrArray[i - 1].hrValue)
         }
         return derivatives
-    }
-
-    /// Helper function to calculate joint probabilities between two IHR arrays.
-    private func calculateJointProbabilities(
-        ihrArray1: [HRDataPoint], ihrArray2: [HRDataPoint]
-    ) -> [Double] {
-        var jointProbabilities: [Double] = []
-
-        for i in 0..<ihrArray1.count {
-            let jointValue = ihrArray1[i].hrValue * ihrArray2[i].hrValue
-            jointProbabilities.append(jointValue)
-        }
-
-        let totalJoint = jointProbabilities.reduce(0, +)
-        return jointProbabilities.map { $0 / totalJoint }
-    }
-
-    /// Helper function to calculate marginal probabilities for a single IHR array.
-    private func calculateMarginalProbabilities(ihrArray: [HRDataPoint])
-        -> [Double]
-    {
-        let total = ihrArray.reduce(0) { $0 + $1.hrValue }
-        return ihrArray.map { $0.hrValue / total }
     }
 
     /// Computes the proximity score, which is the mean of the upper triangular part of the proximity matrix.

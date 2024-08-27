@@ -48,7 +48,6 @@ struct SessionDetailView: View {
                         .padding()
                         
                         SessionMatriceDataDetailView(
-                            proximityMatrixArray: proximityMatrixArray,
                             correlationMatrixArray: correlationMatrixArray,
                             crossEntropyMatrixArray: crossEntropyMatrixArray,
                             conditionalEntropyMatrixArray: conditionalEntropyMatrixArray,
@@ -104,7 +103,7 @@ struct SessionDetailView: View {
                         }
                         Spacer()
                     }
-                    .frame(maxHeight: 200)
+                    .frame(height: 50)
                     .padding()
                     .background(Color.white.opacity(0.9))
                 }

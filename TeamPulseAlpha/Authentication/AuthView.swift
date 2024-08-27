@@ -8,9 +8,6 @@
 import AuthenticationServices
 import SwiftUI
 
-import AuthenticationServices
-import SwiftUI
-
 /// A view that handles the authentication process for TeamPulse using Apple Sign-In.
 struct AuthView: View {
     /// The authentication manager responsible for handling sign-in and credential checks.

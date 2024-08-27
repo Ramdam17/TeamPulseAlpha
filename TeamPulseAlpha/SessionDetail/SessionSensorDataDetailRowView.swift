@@ -54,8 +54,21 @@ struct SessionSensorDataDetailRowView: View {
 
 struct SessionSensorDataDetailRowView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionSensorDataDetailRowView(
-            hrDataArray: [], ibiDataArray: [], hrvDataArray: [], color: .blue
+        
+        var previewData: [[String: Any]] = []
+
+        for _ in 0...60 {
+            previewData.append([
+                "timestamp": Date(),
+                "hrValue": Double.random(in: 40..<200),
+                "hrvValue": Double.random(in: 0..<0.5),
+                "ibiValue": Double.random(in: 0..<1.0),
+
+            ])
+        }
+
+        return SessionSensorDataDetailRowView(
+            hrDataArray: previewData, ibiDataArray: previewData, hrvDataArray: previewData, color: .blue
         )
         .previewLayout(.sizeThatFits)
         .padding()

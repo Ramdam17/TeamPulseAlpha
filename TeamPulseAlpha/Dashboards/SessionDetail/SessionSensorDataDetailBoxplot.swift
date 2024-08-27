@@ -64,9 +64,6 @@ struct SessionSensorDataDetailBoxplot: View {
             }
         }
         .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 5)
     }
     
     /// Function to calculate statistics (min, max, median, mean) from HR data
@@ -92,14 +89,15 @@ struct SessionSensorDataDetailBoxplot: View {
 
 struct SessionSensorDataDetailBoxplot_Previews: PreviewProvider {
     static var previews: some View {
-        let previewData: [[String: Any]] = [
-            ["timestamp": Date(), "hrValue": 72.0],
-            ["timestamp": Date(), "hrValue": 75.0],
-            ["timestamp": Date(), "hrValue": 78.0],
-            ["timestamp": Date(), "hrValue": 80.0],
-            ["timestamp": Date(), "hrValue": 65.0]
-        ]
-        
+        var previewData: [[String: Any]] = []
+
+        for i in 0...60 {
+            previewData.append([
+                "timestamp": Date().addingTimeInterval(Double(i)),
+                "hrValue": Double.random(in: 40..<200),
+            ])
+        }
+
         return SessionSensorDataDetailBoxplot(hrData: previewData, color: .blue)
             .previewLayout(.sizeThatFits)
             .padding()
