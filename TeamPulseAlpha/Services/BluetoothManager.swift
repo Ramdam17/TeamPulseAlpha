@@ -292,7 +292,6 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 
         if characteristic.uuid == CBUUID(string: "2A37") {
             let (heartRate, IBI) = parseHeartRateMeasurement(data)
-            print("Heart Rate: \(heartRate), IBI: \(IBI)")
 
             if !IBI.isEmpty {
                 if let sensor = sensors.first(where: {

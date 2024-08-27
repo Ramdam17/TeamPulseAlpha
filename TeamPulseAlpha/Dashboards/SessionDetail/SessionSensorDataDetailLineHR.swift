@@ -35,11 +35,6 @@ struct SessionSensorDataDetailLineHR: View {
         .animation(.easeInOut(duration: 0.1), value: color)  // Animate the chart when data changes
         .chartYScale(domain: 40...200)  // Set the Y-axis range for heart rate values
         .frame(height: .infinity)  // Set the height of the chart
-        .onAppear {
-            print(hrData.count)
-            print(hrData)
-        }
-
     }
 }
 
