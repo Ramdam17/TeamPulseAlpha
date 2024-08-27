@@ -1,10 +1,3 @@
-//
-//  AnimationComponent.swift
-//  TeamPulseAlpha
-//
-//  Created by blackstar on 8/19/24.
-//
-
 import SwiftUI
 
 /// The main view for displaying animation and related components like Bluetooth status, dashboard, and session management.
@@ -44,7 +37,6 @@ struct AnimationView: View {
                 VStack(spacing: 0) {
                     // Top Menu with recording status and buttons
                     HStack {
-
                         // Sensor status indicators
                         BluetoothStatusComponent()
                             .padding()
@@ -55,21 +47,19 @@ struct AnimationView: View {
 
                         Spacer()
 
-                        // add a navigation link with an exit icon that will be disabled if session is recording
+                        // Navigation link with an exit icon that will be disabled if session is recording
                         NavigationLink(destination: sessionManager.isRecording ? nil : MainMenuView()) {
-                            Image(
-                                systemName: "arrow.backward.circle"
-                            )
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(sessionManager.isRecording ? Color("CustomGrey") : .black)
-                            .padding()
-                            .cornerRadius(10)
+                            Image(systemName: "arrow.backward.circle")
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(sessionManager.isRecording ? Color("CustomGrey") : .black)
+                                .padding()
+                                .cornerRadius(10)
                         }
                         .padding()
 
                     }
-                    .frame(height: UIScreen.main.bounds.height / 12)  // 1/5 of the height
+                    .frame(height: UIScreen.main.bounds.height / 12)
                     .background(Color.white)
                     .cornerRadius(20)
                     .shadow(radius: 5)
@@ -83,7 +73,7 @@ struct AnimationView: View {
                             .frame(
                                 width: UIScreen.main.bounds.width / 4,
                                 height: 8 * UIScreen.main.bounds.height / 12
-                            )  // 1/4 of the width
+                            )
                             .background(Color.white)
                             .cornerRadius(20)
                             .shadow(radius: 5)
@@ -93,7 +83,6 @@ struct AnimationView: View {
 
                         // Animation Component
                         ZStack {
-                            // Animation Component takes full screen in fullscreen mode
                             AnimationComponent()
                                 .ignoresSafeArea()
 
@@ -101,10 +90,8 @@ struct AnimationView: View {
                             HStack {
                                 Spacer()
                                 VStack {
-                                    ToggleFullScreenButton(
-                                        isFullScreen: $isFullScreen
-                                    )
-                                    .padding()
+                                    ToggleFullScreenButton(isFullScreen: $isFullScreen)
+                                        .padding()
                                     Spacer()
                                 }
                                 .padding(.top, 10)
@@ -118,7 +105,7 @@ struct AnimationView: View {
 
                     // Bottom dashboard
                     AnimationBottomDashboardComponent()
-                        .frame(height: 2*UIScreen.main.bounds.height / 12)  // 1/3 of the height
+                        .frame(height: 2 * UIScreen.main.bounds.height / 12)
                         .background(Color.white)
                         .cornerRadius(20)
                         .shadow(radius: 5)
@@ -133,7 +120,8 @@ struct AnimationView: View {
                 sensorDataProcessor.updateHRData(
                     sensorID: valuesToUnpack.id,
                     hr: valuesToUnpack.hr,
-                    ibiArray: valuesToUnpack.ibis, isRecording: sessionManager.isRecording
+                    ibiArray: valuesToUnpack.ibis,
+                    isRecording: sessionManager.isRecording
                 )
             }
         }
@@ -144,37 +132,12 @@ struct AnimationView: View {
 // Preview provider for AnimationView
 struct AnimationView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            // iPhone 15 Pro Preview
-            AnimationView()
-                .environment(SensorDataProcessor())  // Inject a mock SensorDataProcessor
-                .environment(BluetoothManager())  // Inject a mock BluetoothManager
-                .environment(SessionManager())  // Inject a mock SessionManager
-                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
-                .previewDisplayName("iPhone 15 Pro")
-
-            // iPad Pro 11-inch Preview
-            AnimationView()
-                .environment(SensorDataProcessor())  // Inject a mock SensorDataProcessor
-                .environment(BluetoothManager())  // Inject a mock BluetoothManager
-                .environment(SessionManager())  // Inject a mock SessionManager
-                .previewDevice(
-                    PreviewDevice(
-                        rawValue: "iPad Pro (11-inch) (6th generation)")
-                )
-                .previewDisplayName("iPad Pro 11-inch")
-
-            // iPad Pro 13-inch Preview
-            AnimationView()
-                .environment(SensorDataProcessor())  // Inject a mock SensorDataProcessor
-                .environment(BluetoothManager())  // Inject a mock BluetoothManager
-                .environment(SessionManager())  // Inject a mock SessionManager
-                .previewDevice(
-                    PreviewDevice(
-                        rawValue: "iPad Pro (12.9-inch) (6th generation)")
-                )
-                .previewDisplayName("iPad Pro 13-inch")
-        }
+        AnimationView()
+            .environment(SensorDataProcessor())  // Inject a mock SensorDataProcessor
+            .environment(BluetoothManager())  // Inject a mock BluetoothManager
+            .environment(SessionManager())  // Inject a mock SessionManager
+            .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+            .previewDisplayName("iPhone 15 Pro")
     }
 }
 

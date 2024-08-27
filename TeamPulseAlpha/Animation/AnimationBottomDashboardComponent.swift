@@ -15,24 +15,22 @@ struct AnimationBottomDashboardComponent: View {
 
     var body: some View {
         GeometryReader { metrics in
-            
-            HStack(spacing: 20) {  // Added spacing between sections for better visual separation
-                // Display the title of the dashboard.
+            HStack(spacing: 20) {
                 // Line chart showing HR data from the sensors.
                 LineChartHRComponent(
                     data: sensorDataProcessor.getHRData(),
                     colors: [.blue, .green, .red]
                 )
-                .frame(width: metrics.size.width * 0.30, height: .infinity )
+                .frame(width: metrics.size.width * 0.30, height: .infinity)
                 
                 Spacer()
-                
+
                 // Line chart showing HRV data from the sensors.
                 LineChartHRVComponent(
                     data: sensorDataProcessor.getHRVData(),
                     colors: [.blue, .green, .red]
                 )
-                .frame(width: metrics.size.width * 0.30, height: .infinity )
+                .frame(width: metrics.size.width * 0.30, height: .infinity)
                 
                 Spacer()
 
@@ -41,10 +39,9 @@ struct AnimationBottomDashboardComponent: View {
                     data: sensorDataProcessor.getStatistics(),
                     colors: [.blue, .green, .red]
                 )
-                .frame(width: metrics.size.width * 0.30, height: .infinity )
-
+                .frame(width: metrics.size.width * 0.30, height: .infinity)
             }
-            .padding()  // Add padding around the entire VStack for better spacing.
+            .padding()
         }
     }
 }
@@ -56,17 +53,20 @@ struct AnimationBottomDashboardComponent_Previews: PreviewProvider {
             "Blue": (0..<60).map {
                 HRDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
-                    hrValue: Double.random(in: 60...100))
+                    hrValue: Double.random(in: 60...100)
+                )
             },
             "Green": (0..<60).map {
                 HRDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
-                    hrValue: Double.random(in: 60...100))
+                    hrValue: Double.random(in: 60...100)
+                )
             },
             "Red": (0..<60).map {
                 HRDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
-                    hrValue: Double.random(in: 60...100))
+                    hrValue: Double.random(in: 60...100)
+                )
             },
         ]
 
@@ -74,17 +74,20 @@ struct AnimationBottomDashboardComponent_Previews: PreviewProvider {
             "Blue": (0..<60).map {
                 HRVDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
-                    hrvValue: Double.random(in: 00...1))
+                    hrvValue: Double.random(in: 0...1)
+                )
             },
             "Green": (0..<60).map {
                 HRVDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
-                    hrvValue: Double.random(in: 0...1))
+                    hrvValue: Double.random(in: 0...1)
+                )
             },
             "Red": (0..<60).map {
                 HRVDataPoint(
                     timestamp: Date().addingTimeInterval(Double($0) * 60),
-                    hrvValue: Double.random(in: 0...1))
+                    hrvValue: Double.random(in: 0...1)
+                )
             },
         ]
 
@@ -100,36 +103,9 @@ struct AnimationBottomDashboardComponent_Previews: PreviewProvider {
         mockSensorDataProcessor.setHRVArray(hrvData: exampleHRVData)
         mockSensorDataProcessor.setIBIArray(ibiData: exampleIBIData)
 
-        return Group {
-            // iPhone 15 Pro Preview
-            AnimationBottomDashboardComponent()
-                .environment(mockSensorDataProcessor)
-                .previewLayout(.sizeThatFits)  // Ensures the preview is sized appropriately
-                .padding()
-                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
-                .previewDisplayName("iPhone 15 Pro")
-
-            // iPad Pro 11-inch Preview
-            AnimationBottomDashboardComponent()
-                .environment(mockSensorDataProcessor)
-                .previewLayout(.sizeThatFits)  // Ensures the preview is sized appropriately
-                .padding()
-                .previewDevice(
-                    PreviewDevice(
-                        rawValue: "iPad Pro (11-inch) (6th generation)")
-                )
-                .previewDisplayName("iPad Pro 11-inch")
-
-            // iPad Pro 13-inch Preview
-            AnimationBottomDashboardComponent()
-                .environment(mockSensorDataProcessor)
-                .previewLayout(.sizeThatFits)  // Ensures the preview is sized appropriately
-                .padding()
-                .previewDevice(
-                    PreviewDevice(
-                        rawValue: "iPad Pro (12.9-inch) (6th generation)")
-                )
-                .previewDisplayName("iPad Pro 13-inch")
-        }
+        return AnimationBottomDashboardComponent()
+            .environment(mockSensorDataProcessor)
+            .previewLayout(.sizeThatFits)  // Ensures the preview is sized appropriately
+            .padding()
     }
 }
