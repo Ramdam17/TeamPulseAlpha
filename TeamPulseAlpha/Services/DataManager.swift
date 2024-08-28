@@ -17,9 +17,9 @@ class DataManager {
     private init() {}
     
     private var defaultUUID: [String: String] = [
-        "Blue": "0F099F27-18D8-8ACC-C895-54AC2C36C790",
-        "Green": "F3742462-63F6-131A-C487-9F78D8A4FCCC",
-        "Red": "EA61A349-6EFF-9A05-F9C1-F610C171579F"
+        "Blue": "5A69DAD8-AC80-9A25-58CD-586EB3B62E59",
+        "Green": "BC8EAD68-9B19-938E-7343-9C375FA5516D",
+        "Red": "F4178ECF-E6B7-6303-E68C-5D4C3EF03C16"
     ]
 
     /// Resets all sensor data by deleting all entries from the Core Data store and reinitializing them.

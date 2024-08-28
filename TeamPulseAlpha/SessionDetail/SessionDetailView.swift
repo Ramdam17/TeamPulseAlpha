@@ -29,9 +29,9 @@ struct SessionDetailView: View {
     var body: some View {
         ZStack {
             Color("CustomYellow").ignoresSafeArea()
-            
+
             if isLoading {
-                ProgressView("Loading session data...") // Shows a loading indicator
+                ProgressView("Loading session data...")  // Shows a loading indicator
                     .progressViewStyle(CircularProgressViewStyle(tint: .black))
                     .foregroundColor(.black)
                     .scaleEffect(1.5)
@@ -46,30 +46,32 @@ struct SessionDetailView: View {
                         )
                         .tag(0)
                         .padding()
-                        
+
                         SessionMatriceDataDetailView(
                             correlationMatrixArray: correlationMatrixArray,
                             crossEntropyMatrixArray: crossEntropyMatrixArray,
-                            conditionalEntropyMatrixArray: conditionalEntropyMatrixArray,
-                            mutualInformationMatrixArray: mutualInformationMatrixArray
+                            conditionalEntropyMatrixArray:
+                                conditionalEntropyMatrixArray,
+                            mutualInformationMatrixArray:
+                                mutualInformationMatrixArray
                         )
                         .tag(1)
                         .padding()
-                        
+
                         SessionClusterDataDetailView(
                             clusterStateArray: clusterStateArray,
                             proximityMatrixArray: proximityMatrixArray
                         )
                         .tag(2)
                         .padding()
-                        
+
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     .frame(maxHeight: .infinity)
-                    
+
                     // Bottom menu for navigation
                     HStack {
-                        
+
                         Spacer()
                         Button(action: { selectedTab = 0 }) {
                             Text("Sensor Data")
@@ -92,7 +94,7 @@ struct SessionDetailView: View {
                                     selectedTab == 2 ? .black : .gray)
                         }
                         Spacer()
-                        
+
                         Button(action: { exportSession() }) {
                             Text("Export")
                                 .font(.headline)
@@ -286,15 +288,18 @@ struct SessionDetailView: View {
     }
 
     private func saveJSONToFile(data: Data) -> URL? {
-        
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        let documentsDirectory = FileManager.default.urls(
+            for: .documentDirectory, in: .userDomainMask
+        ).first!
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd-HH-mm-ss" // Adjust the format as needed
-        let formattedDate = dateFormatter.string(from: sessionID.startTime ?? Date())
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH-mm-ss"  // Adjust the format as needed
+        let formattedDate = dateFormatter.string(
+            from: sessionID.startTime ?? Date())
 
         let fileName = "session-\(formattedDate).json"
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
-        
+
         do {
             try data.write(to: fileURL)
             return fileURL
@@ -316,8 +321,20 @@ struct SessionDetailView: View {
                 let topController = windowScene.windows.first?
                     .rootViewController
             {
+
                 let activityViewController = UIActivityViewController(
                     activityItems: [fileURL], applicationActivities: nil)
+
+                if let popoverController = activityViewController
+                    .popoverPresentationController
+                {
+                    popoverController.sourceView = topController.view  // Setting the source view
+                    popoverController.sourceRect = CGRect(
+                        x: topController.view.bounds.midX,
+                        y: topController.view.bounds.midY, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
+                }
+
                 topController.present(
                     activityViewController, animated: true, completion: nil)
             }

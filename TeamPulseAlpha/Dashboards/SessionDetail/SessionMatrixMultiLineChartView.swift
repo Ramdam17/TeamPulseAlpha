@@ -60,6 +60,7 @@ struct SessionMatrixMultiLineChartView: View {
         .chartYAxis {
             AxisMarks(position: .leading)
         }
+        .chartLegend(.hidden)
     }
 
     // Helper function to extract a series from the matrix data

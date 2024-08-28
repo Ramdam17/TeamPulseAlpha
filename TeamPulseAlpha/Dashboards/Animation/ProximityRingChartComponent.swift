@@ -31,7 +31,7 @@ struct ProximityRingView: View {
         ZStack {
             // Background circle to represent the inactive portion of the ring
             Circle()
-                .stroke(lineWidth: 20)
+                .stroke(lineWidth: 12)
                 .opacity(0.3)  // Set opacity to make it look inactive
                 .foregroundColor(color)
 
@@ -40,7 +40,7 @@ struct ProximityRingView: View {
                 .trim(from: 0.0, to: CGFloat(score))  // Trim the circle based on the score
                 .stroke(
                     style: StrokeStyle(
-                        lineWidth: 2, lineCap: .round, lineJoin: .round
+                        lineWidth: 10, lineCap: .round, lineJoin: .round
                     )
                 )
                 .foregroundColor(color)  // Set the color of the active portion
@@ -53,7 +53,6 @@ struct ProximityRingView: View {
                 .foregroundColor(color)
         }
         .animation(.easeInOut(duration: 1.0), value: score)  // Smooth transition for the ring
-        .frame(maxWidth: .infinity, maxHeight: .infinity)  // Set the size of the ring view
     }
 }
 

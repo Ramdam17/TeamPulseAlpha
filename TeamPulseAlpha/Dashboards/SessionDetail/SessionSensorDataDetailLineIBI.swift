@@ -31,8 +31,7 @@ struct SessionSensorDataDetailLineIBI: View {
         .chartYAxisLabel("IBI in ms")
         .chartLegend(.hidden)
         .animation(.easeInOut(duration: 0.1), value: color)  // Animate the chart when data changes
-        .chartYScale(domain: 0...500)  // Set the Y-axis range for heart rate values
-        .frame(height: .infinity)  // Set the height of the chart
+        .chartYScale(domain: 0...2000)  // Set the Y-axis range for heart rate values
     }
 }
 

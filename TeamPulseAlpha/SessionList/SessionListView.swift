@@ -67,18 +67,6 @@ struct SessionListView: View {
 
         VStack {
             // Navigation icon on the top right
-            HStack {
-                Spacer()
-                NavigationLink(destination: MainMenuView()) {
-                    Image(systemName: "arrow.backward.circle")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.black)
-                        .padding()
-                        .cornerRadius(10)
-                }
-                .padding()
-            }
 
             HStack {
 
@@ -167,9 +155,7 @@ struct SessionListView: View {
             }
             .padding()
         }
-        .frame(width: .infinity)
         .background(Color("CustomYellow"))
-        .edgesIgnoringSafeArea(.all)
 
     }
 

@@ -32,7 +32,6 @@ struct SessionSensorDataDetailLineHRV: View {
         .chartLegend(.hidden)
         .animation(.easeInOut(duration: 0.1), value: color)  // Animate the chart when data changes
         .chartYScale(domain: 0...0.5)  // Set the Y-axis range for heart rate values
-        .frame(height: .infinity)  // Set the height of the chart
     }
 }
 

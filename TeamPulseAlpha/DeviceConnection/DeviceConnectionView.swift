@@ -95,6 +95,7 @@ struct DeviceConnectionView: View {
         .background(Color.yellow)  // Set background color for the entire view
         .edgesIgnoringSafeArea(.all)  // Extend the background to the edges of the screen
         .onAppear {
+            bluetoothManager.resetSensorConnections()
             bluetoothManager.startScanning()  // Start scanning for sensors when the view appears
             initializeConnectionStatus()  // Initialize the connection status of sensors
         }

@@ -37,7 +37,7 @@ struct MainMenuView: View {
                     backgroundColor: .black)
 
                 MenuButtonView(
-                    title: "View Recorded Sessions",
+                    title: "Review Sessions",
                     destination: SessionListView(),
                     backgroundColor: .gray)
             }
@@ -45,9 +45,7 @@ struct MainMenuView: View {
 
             Spacer()
         }
-        .frame(width: .infinity, height: .infinity)  // Ensure the VStack takes up the full screen width
-        .background(Color.yellow)  // Set background color for the entire view
-        .edgesIgnoringSafeArea(.all)  // Extend the background to the edges of the screen
+        .background(Color("CustomYellow"))  // Set background color for the entire view
     }
 }
 

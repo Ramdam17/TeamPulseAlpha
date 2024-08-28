@@ -101,14 +101,14 @@ class AnimationScene: SKScene {
         let heart = SKSpriteNode(imageNamed: "heart")
         heart.color = color
         heart.colorBlendFactor = 1.0
-        heart.size = CGSize(width: 20, height: 20) // Adjust size as needed
+        heart.size = CGSize(width: 40, height: 40) // Adjust size as needed
         heart.position = positionForHeartRate(id: "", hr: 0.0)
         return heart
     }
     
     // Create a ring with a specific color
     private func createRing(color: UIColor) -> SKShapeNode {
-        let ring = SKShapeNode(circleOfRadius: 15)
+        let ring = SKShapeNode(circleOfRadius: 25)
         ring.strokeColor = color
         ring.position = CGPoint(x: 100, y: 100)
         ring.glowWidth = 0.3
@@ -292,7 +292,7 @@ class AnimationScene: SKScene {
     }
     
     func updateStars() {
-        let spawn = currentClusterState[1] || currentClusterState[2] || currentClusterState[3] || currentClusterState[4] || currentClusterState[5]
+        let spawn = currentClusterState[4] || currentClusterState[5]
         if spawn {
             addStar()
         }

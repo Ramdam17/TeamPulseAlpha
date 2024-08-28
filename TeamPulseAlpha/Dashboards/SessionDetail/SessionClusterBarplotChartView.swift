@@ -12,7 +12,7 @@ enum BarColor: String, CaseIterable {
     case blue = "Blue"
     case green = "Green"
     case red = "Red"
-    case pink = "Pink"
+    case orange = "Orange"
     case yellow = "Yellow"
 
     var color: Color {
@@ -23,8 +23,8 @@ enum BarColor: String, CaseIterable {
             return .green
         case .red:
             return .red
-        case .pink:
-            return .pink
+        case .orange:
+            return .orange
         case .yellow:
             return Color("CustomYellow")
         }
@@ -40,13 +40,44 @@ struct ClusterBar: Identifiable {
 
 struct SessionClusterBarplotChartView: View {
     let data: [Double]
-    @State var clusterBar: [ClusterBar] = []
 
     var body: some View {
         VStack {
+
+            let clusterBar: [ClusterBar] = [
+                ClusterBar(category: "Blue", value: 0.0, subCategory: .blue),
+                ClusterBar(
+                    category: "Blue", value: data[0], subCategory: .green),
+                ClusterBar(category: "Blue", value: data[1], subCategory: .red),
+                ClusterBar(
+                    category: "Blue", value: data[3], subCategory: .orange),
+                ClusterBar(
+                    category: "Blue", value: data[4], subCategory: .yellow),
+
+                ClusterBar(
+                    category: "Green", value: data[0], subCategory: .blue),
+                ClusterBar(category: "Green", value: 0.0, subCategory: .green),
+                ClusterBar(
+                    category: "Green", value: data[2], subCategory: .red),
+                ClusterBar(
+                    category: "Green", value: data[3], subCategory: .orange),
+                ClusterBar(
+                    category: "Green", value: data[4], subCategory: .yellow),
+
+                ClusterBar(category: "Red", value: data[1], subCategory: .blue),
+                ClusterBar(
+                    category: "Red", value: data[2], subCategory: .green),
+                ClusterBar(category: "Red", value: 0.0, subCategory: .red),
+                ClusterBar(
+                    category: "Red", value: data[3], subCategory: .orange),
+                ClusterBar(
+                    category: "Red", value: data[4], subCategory: .yellow),
+
+            ]
+
             Text("Cluster State Barplot")
                 .font(.headline)
-                .padding(.top)
+                .padding(.top, 5)
 
             Chart(clusterBar) { bar in
                 BarMark(
@@ -58,43 +89,12 @@ struct SessionClusterBarplotChartView: View {
 
             }
             .chartLegend(.hidden)
-            .frame(height: 300)
+            .frame(height: 100)
         }
         .padding()
         .background(Color.white)
         .cornerRadius(10)
         .shadow(radius: 5)
-        .onAppear {
-            clusterBar = [
-                ClusterBar(category: "Blue", value: 0.0, subCategory: .blue),
-                ClusterBar(
-                    category: "Blue", value: data[0], subCategory: .green),
-                ClusterBar(category: "Blue", value: data[1], subCategory: .red),
-                ClusterBar(
-                    category: "Blue", value: data[3], subCategory: .pink),
-                ClusterBar(
-                    category: "Blue", value: data[4], subCategory: .yellow),
-
-                ClusterBar(
-                    category: "Green", value: data[0], subCategory: .blue),
-                ClusterBar(category: "Green", value: 0.0, subCategory: .green),
-                ClusterBar(
-                    category: "Green", value: data[2], subCategory: .red),
-                ClusterBar(
-                    category: "Green", value: data[3], subCategory: .pink),
-                ClusterBar(
-                    category: "Green", value: data[4], subCategory: .yellow),
-
-                ClusterBar(category: "Red", value: data[1], subCategory: .blue),
-                ClusterBar(
-                    category: "Red", value: data[2], subCategory: .green),
-                ClusterBar(category: "Red", value: 0.0, subCategory: .red),
-                ClusterBar(category: "Red", value: data[3], subCategory: .pink),
-                ClusterBar(
-                    category: "Red", value: data[4], subCategory: .yellow),
-
-            ]
-        }
     }
 }
 

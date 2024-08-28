@@ -21,7 +21,7 @@ struct SessionSensorDataDetailView: View {
     //]
 
     var body: some View {
-        GeometryReader { metrics in
+        ScrollView {
             VStack {
                 if let blueUUID = sensorUUIDMapping["Blue"] {
                     SessionSensorDataDetailRowView(
@@ -33,8 +33,7 @@ struct SessionSensorDataDetailView: View {
                         color: .blue
                     )
                     .frame(
-                        width: metrics.size.width,
-                        height: metrics.size.height * 0.3
+                        height: 400
                     )
                 }
 
@@ -51,8 +50,7 @@ struct SessionSensorDataDetailView: View {
                         color: .green
                     )
                     .frame(
-                        width: metrics.size.width,
-                        height: metrics.size.height * 0.3
+                        height: 400
                     )
                 }
 
@@ -68,15 +66,14 @@ struct SessionSensorDataDetailView: View {
                         color: .red
                     )
                     .frame(
-                        width: metrics.size.width,
-                        height: metrics.size.height * 0.3
+                        height: 400
                     )
                 }
             }
-        }
-        .padding()
-        .onAppear {
-            loadSensorUUIDMapping()
+            .padding()
+            .onAppear {
+                loadSensorUUIDMapping()
+            }
         }
     }
 
@@ -99,7 +96,7 @@ struct SessionSensorDataDetailView: View {
         } catch {
             print("Failed to fetch sensors: \(error)")
         }
-        
+
     }
 
     /// Filters a data array by the provided sensor UUID.
@@ -113,14 +110,15 @@ struct SessionSensorDataDetailView: View {
 struct SessionSensorDataDetailView_Previews: PreviewProvider {
     static var previews: some View {
         // Creating fake HR, IBI, and HRV data arrays
-        
+
         var fakeHRDataArray: [[String: Any]] = []
 
         for i in 0...60 {
             fakeHRDataArray.append(
                 [
                     "timestamp": Date().addingTimeInterval(Double(i)),
-                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790", "hrValue": Double.random(in: 40..<200),
+                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790",
+                    "hrValue": Double.random(in: 40..<200),
                 ])
             fakeHRDataArray.append(
                 [
@@ -140,7 +138,8 @@ struct SessionSensorDataDetailView_Previews: PreviewProvider {
             fakeIBIDataArray.append(
                 [
                     "timestamp": Date().addingTimeInterval(Double(i)),
-                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790", "ibiValue": Double.random(in: 0..<1.0),
+                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790",
+                    "ibiValue": Double.random(in: 0..<1.0),
                 ])
             fakeIBIDataArray.append(
                 [
@@ -150,22 +149,32 @@ struct SessionSensorDataDetailView_Previews: PreviewProvider {
             fakeIBIDataArray.append(
                 [
                     "timestamp": Date().addingTimeInterval(Double(i)),
-                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790", "ibiValue": Double.random(in: 0..<1.0),
+                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790",
+                    "ibiValue": Double.random(in: 0..<1.0),
                 ]
             )
         }
 
         var fakeHRVDataArray: [[String: Any]] = []
-        
-            for i in 0...60 {
+
+        for i in 0...60 {
             fakeHRVDataArray.append(
-                ["timestamp": Date().addingTimeInterval(Double(i)), "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790", "hrvValue": Double.random(in: 0..<0.5)
+                [
+                    "timestamp": Date().addingTimeInterval(Double(i)),
+                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790",
+                    "hrvValue": Double.random(in: 0..<0.5),
                 ])
             fakeHRVDataArray.append(
-                ["timestamp": Date().addingTimeInterval(Double(i)), "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790", "hrvValue": Double.random(in: 0..<0.5)
+                [
+                    "timestamp": Date().addingTimeInterval(Double(i)),
+                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790",
+                    "hrvValue": Double.random(in: 0..<0.5),
                 ])
             fakeHRVDataArray.append(
-                ["timestamp": Date().addingTimeInterval(Double(i)), "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790", "hrvValue": Double.random(in: 0..<0.5)
+                [
+                    "timestamp": Date().addingTimeInterval(Double(i)),
+                    "sensorUUID": "0F099F27-18D8-8ACC-C895-54AC2C36C790",
+                    "hrvValue": Double.random(in: 0..<0.5),
                 ]
             )
         }

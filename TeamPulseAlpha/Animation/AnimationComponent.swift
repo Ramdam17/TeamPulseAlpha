@@ -26,9 +26,6 @@ struct AnimationComponent: View {
                 .background(Color(.black))
                 .cornerRadius(20)
                 .ignoresSafeArea()
-                .onAppear {
-                    //
-                }
                 .onChange(of: sensorDataProcessor.isUpdated) {
                     oldValue, newValue in
 
@@ -41,18 +38,14 @@ struct AnimationComponent: View {
 
                 }
                 .onAppear {
-                    animationScene.isPaused = false
                     isAnimationRunning = true
+                    animationScene.isPaused = false
                     animationScene.size = CGSize(width: metrics.size.width, height: metrics.size.height)
                     animationScene.scaleMode = .aspectFit
                 }
                 .onDisappear {
-                    animationScene.isPaused = true
-                    animationScene.reset()
                     isAnimationRunning = false
-                    animationScene.removeAllChildren()
-                    animationScene.removeAllActions()
-                    bluetoothManager.resetSensorConnections()
+                    animationScene.isPaused = true
                 }
         }
     }

@@ -60,6 +60,8 @@ struct SessionClusterMultiLineChartView: View {
         .chartYAxis {
             AxisMarks(position: .leading)
         }
+        .chartLegend(.hidden)
+        .padding()
         .background(Color.white)
         .cornerRadius(15)
         .shadow(radius: 5)

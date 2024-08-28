@@ -16,9 +16,7 @@ struct DataAuthManagementComponent: View {
     
     var body: some View {
 
-        GeometryReader { metrics in
-
-            VStack(alignment: .center, spacing: 20) {
+            VStack() {
                 Text("Data & Authentication Management")
                     .font(.title)
                     .fontWeight(.bold)
@@ -59,14 +57,11 @@ struct DataAuthManagementComponent: View {
                     }
             }
             .padding(20)
-            .frame(
-                width: metrics.size.width,
-                height: metrics.size.height
-            )
             .background(Color.white)
             .cornerRadius(15)
             .shadow(radius: 5)
-        }
+            .padding(.horizontal)
+
     }
 }
 

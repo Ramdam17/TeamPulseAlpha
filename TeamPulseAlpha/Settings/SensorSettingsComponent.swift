@@ -15,80 +15,73 @@ struct SensorSettingsComponent: View {
     @State private var showResetAlert = false  // State to manage showing the reset alert
 
     var body: some View {
-        
-        GeometryReader { metrics in
-            
-            VStack(alignment: .center, spacing: 20) {
-                Text("Sensors UUID Management")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.bottom, 30)
-                
-                // Clickable text for Blue sensor
-                sensorOption(text: "Update Blue Sensor UUID", color: .blue)
-                    .onTapGesture {
-                        showModalForSensor = .blue
-                    }
-                    .sheet(item: $showModalForSensor) { sensor in
-                        SensorUUIDModal(sensorType: sensor)
-                    }
-                
-                // Clickable text for Green sensor
-                sensorOption(text: "Update Green Sensor UUID", color: .green)
-                    .onTapGesture {
-                        showModalForSensor = .green
-                    }
-                    .sheet(item: $showModalForSensor) { sensor in
-                        SensorUUIDModal(sensorType: sensor)
-                    }
-                
-                // Clickable text for Red sensor
-                sensorOption(text: "Update Red Sensor UUID", color: .red)
-                    .onTapGesture {
-                        showModalForSensor = .red
-                    }
-                    .sheet(item: $showModalForSensor) { sensor in
-                        SensorUUIDModal(sensorType: sensor)
-                    }
-                
-                // Clickable text to reset all sensors UUID
-                HStack {
-                    Text("Reset all sensors UUID")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                }
+
+        VStack {
+            Text("Sensors UUID Management")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.bottom, 30)
+
+            // Clickable text for Blue sensor
+            sensorOption(text: "Update Blue Sensor UUID", color: .blue)
                 .onTapGesture {
-                    showResetAlert = true
+                    showModalForSensor = .blue
                 }
-                .alert(isPresented: $showResetAlert) {
-                    Alert(
-                        title: Text("Reset All UUIDs"),
-                        message: Text(
-                            "Are you sure you want to reset all sensors UUIDs to their default values?"
-                        ),
-                        primaryButton: .destructive(Text("Reset")) {
-                            resetAllSensorsUUID()
-                        },
-                        secondaryButton: .cancel()
+                .sheet(item: $showModalForSensor) { sensor in
+                    SensorUUIDModal(sensorType: sensor)
+                }
+
+            // Clickable text for Green sensor
+            sensorOption(text: "Update Green Sensor UUID", color: .green)
+                .onTapGesture {
+                    showModalForSensor = .green
+                }
+                .sheet(item: $showModalForSensor) { sensor in
+                    SensorUUIDModal(sensorType: sensor)
+                }
+
+            // Clickable text for Red sensor
+            sensorOption(text: "Update Red Sensor UUID", color: .red)
+                .onTapGesture {
+                    showModalForSensor = .red
+                }
+                .sheet(item: $showModalForSensor) { sensor in
+                    SensorUUIDModal(sensorType: sensor)
+                }
+
+            // Clickable text to reset all sensors UUID
+            HStack {
+                Text("Reset all sensors UUID")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 1)
                     )
-                }
-                .padding(.top, 40)
             }
-            .padding(20)
-            .frame(
-                width: metrics.size.width,
-                height: metrics.size.height
-            )
-            .background(Color.white)
-            .cornerRadius(15)
-            .shadow(radius: 5)
-            .padding(.horizontal)
+            .onTapGesture {
+                showResetAlert = true
+            }
+            .alert(isPresented: $showResetAlert) {
+                Alert(
+                    title: Text("Reset All UUIDs"),
+                    message: Text(
+                        "Are you sure you want to reset all sensors UUIDs to their default values?"
+                    ),
+                    primaryButton: .destructive(Text("Reset")) {
+                        resetAllSensorsUUID()
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
+            .padding(.top, 40)
         }
+        .padding(20)
+        .background(Color.white)
+        .cornerRadius(15)
+        .shadow(radius: 5)
+        .padding(.horizontal)
     }
 
     /// Function to create a sensor option view with colored text and a matching border

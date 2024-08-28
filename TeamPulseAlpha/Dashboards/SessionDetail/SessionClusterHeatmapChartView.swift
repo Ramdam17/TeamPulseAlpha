@@ -14,7 +14,7 @@ struct SessionClusterHeatmapChartView: View {
         VStack {
             Text("Heatmap")
                 .font(.headline)
-                .padding(.top)
+                .padding(.top, 5)
 
             // 6 rows x 5 columns heatmap
             VStack(spacing: 2) {

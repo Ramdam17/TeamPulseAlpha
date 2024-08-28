@@ -51,7 +51,7 @@ struct LineChartHRVComponent: View {
             }
             .chartLegend(.hidden)
             .animation(.easeInOut(duration: 0.1), value: data)  // Animate the chart when data changes
-            .chartYScale(domain: 0...2)  // Set the Y-axis range for HRV values
+            .chartYScale(domain: 0...0.5)  // Set the Y-axis range for HRV values
             .frame(height: .infinity)  // Set the height of the chart
             .padding()  // Add padding around the chart for better spacing
         }

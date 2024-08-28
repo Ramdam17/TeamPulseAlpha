@@ -39,12 +39,10 @@ struct SessionSensorDataDetailRowView: View {
                 
             }
             .padding()
-            .frame(width: .infinity, height: .infinity)
             .ignoresSafeArea(.all)
             Spacer()
         }
         .padding()
-        .frame(width: .infinity, height: .infinity)
         .ignoresSafeArea(.all)
         .background(Color.white)
         .cornerRadius(15)

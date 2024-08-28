@@ -54,7 +54,8 @@ struct PoincareMapComponent: View {
                                 AxisValueLabel()
                             }
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)  // Adjust the size of each chart
+                        .chartXScale(domain: 0...2)  // Set the Y-axis range for heart rate values
+                        .chartYScale(domain: 0...2)  // Set the Y-axis range for heart rate values
                     }
                 } else {
                     Text("Not enough data for sensor \(index + 1)")

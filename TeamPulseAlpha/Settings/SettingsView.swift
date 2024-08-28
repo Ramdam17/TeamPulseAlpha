@@ -9,25 +9,17 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        
-        GeometryReader {
-            metrics in
-            
-            VStack(alignment: .center, spacing: 20) {
-                
-                SensorSettingsComponent()
-                    .frame(width: metrics.size.width * 0.6, height: metrics.size.height * 0.5)
 
-                DataAuthManagementComponent()
-                    .frame(width: metrics.size.width * 0.6, height: metrics.size.height * 0.3)
+        VStack(spacing: 40) {
 
-            }
-            .padding()
-            .edgesIgnoringSafeArea(.all)
-            .frame(width: metrics.size.width, height: metrics.size.height)
-            .background(Color("CustomYellow"))
-            
+            SensorSettingsComponent()
+
+            DataAuthManagementComponent()
+
         }
+        .padding()
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        .background(Color("CustomYellow"))
     }
 }
 

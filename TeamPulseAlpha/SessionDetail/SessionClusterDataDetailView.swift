@@ -16,89 +16,53 @@ struct SessionClusterDataDetailView: View {
 
     var body: some View {
 
-        GeometryReader { metrics in
+        HStack(spacing: 20) {
 
-            HStack(spacing: 20) {
-
-                VStack(spacing: 20) {
-                    if clusterStateArrayRatio.count >= 5 {
-                        SessionClusterHeatmapChartView(
-                            data: Array(clusterStateArrayRatio.suffix(5))
-                        )
-                        .frame(
-                            width: .infinity,
-                            height: .infinity
-                        )
-                        SessionClusterBarplotChartView(
-                            data: Array(clusterStateArrayRatio.suffix(5))
-                        )
-                        .frame(
-                            width: .infinity,
-                            height: .infinity
-                        )
-                        
-                    }
+            VStack(spacing: 20) {
+                if clusterStateArrayRatio.count >= 5 {
+                    SessionClusterHeatmapChartView(
+                        data: Array(clusterStateArrayRatio.suffix(5))
+                    )
+                    SessionClusterBarplotChartView(
+                        data: Array(clusterStateArrayRatio.suffix(5))
+                    )
                 }
-                .frame(
-                    width: metrics.size.width * 0.3,
-                    height: metrics.size.height * 1
+            }
+            .frame(width: 400)
+
+            VStack(spacing: 20) {
+                SessionClusterMultiLineChartView(
+                    matrixDataArray: proximityMatrixArray, i: 0, j1: 1,
+                    j2: 2
                 )
-
-
-                VStack(spacing: 20) {
-                    SessionClusterMultiLineChartView(
-                        matrixDataArray: proximityMatrixArray, i: 0, j1: 1,
-                        j2: 2
-                    )
-                    .frame(
-                        width: .infinity,
-                        height: .infinity
-                    )
-                    SessionClusterMultiLineChartView(
-                        matrixDataArray: proximityMatrixArray, i: 1, j1: 0,
-                        j2: 2
-                    )
-                    .frame(
-                        width: .infinity,
-                        height: .infinity
-                    )
-                    SessionClusterMultiLineChartView(
-                        matrixDataArray: proximityMatrixArray, i: 2, j1: 0,
-                        j2: 1
-                    )
-                    .frame(
-                        width: .infinity,
-                        height: .infinity
-                    )
-                }
-                .frame(
-                    width: metrics.size.width * 0.6,
-                    height: metrics.size.height * 1
+                SessionClusterMultiLineChartView(
+                    matrixDataArray: proximityMatrixArray, i: 1, j1: 0,
+                    j2: 2
+                )
+                SessionClusterMultiLineChartView(
+                    matrixDataArray: proximityMatrixArray, i: 2, j1: 0,
+                    j2: 1
                 )
             }
-            .frame(
-                width: .infinity,
-                height: .infinity
-            )
-            .background(Color.white)
-            .cornerRadius(15)
-            .shadow(radius: 5)
-            .padding()
-            .onAppear {
-                
-                let arraySummed = clusterStateArray.reduce(
-                    [Double](repeating: 0, count: 6)
-                ) { result, element in
-                    if let booleanVector = element["clusterState"] as? [Double] {
-                        let doubleVector = booleanVector.map { $0 > 0 ? 1.0 : 0.0 }
-                        return zip(result, doubleVector).map(+)
-                    }
-                    return result
-                }
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(15)
+        .shadow(radius: 5)
+        .onAppear {
 
-                clusterStateArrayRatio = arraySummed.map {
-                    $0 / Double(clusterStateArray.count)
+            let arraySummed = clusterStateArray.reduce(
+                [Double](repeating: 0, count: 6)
+            ) { result, element in
+                if let booleanVector = element["clusterState"] as? [Double] {
+                    let doubleVector = booleanVector.map { $0 > 0 ? 1.0 : 0.0 }
+                    return zip(result, doubleVector).map(+)
                 }
+                return result
+            }
+
+            clusterStateArrayRatio = arraySummed.map {
+                $0 / Double(clusterStateArray.count)
             }
         }
     }

@@ -15,7 +15,7 @@ struct SessionMatriceDataDetailRowView: View {
         VStack {
             Text(title)
                 .font(.headline)
-                .padding(.top)
+                .padding()
             
             HStack {
                 
@@ -24,9 +24,9 @@ struct SessionMatriceDataDetailRowView: View {
                 SessionMatrixMultiLineChartView(matrixDataArray: matrixData, i: 1, j1: 0, j2: 2)
                 SessionMatrixMultiLineChartView(matrixDataArray: matrixData, i: 2, j1: 0, j2: 1)
                 
-            }            
+            }
+            .padding()
         }
-        .frame(width: .infinity, height: .infinity)
         .background(Color.white)
         .cornerRadius(15)
         .shadow(radius: 5)

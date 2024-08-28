@@ -16,30 +16,30 @@ struct SessionMatriceDataDetailView: View {
 
     var body: some View {
         
-        GeometryReader { metrics in
-            VStack(spacing: 20) {
+        ScrollView {
+            VStack(spacing: 2) {
                 SessionMatriceDataDetailRowView(
                     matrixData: correlationMatrixArray, title: "Correlation Matrix"
                 )
-                .frame(width : metrics.size.width, height: metrics.size.height * 0.2)
-
+                .frame(height: 400)
+                
                 SessionMatriceDataDetailRowView(
                     matrixData: crossEntropyMatrixArray,
                     title: "Cross Entropy Matrix"
                 )
-                .frame(width : metrics.size.width, height: metrics.size.height * 0.2)
+                .frame(height: 400)
 
                 SessionMatriceDataDetailRowView(
                     matrixData: conditionalEntropyMatrixArray,
                     title: "Conditional Entropy Matrix"
                 )
-                .frame(width : metrics.size.width, height: metrics.size.height * 0.2)
+                .frame(height: 400)
 
                 SessionMatriceDataDetailRowView(
                     matrixData: mutualInformationMatrixArray,
                     title: "Mutual Information Matrix"
                 )
-                .frame(width : metrics.size.width, height: metrics.size.height * 0.2)
+                .frame(height: 400)
 
             }
             .padding()

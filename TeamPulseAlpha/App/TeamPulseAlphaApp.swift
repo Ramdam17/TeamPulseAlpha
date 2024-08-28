@@ -37,10 +37,7 @@ struct TeamPulseAlphaApp: App {
                 .environment(authManager)  // Provide AuthenticationManager to the environment
                 .environment(bluetoothManager)  // Provide BluetoothManager to the environment
                 .onAppear {
-                    UIDevice.current.setValue(
-                        UIInterfaceOrientation.landscapeLeft.rawValue,
-                        forKey: "orientation")
-                    AppDelegate.orientationLock = .landscape
+
                 }
         }
     }
@@ -94,6 +91,7 @@ struct ContentView: View {
     @Environment(AuthenticationManager.self) var authManager  // Use the authentication manager from the environment
 
     init() {
+        // DataManager.shared.resetSensors()
         DataManager.shared.initializeSensors()  // Initialize sensors on app launch
     }
 
@@ -101,12 +99,13 @@ struct ContentView: View {
         NavigationView {
             // Conditional navigation based on the user's authentication status
             if authManager.isAuthenticated {
-                AuthenticatedView()  // Show main menu if authenticated
+                AuthenticatedView()
             } else {
                 UnauthenticatedView()  // Show authentication view if not authenticated
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accentColor(.white)
+        .navigationViewStyle(StackNavigationViewStyle())
         .ignoresSafeArea(edges: .all)
     }
 }
@@ -122,16 +121,5 @@ struct AuthenticatedView: View {
 struct UnauthenticatedView: View {
     var body: some View {
         AuthView()  // Display the authentication view for signing in
-    }
-}
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-    static var orientationLock = UIInterfaceOrientationMask.landscape
-
-    func application(
-        _ application: UIApplication,
-        supportedInterfaceOrientationsFor window: UIWindow?
-    ) -> UIInterfaceOrientationMask {
-        return AppDelegate.orientationLock
     }
 }

@@ -15,7 +15,7 @@ struct AnimationLeftDashboardComponent: View {
 
     var body: some View {
         GeometryReader { metrics in
-            VStack(spacing: 20) {  // Added spacing between sections for better visual separation
+            VStack {  // Added spacing between sections for better visual separation
                 // Poincare map visualization for IBI data from the sensors.
                 
                 PoincareMapComponent(
@@ -29,7 +29,7 @@ struct AnimationLeftDashboardComponent: View {
                     data: sensorDataProcessor.computeProximityScore(),
                     color: Color(red: 1.0, green: 0.84, blue: 0.0)
                 )
-                .frame(height: metrics.size.height * 0.15)
+                .frame(height: metrics.size.height * 0.20)
                 
             }
             .padding()  // Add padding around the entire VStack for better spacing.
