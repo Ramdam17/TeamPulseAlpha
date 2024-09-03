@@ -9,16 +9,34 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
+        
+        VStack {
 
-        VStack(spacing: 40) {
+            HStack { Spacer() }
 
+            Spacer()
             SensorSettingsComponent()
+                .frame(
+                    width: UIDevice.current.orientation.isLandscape
+                        ? UIScreen.main.bounds.width * 0.5
+                        : UIScreen.main.bounds.width * 0.8,
+                    height: UIDevice.current.orientation.isLandscape
+                        ? UIScreen.main.bounds.height * 0.4
+                        : UIScreen.main.bounds.height * 0.4)
 
+            Spacer()
             DataAuthManagementComponent()
+                .frame(
+                    width: UIDevice.current.orientation.isLandscape
+                        ? UIScreen.main.bounds.width * 0.5
+                        : UIScreen.main.bounds.width * 0.8,
+                    height: UIDevice.current.orientation.isLandscape
+                        ? UIScreen.main.bounds.height * 0.3
+                        : UIScreen.main.bounds.height * 0.3)
 
+            Spacer()
         }
         .padding()
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .background(Color("CustomYellow"))
     }
 }
@@ -26,6 +44,7 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .previewDevice("iPad Pro (11-inch)")
+            .environment(SessionManager())
+            .environment(AuthenticationManager())
     }
 }

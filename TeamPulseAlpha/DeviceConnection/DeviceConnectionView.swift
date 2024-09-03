@@ -23,7 +23,7 @@ struct DeviceConnectionView: View {
                 // Title for the device connection screen
                 Text("Device Connection")
 
-                    .font(.largeTitle)  // Set the font size of the title
+                    .font(UIDevice.current.orientation.isLandscape ? .largeTitle : .title)  // Set the font size of the title
                     .padding()  // Add padding around the title
 
                 // White rounded container around the sensor connection information
@@ -52,7 +52,7 @@ struct DeviceConnectionView: View {
                             .italic(connectionStatus[sensorID] == false)
                             
                         }
-                        .padding(.horizontal, 80)
+                        .padding(.horizontal, UIDevice.current.orientation.isLandscape ? 80 : 10)
                     }
                 }
 
@@ -83,7 +83,7 @@ struct DeviceConnectionView: View {
             }
             .padding(20)
             .frame(
-                maxWidth: UIScreen.main.bounds.width / 2.5,
+                maxWidth: UIDevice.current.orientation.isLandscape ? UIScreen.main.bounds.width / 2.5 : UIScreen.main.bounds.width * 0.8,
                 maxHeight: UIScreen.main.bounds.height / 2
             )
             .background(Color.white)

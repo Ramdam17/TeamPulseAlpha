@@ -8,30 +8,39 @@
 import SwiftUI
 import Charts
 
+/// SwiftUI component to display a line chart of inter-beat interval (IBI) data.
+/// The chart includes a customizable title above it and no legend.
 struct SessionSensorDataDetailLineIBI: View {
-    var ibiData: [[String: Any]]
-    let color: Color
+    var ibiData: [[String: Any]]  // IBI data as an array of dictionaries
+    let color: Color  // Color for the line in the chart
+    let title: String  // Title to display above the chart
 
     var body: some View {
-        Chart {
-            ForEach(Array(ibiData.enumerated()), id: \.offset) { index, dataPoint in
-                if let timestamp = dataPoint["timestamp"] as? Date,
-                   let ibiValue = dataPoint["ibiValue"] as? Double {
-                    LineMark(
-                        x: .value("Time", timestamp),
-                        y: .value("HR", ibiValue*1000)
-                    )
-                    .interpolationMethod(.catmullRom)  // Apply Catmull-Rom interpolation for smoother lines
-                    .lineStyle(StrokeStyle(lineWidth: 2))  // Set the line width
-                    .foregroundStyle(color)  // Apply the color to the line
+        VStack {
+            Text(title)  // Chart title
+                .font(.headline)
+                .padding(.bottom, 10)  // Spacing between the title and the chart
+
+            Chart {
+                ForEach(Array(ibiData.enumerated()), id: \.offset) { index, dataPoint in
+                    if let ibiData = extractIBIData(from: dataPoint) {
+                        LineMark(
+                            x: .value("Time", ibiData.timestamp),
+                            y: .value("IBI", ibiData.ibiValue * 1000)  // Convert to ms
+                        )
+                        .interpolationMethod(.catmullRom)  // Smooth line interpolation
+                        .lineStyle(StrokeStyle(lineWidth: 2))  // Customize line width
+                        .foregroundStyle(color)  // Apply the provided color
+                    }
                 }
             }
+            .chartXAxisLabel("Time")  // X-axis label
+            .chartYAxisLabel("IBI in ms")  // Y-axis label
+            .chartLegend(.hidden)  // Hide legend as it's unnecessary
+            .animation(.easeInOut(duration: 0.1), value: color)  // Animate color changes
+            .chartYScale(domain: 0...2000)  // Y-axis range for IBI values in ms
         }
-        .chartXAxisLabel("Time")
-        .chartYAxisLabel("IBI in ms")
-        .chartLegend(.hidden)
-        .animation(.easeInOut(duration: 0.1), value: color)  // Animate the chart when data changes
-        .chartYScale(domain: 0...2000)  // Set the Y-axis range for heart rate values
+        .padding()
     }
 }
 
@@ -46,8 +55,7 @@ struct SessionSensorDataDetailLineIBI_Previews: PreviewProvider {
             ])
         }
 
-
-        return SessionSensorDataDetailLineIBI(ibiData: previewData, color: .blue)
+        return SessionSensorDataDetailLineIBI(ibiData: previewData, color: .blue, title: "Inter-beat Interval Over Time")
             .previewLayout(.sizeThatFits)
             .padding()
     }

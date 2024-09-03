@@ -8,32 +8,39 @@
 import Charts
 import SwiftUI
 
+/// SwiftUI component to display a line chart of heart rate data.
+/// The chart includes a customizable title above it and no legend.
 struct SessionSensorDataDetailLineHR: View {
-    var hrData: [[String: Any]]
-    let color: Color
+    var hrData: [[String: Any]]  // Heart rate data as an array of dictionaries
+    let color: Color  // Color for the line in the chart
+    let title: String  // Title to display above the chart
 
     var body: some View {
-        Chart {
-            ForEach(Array(hrData.enumerated()), id: \.offset) {
-                index, dataPoint in
-                if let timestamp = dataPoint["timestamp"] as? Date,
-                    let hrValue = dataPoint["hrValue"] as? Double
-                {
-                    LineMark(
-                        x: .value("Time", timestamp),
-                        y: .value("HR", hrValue)
-                    )
-                    .interpolationMethod(.catmullRom)  // Apply Catmull-Rom interpolation for smoother lines
-                    .lineStyle(StrokeStyle(lineWidth: 2))  // Set the line width
-                    .foregroundStyle(color)  // Apply the color to the line
+        VStack {
+            Text(title)  // Chart title
+                .font(.headline)
+                .padding(.bottom, 10)  // Spacing between the title and the chart
+
+            Chart {
+                ForEach(Array(hrData.enumerated()), id: \.offset) { index, dataPoint in
+                    if let hrData = extractHRData(from: dataPoint) {
+                        LineMark(
+                            x: .value("Time", hrData.timestamp),
+                            y: .value("HR", hrData.hrValue)
+                        )
+                        .interpolationMethod(.catmullRom)  // Smooth line interpolation
+                        .lineStyle(StrokeStyle(lineWidth: 2))  // Customize line width
+                        .foregroundStyle(color)  // Apply the provided color
+                    }
                 }
             }
+            .chartXAxisLabel("Time")  // X-axis label
+            .chartYAxisLabel("Heart Rate (HR)")  // Y-axis label
+            .chartLegend(.hidden)  // Hide legend as it's unnecessary
+            .animation(.easeInOut(duration: 0.1), value: color)  // Animate color changes
+            .chartYScale(domain: 20...220)  // Y-axis range for heart rate values
         }
-        .chartXAxisLabel("Time")
-        .chartYAxisLabel("Heart Rate (HR)")
-        .chartLegend(.hidden)
-        .animation(.easeInOut(duration: 0.1), value: color)  // Animate the chart when data changes
-        .chartYScale(domain: 40...200)  // Set the Y-axis range for heart rate values
+        .padding()
     }
 }
 
@@ -48,7 +55,7 @@ struct SessionSensorDataDetailLineHR_Previews: PreviewProvider {
             ])
         }
 
-        return SessionSensorDataDetailLineHR(hrData: previewData, color: .blue)
+        return SessionSensorDataDetailLineHR(hrData: previewData, color: .blue, title: "Heart Rate Over Time")
             .previewLayout(.sizeThatFits)
             .padding()
     }

@@ -83,7 +83,7 @@ struct BoxPlotComponent: View {
                     value in
                 }
             }
-            .chartYScale(domain: 0...200)  // Adjust this domain based on expected HR range
+            .chartYScale(domain: 0...220)  // Adjust this domain based on expected HR range
             .frame(height: .infinity)
             .padding()
         }

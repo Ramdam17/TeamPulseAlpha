@@ -120,6 +120,7 @@ struct AuthenticatedView: View {
 /// View displayed when the user is not authenticated, showing the sign-in interface.
 struct UnauthenticatedView: View {
     var body: some View {
-        AuthView()  // Display the authentication view for signing in
+        AuthView()
+            .ignoresSafeArea()// Display the authentication view for signing in
     }
 }

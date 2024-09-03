@@ -51,9 +51,8 @@ struct LineChartHRComponent: View {
             }
             .chartLegend(.hidden)
             .animation(.easeInOut(duration: 0.1), value: data)  // Animate the chart when data changes
-            .chartYScale(domain: 40...200)  // Set the Y-axis range for heart rate values
-            .frame(height: .infinity)  // Set the height of the chart
-            .padding()  // Add padding around the chart for better spacing
+            .chartYScale(domain: 20...220)  // Set the Y-axis range for heart rate values
+            .padding(5)  // Add padding around the chart for better spacing
         }
     }
 }

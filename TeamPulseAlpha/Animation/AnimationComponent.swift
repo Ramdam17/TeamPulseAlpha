@@ -24,7 +24,7 @@ struct AnimationComponent: View {
             SpriteView(scene: animationScene)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color(.black))
-                .cornerRadius(20)
+                .cornerRadius(10)
                 .ignoresSafeArea()
                 .onChange(of: sensorDataProcessor.isUpdated) {
                     oldValue, newValue in

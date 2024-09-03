@@ -8,30 +8,39 @@
 import SwiftUI
 import Charts
 
+/// SwiftUI component to display a line chart of heart rate variability (HRV) data.
+/// The chart includes a customizable title above it and no legend.
 struct SessionSensorDataDetailLineHRV: View {
-    var hrvData: [[String: Any]]
-    let color: Color
+    var hrvData: [[String: Any]]  // HRV data as an array of dictionaries
+    let color: Color  // Color for the line in the chart
+    let title: String  // Title to display above the chart
 
     var body: some View {
-        Chart {
-            ForEach(Array(hrvData.enumerated()), id: \.offset) { index, dataPoint in
-                if let timestamp = dataPoint["timestamp"] as? Date,
-                   let hrvValue = dataPoint["hrvValue"] as? Double {
-                    LineMark(
-                        x: .value("Time", timestamp),
-                        y: .value("HRV", hrvValue)
-                    )
-                    .interpolationMethod(.catmullRom)  // Apply Catmull-Rom interpolation for smoother lines
-                    .lineStyle(StrokeStyle(lineWidth: 2))  // Set the line width
-                    .foregroundStyle(color)  // Apply the color to the line
+        VStack {
+            Text(title)  // Chart title
+                .font(.headline)
+                .padding(.bottom, 10)  // Spacing between the title and the chart
+
+            Chart {
+                ForEach(Array(hrvData.enumerated()), id: \.offset) { index, dataPoint in
+                    if let hrvData = extractHRVData(from: dataPoint) {
+                        LineMark(
+                            x: .value("Time", hrvData.timestamp),
+                            y: .value("HRV", hrvData.hrvValue)
+                        )
+                        .interpolationMethod(.catmullRom)  // Smooth line interpolation
+                        .lineStyle(StrokeStyle(lineWidth: 2))  // Customize line width
+                        .foregroundStyle(color)  // Apply the provided color
+                    }
                 }
             }
+            .chartXAxisLabel("Time")  // X-axis label
+            .chartYAxisLabel("Heart Rate Variability (HRV)")  // Y-axis label
+            .chartLegend(.hidden)  // Hide legend as it's unnecessary
+            .animation(.easeInOut(duration: 0.1), value: color)  // Animate color changes
+            .chartYScale(domain: 0...0.5)  // Y-axis range for HRV values
         }
-        .chartXAxisLabel("Time")
-        .chartYAxisLabel("Heart Rate Variability (HRV)")
-        .chartLegend(.hidden)
-        .animation(.easeInOut(duration: 0.1), value: color)  // Animate the chart when data changes
-        .chartYScale(domain: 0...0.5)  // Set the Y-axis range for heart rate values
+        .padding()
     }
 }
 
@@ -46,7 +55,7 @@ struct SessionSensorDataDetailLineHRV_Previews: PreviewProvider {
             ])
         }
 
-        return SessionSensorDataDetailLineHRV(hrvData: previewData, color: .blue)
+        return SessionSensorDataDetailLineHRV(hrvData: previewData, color: .blue, title: "Heart Rate Variability Over Time")
             .previewLayout(.sizeThatFits)
             .padding()
     }

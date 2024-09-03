@@ -17,15 +17,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="LogoRounded" translatesAutoresizingMaskIntoConstraints="NO" id="y8E-gh-nhr">
-                                <rect key="frame" x="560" y="460" width="256" height="256"/>
+                                <rect key="frame" x="560" y="556" width="256" height="256"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="256" id="4hK-aB-IUP"/>
                                     <constraint firstAttribute="height" constant="256" id="pBz-Vy-5m1"/>
                                 </constraints>
                                 <edgeInsets key="layoutMargins" top="8" left="256" bottom="8" right="8"/>
                             </imageView>
-                            <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Team Pulse Alpha" textAlignment="natural" minimumFontSize="144" translatesAutoresizingMaskIntoConstraints="NO" id="1a3-y8-C82">
-                                <rect key="frame" x="201.5" y="164" width="973" height="168"/>
+                            <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Team Pulse Alpha" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="28" translatesAutoresizingMaskIntoConstraints="NO" id="1a3-y8-C82">
+                                <rect key="frame" x="201.5" y="164" width="973" height="167"/>
                                 <color key="backgroundColor" name="CustomYellow"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
@@ -33,13 +33,17 @@
                                 <color key="textColor" name="CustomWhite"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="128"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <variation key="heightClass=regular-widthClass=compact" insetsLayoutMarginsFromSafeArea="NO"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="128"/>
+                                </variation>
                             </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="CustomYellow"/>
                         <color key="tintColor" name="CustomYellow"/>
                         <constraints>
-                            <constraint firstItem="y8E-gh-nhr" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="436" id="2Zv-vX-O7V"/>
+                            <constraint firstItem="y8E-gh-nhr" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" constant="-200" id="2Zv-vX-O7V"/>
                             <constraint firstItem="1a3-y8-C82" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="B3t-zn-5C9"/>
                             <constraint firstItem="1a3-y8-C82" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="140" id="UDT-cH-Sw2"/>
                             <constraint firstItem="y8E-gh-nhr" firstAttribute="centerX" secondItem="1a3-y8-C82" secondAttribute="centerX" id="j2X-hN-isW"/>

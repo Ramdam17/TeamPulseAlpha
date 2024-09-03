@@ -8,67 +8,85 @@
 import Charts
 import SwiftUI
 
+/// SwiftUI component to display a multiline chart based on cluster data.
+/// The chart includes a customizable title above it and a legend on the right.
 struct SessionClusterMultiLineChartView: View {
-    let matrixDataArray: [[String: Any]]  // The array of elements with "timestamp" and "matrix" fields
-    let i: Int
-    let j1: Int
-    let j2: Int
+    let matrixDataArray: [[String: Any]]  // Array of elements with "timestamp" and "matrix" fields
+    let i: Int  // Row index in the matrix
+    let j1: Int  // First column index
+    let j2: Int  // Second column index
 
-    let colors: [Color] = [.blue, .green, .red]
+    let colors: [Color] = [.blue, .green, .red]  // Colors for the lines
+    let title: String  // Title to display above the chart
+    let legendLabels: [String]  // Legend labels for the lines
 
     var body: some View {
-        Chart {
-            // Prepare series data
-            let series = extractSeries()
+        VStack {
+            Text(title)  // Chart title
+                .font(.headline)
+                .padding(.bottom, 10)  // Spacing between the title and the chart
 
-            // Line for (i, j1)
-            if let values1 = series[0]["values"] as? [Double] {
-                let color1 = colors[j1 % colors.count]
+            Chart {
+                // Extract series data from the matrix using the helper function
+                let series = extractSeries(from: matrixDataArray, i: i, j1: j1, j2: j2)
 
-                ForEach(0..<values1.count, id: \.self) { indexJ in
-                    LineMark(
-                        x: .value("Index", indexJ),
-                        y: .value("Value", values1[indexJ])
-                    )
-                    .interpolationMethod(.catmullRom)
-                    .lineStyle(StrokeStyle(lineWidth: 1))
-                    .foregroundStyle(color1.opacity(0.6))
+                // Plot the first line (i, j1)
+                if let values1 = series[0]["values"] as? [Double] {
+                    let color1 = colors[j1 % colors.count]
+
+                    ForEach(0..<values1.count, id: \.self) { indexJ in
+                        LineMark(
+                            x: .value("Index", indexJ),
+                            y: .value("Value", values1[indexJ])
+                        )
+                        .interpolationMethod(.catmullRom)  // Smooth line interpolation
+                        .lineStyle(StrokeStyle(lineWidth: 1))  // Set line width
+                        .foregroundStyle(color1.opacity(0.6))  // Apply color with opacity
+                    }
+                    .foregroundStyle(color1.opacity(0.6))  // Ensure color consistency
+                    .symbol(by: .value("Series", legendLabels[0]))  // Use the first legend label
+                    .symbolSize(0)  // No symbols at data points
                 }
-                .foregroundStyle(color1.opacity(0.6)) // Ensure color consistency
-                .symbol(by: .value("Series", "Line1")) // Unique identifier
-                .symbolSize(0)
-            }
 
-            // Line for (i, j2)
-            if let values2 = series[1]["values"] as? [Double] {
-                let color2 = colors[j2 % colors.count]
+                // Plot the second line (i, j2)
+                if let values2 = series[1]["values"] as? [Double] {
+                    let color2 = colors[j2 % colors.count]
 
-                ForEach(0..<values2.count, id: \.self) { indexJ in
-                    LineMark(
-                        x: .value("Index", indexJ),
-                        y: .value("Value", values2[indexJ])
-                    )
-                    .interpolationMethod(.catmullRom)
-                    .lineStyle(StrokeStyle(lineWidth: 1))
-                    .foregroundStyle(color2.opacity(0.6))
+                    ForEach(0..<values2.count, id: \.self) { indexJ in
+                        LineMark(
+                            x: .value("Index", indexJ),
+                            y: .value("Value", values2[indexJ])
+                        )
+                        .interpolationMethod(.catmullRom)  // Smooth line interpolation
+                        .lineStyle(StrokeStyle(lineWidth: 1))  // Set line width
+                        .foregroundStyle(color2.opacity(0.6))  // Apply color with opacity
+                    }
+                    .foregroundStyle(color2.opacity(0.6))  // Ensure color consistency
+                    .symbol(by: .value("Series", legendLabels[1]))  // Use the second legend label
+                    .symbolSize(0)  // No symbols at data points
                 }
-                .foregroundStyle(color2.opacity(0.6)) // Ensure color consistency
-                .symbol(by: .value("Series", "Line2")) // Unique identifier
-                .symbolSize(0)
             }
+            .chartYAxis {
+                AxisMarks(position: .leading)  // Position the Y-axis on the left
+            }
+            .chartYScale(domain: 0...1)
+            .chartLegend(position: .bottom)  // Position the legend on the right
+            .padding()
+            .background(Color.white)
+            .cornerRadius(15)
+            .shadow(radius: 5)
         }
-        .chartYAxis {
-            AxisMarks(position: .leading)
-        }
-        .chartLegend(.hidden)
         .padding()
-        .background(Color.white)
-        .cornerRadius(15)
-        .shadow(radius: 5)
     }
 
-    // Helper function to extract a series from the matrix data
-    private func extractSeries() -> [[String: Any]] {
+    /// Helper function to extract a series from the matrix data
+    /// - Parameters:
+    ///   - matrixDataArray: The array of matrix data.
+    ///   - i: The row index for the matrix.
+    ///   - j1: The first column index.
+    ///   - j2: The second column index.
+    /// - Returns: An array of dictionaries containing the extracted series.
+    private func extractSeries(from matrixDataArray: [[String: Any]], i: Int, j1: Int, j2: Int) -> [[String: Any]] {
         var series: [[String: Any]] = []
         var serie1: [Double] = []
         var serie2: [Double] = []
@@ -118,7 +136,12 @@ struct SessionClusterMultiLineChartView_Previews: PreviewProvider {
         ]
 
         return SessionClusterMultiLineChartView(
-            matrixDataArray: mockMatrixDataArray, i: 0, j1: 1, j2: 2
+            matrixDataArray: mockMatrixDataArray,
+            i: 0,
+            j1: 1,
+            j2: 2,
+            title: "Cluster Multi-Line Chart",
+            legendLabels: ["Line 1", "Line 2"]
         )
         .previewLayout(.sizeThatFits)
         .padding()

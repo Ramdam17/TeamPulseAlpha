@@ -17,7 +17,12 @@ struct AuthView: View {
     @State private var errorMessage: String?
 
     var body: some View {
+
         VStack {
+            HStack {
+                Spacer()
+            }
+            .padding()
             Spacer()  // Adds flexible space at the top to vertically center the content.
 
             // Displays a heart icon, representing the app's theme, centered on the screen.
@@ -56,7 +61,8 @@ struct AuthView: View {
                 .foregroundColor(.white)  // Sets the text and icon color to white.
                 .cornerRadius(10)  // Rounds the button corners.
                 .shadow(
-                    color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)  // Adds a subtle shadow below the button.
+                    color: Color.black.opacity(0.2), radius: 10, x: 0,
+                    y: 5)  // Adds a subtle shadow below the button.
             }
 
             Spacer()
@@ -69,7 +75,6 @@ struct AuthView: View {
             }
         }
         .background(Color("CustomYellow"))  // Sets the background color of the view to yellow.
-        .padding()  // Adds padding around the entire view.
         .ignoresSafeArea()  // Ensures the background color covers the entire screen.
         .onAppear {
             // Clears the error message if the user is already authenticated when the view appears.
@@ -77,7 +82,8 @@ struct AuthView: View {
                 errorMessage = nil
             }
         }
-        .onChange(of: authManager.isAuthenticated) { _, isAuthenticated in
+        .onChange(of: authManager.isAuthenticated) {
+            _, isAuthenticated in
             // Clears the error message if authentication succeeds.
             if isAuthenticated {
                 errorMessage = nil
@@ -92,30 +98,10 @@ struct AuthView: View {
 
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            // iPhone 15 Pro Preview
-            AuthView()
-                .environment(AuthenticationManager())  // Provide a mock environment object for preview.
-                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
-                .previewDisplayName("iPhone 15 Pro")
 
-            // iPad Pro 11-inch Preview
-            AuthView()
-                .environment(AuthenticationManager())  // Provide a mock environment object for preview.
-                .previewDevice(
-                    PreviewDevice(
-                        rawValue: "iPad Pro (11-inch) (6th generation)")
-                )
-                .previewDisplayName("iPad Pro 11-inch")
-
-            // iPad Pro 13-inch Preview
-            AuthView()
-                .environment(AuthenticationManager())  // Provide a mock environment object for preview.
-                .previewDevice(
-                    PreviewDevice(
-                        rawValue: "iPad Pro (12.9-inch) (6th generation)")
-                )
-                .previewDisplayName("iPad Pro 13-inch")
-        }
+        AuthView()
+            .environment(AuthenticationManager())  // Provide a mock environment object for preview.
+            .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+            .previewDisplayName("iPhone 15 Pro")
     }
 }

@@ -16,11 +16,12 @@ struct DataAuthManagementComponent: View {
     
     var body: some View {
 
-            VStack() {
-                Text("Data & Authentication Management")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.bottom, 30)
+        VStack(spacing: 20) {
+            
+            Text("Data & Authentication Management")
+                .font(.title)
+                .fontWeight(.bold)
+                .fixedSize(horizontal: false, vertical: true)
 
                 // Button to clear all sessions with confirmation
                 Text("Clear All Sessions")
@@ -56,7 +57,8 @@ struct DataAuthManagementComponent: View {
                         authenticationManager.signOut()
                     }
             }
-            .padding(20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
             .background(Color.white)
             .cornerRadius(15)
             .shadow(radius: 5)
@@ -68,7 +70,7 @@ struct DataAuthManagementComponent: View {
 struct DataAuthManagementComponent_Previews: PreviewProvider {
     static var previews: some View {
         DataAuthManagementComponent()
-            .previewLayout(.sizeThatFits)
-            .padding()
+            .environment(AuthenticationManager())
+            .environment(SessionManager())
     }
 }

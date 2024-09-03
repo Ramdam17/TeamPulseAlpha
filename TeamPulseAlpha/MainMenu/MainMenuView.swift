@@ -59,7 +59,7 @@ struct MenuButtonView<Destination: View>: View {
     var body: some View {
         NavigationLink(destination: destination) {
             Text(title)
-                .font(.largeTitle)  // Title font for the button
+                .font(UIDevice.current.orientation.isLandscape ? .largeTitle : .title)  // Title font for the button
                 .fontWeight(.bold)  // Bold font weight
                 .foregroundColor(.white)  // White text color
                 .padding()  // Padding around the text
@@ -69,7 +69,7 @@ struct MenuButtonView<Destination: View>: View {
                 .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)  // Drop shadow for a 3D effect
         }
         .frame(
-            width: UIScreen.main.bounds.width / 3,  // Set the button width to 1/4 of the screen width
+            width: UIDevice.current.orientation.isLandscape ? UIScreen.main.bounds.width * 0.3 : UIScreen.main.bounds.width * 0.8,  // Set the button width to 1/4 of the screen width
             height: 100  // Adjusted height for the button
         )
         .padding(.horizontal)  // Horizontal padding around the button

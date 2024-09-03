@@ -20,7 +20,7 @@ struct SensorSettingsComponent: View {
             Text("Sensors UUID Management")
                 .font(.title)
                 .fontWeight(.bold)
-                .padding(.bottom, 30)
+                .fixedSize(horizontal: false, vertical: true)
 
             // Clickable text for Blue sensor
             sensorOption(text: "Update Blue Sensor UUID", color: .blue)
@@ -77,7 +77,8 @@ struct SensorSettingsComponent: View {
             }
             .padding(.top, 40)
         }
-        .padding(20)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
         .background(Color.white)
         .cornerRadius(15)
         .shadow(radius: 5)
@@ -208,8 +209,6 @@ extension SensorType {
 struct SensorSettingsComponent_Previews: PreviewProvider {
     static var previews: some View {
         SensorSettingsComponent()
-            .environment(BluetoothManager())  // Injecting the BluetoothManager as an environment object
-            .previewLayout(.sizeThatFits)
-            .padding()
+            .environment(BluetoothManager())
     }
 }

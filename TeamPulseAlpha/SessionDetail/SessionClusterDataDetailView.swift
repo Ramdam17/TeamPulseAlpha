@@ -8,40 +8,38 @@
 import SwiftUI
 
 struct SessionClusterDataDetailView: View {
+    let clusterStateArray: [[String: Any]]  // Array containing cluster state data
+    let proximityMatrixArray: [[String: Any]]  // Array containing proximity matrix data
 
-    let clusterStateArray: [[String: Any]]
-    let proximityMatrixArray: [[String: Any]]
-
-    @State var clusterStateArrayRatio: [Double] = [0, 0, 0, 0, 0, 0]
+    @State var clusterStateArrayRatio: [Double] = [0, 0, 0, 0, 0, 0]  // Array to hold the ratio of cluster states
 
     var body: some View {
-
         HStack(spacing: 20) {
-
             VStack(spacing: 20) {
                 if clusterStateArrayRatio.count >= 5 {
+                    // Display heatmap with the last 5 cluster state ratios
                     SessionClusterHeatmapChartView(
-                        data: Array(clusterStateArrayRatio.suffix(5))
+                        data: Array(clusterStateArrayRatio.suffix(5)), title: "Heatmap of Cluster State Ratios"
                     )
+                    // Display bar plot with the last 5 cluster state ratios
                     SessionClusterBarplotChartView(
-                        data: Array(clusterStateArrayRatio.suffix(5))
+                        data: Array(clusterStateArrayRatio.suffix(5)), title: "Barplot of Cluster State Ratios"
                     )
                 }
             }
-            .frame(width: 400)
+            .frame(width: 500)
 
             VStack(spacing: 20) {
+                // Display multiline charts for the proximity matrix
                 SessionClusterMultiLineChartView(
-                    matrixDataArray: proximityMatrixArray, i: 0, j1: 1,
-                    j2: 2
+                    matrixDataArray: proximityMatrixArray, i: 0, j1: 1, j2: 2, title: "Blue proximity", legendLabels: ["With Green Sensor", "With Red Sensor"]
                 )
                 SessionClusterMultiLineChartView(
-                    matrixDataArray: proximityMatrixArray, i: 1, j1: 0,
-                    j2: 2
+                    matrixDataArray: proximityMatrixArray, i: 1, j1: 0, j2: 2, title: "Green proximity", legendLabels: ["With Red Sensor", "With Blue Sensor"]
                 )
                 SessionClusterMultiLineChartView(
-                    matrixDataArray: proximityMatrixArray, i: 2, j1: 0,
-                    j2: 1
+                    matrixDataArray: proximityMatrixArray, i: 2, j1: 0, j2: 1,
+                    title: "Red proximity", legendLabels: ["With Blue Sensor", "With Green Sensor"]
                 )
             }
         }
@@ -50,7 +48,7 @@ struct SessionClusterDataDetailView: View {
         .cornerRadius(15)
         .shadow(radius: 5)
         .onAppear {
-
+            // Calculate the ratio of active clusters for each state
             let arraySummed = clusterStateArray.reduce(
                 [Double](repeating: 0, count: 6)
             ) { result, element in
@@ -61,6 +59,7 @@ struct SessionClusterDataDetailView: View {
                 return result
             }
 
+            // Normalize the summed values by the total count
             clusterStateArrayRatio = arraySummed.map {
                 $0 / Double(clusterStateArray.count)
             }

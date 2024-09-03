@@ -1,8 +1,6 @@
 import SwiftUI
 
-/// The main view for displaying animation and related components like Bluetooth status, dashboard, and session management.
 struct AnimationView: View {
-    // Access the SensorDataProcessor from the environment to use the sensor data in the view.
     @Environment(SensorDataProcessor.self) var sensorDataProcessor
     @Environment(BluetoothManager.self) var bluetoothManager
     @Environment(SessionManager.self) var sessionManager
@@ -11,16 +9,13 @@ struct AnimationView: View {
 
     var body: some View {
         ZStack {
-            Color("CustomYellow").ignoresSafeArea()  // Set yellow background that fills the screen
+            Color("CustomYellow").ignoresSafeArea()
 
             if isFullScreen {
-                // Fullscreen mode
                 ZStack {
-                    // Animation Component takes full screen in fullscreen mode
                     AnimationComponent()
                         .ignoresSafeArea()
 
-                    // Fullscreen toggle button at the top right
                     HStack {
                         Spacer()
                         VStack {
@@ -31,23 +26,33 @@ struct AnimationView: View {
                         .padding()
                     }
                     .padding(.trailing, 20)
+
+                    if sessionManager.isRecording {
+                        VStack {
+                            Spacer()
+                            Text(formatElapsedTime(sessionManager.elapsedTime))
+                                .font(.title)
+                                .foregroundColor(.white)
+                                .opacity(0.4)
+                                .cornerRadius(10)
+                                .frame(maxWidth: .infinity)
+                                .transition(.opacity)
+                        }
+                    }
                 }
             } else {
-                // Normal mode
-                VStack(spacing: 0) {
-                    // Top Menu with recording status and buttons
+                VStack {
                     HStack {
-                        // Sensor status indicators
                         BluetoothStatusComponent()
                             .padding()
 
                         Spacer()
 
                         SessionRecordingComponent()
+                            .padding()
 
                         Spacer()
 
-                        // Navigation link with an exit icon that will be disabled if session is recording
                         NavigationLink(destination: sessionManager.isRecording ? nil : MainMenuView()) {
                             Image(systemName: "arrow.backward.circle")
                                 .resizable()
@@ -58,35 +63,34 @@ struct AnimationView: View {
                         }
                         .padding()
 
+                        if sessionManager.isRecording {
+                            Text(formatElapsedTime(sessionManager.elapsedTime))
+                                .font(.headline)
+                                .padding(.trailing, 20)
+                        }
                     }
-                    .frame(height: UIScreen.main.bounds.height / 12)
+                    .frame(height: UIScreen.main.bounds.height / 16)
                     .background(Color.white)
-                    .cornerRadius(20)
+                    .cornerRadius(10)
                     .shadow(radius: 5)
                     .padding([.leading, .trailing])
 
                     Spacer()
 
-                    HStack(spacing: 0) {
-                        // Left dashboard
+                    HStack {
                         AnimationLeftDashboardComponent()
-                            .frame(
-                                width: UIScreen.main.bounds.width / 4,
-                                height: 8 * UIScreen.main.bounds.height / 12
-                            )
+                            .frame(width: UIScreen.main.bounds.width / 4, height: 8 * UIScreen.main.bounds.height / 16)
                             .background(Color.white)
-                            .cornerRadius(20)
+                            .cornerRadius(10)
                             .shadow(radius: 5)
                             .padding([.leading, .trailing])
 
                         Spacer()
 
-                        // Animation Component
                         ZStack {
                             AnimationComponent()
                                 .ignoresSafeArea()
 
-                            // Fullscreen toggle button at the top right
                             HStack {
                                 Spacer()
                                 VStack {
@@ -103,18 +107,16 @@ struct AnimationView: View {
 
                     Spacer()
 
-                    // Bottom dashboard
                     AnimationBottomDashboardComponent()
-                        .frame(height: 2 * UIScreen.main.bounds.height / 12)
+                        .frame(height: 2 * UIScreen.main.bounds.height / 6)
                         .background(Color.white)
-                        .cornerRadius(20)
+                        .cornerRadius(10)
                         .shadow(radius: 5)
                         .padding([.leading, .trailing])
                 }
             }
         }
         .onChange(of: bluetoothManager.hasNewValues) { oldValue, newValue in
-            // Trigger sensor data update when new Bluetooth values are received
             if oldValue == false && newValue == true {
                 let valuesToUnpack = bluetoothManager.getLatestValues()
                 sensorDataProcessor.updateHRData(
@@ -125,7 +127,20 @@ struct AnimationView: View {
                 )
             }
         }
-        .navigationBarHidden(true)  // Hide navigation bar to manage custom navigation
+        .navigationBarHidden(true)
+    }
+
+    /// Formats the elapsed time into a human-readable string.
+    private func formatElapsedTime(_ time: TimeInterval) -> String {
+        let hours = Int(time) / 3600
+        let minutes = (Int(time) % 3600) / 60
+        let seconds = Int(time) % 60
+
+        if hours > 0 {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            return String(format: "%02d:%02d", minutes, seconds)
+        }
     }
 }
 
@@ -136,8 +151,6 @@ struct AnimationView_Previews: PreviewProvider {
             .environment(SensorDataProcessor())  // Inject a mock SensorDataProcessor
             .environment(BluetoothManager())  // Inject a mock BluetoothManager
             .environment(SessionManager())  // Inject a mock SessionManager
-            .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
-            .previewDisplayName("iPhone 15 Pro")
     }
 }
 
@@ -149,26 +162,10 @@ struct ToggleFullScreenButton: View {
         Button(action: {
             isFullScreen.toggle()
         }) {
-            Image(
-                systemName: isFullScreen
-                    ? "arrow.down.right.and.arrow.up.left"
-                    : "arrow.up.left.and.arrow.down.right"
-            )
-            .resizable()
-            .frame(width: 40, height: 40)
-            .foregroundColor(Color("CustomYellow"))
+            Image(systemName: isFullScreen ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
+                .resizable()
+                .frame(width: 40, height: 40)
+                .foregroundColor(Color("CustomYellow"))
         }
-    }
-}
-
-/// A reusable component for displaying sensor status as a dot.
-struct SensorStatusDot: View {
-    let sensorName: String
-    let isConnected: Bool
-
-    var body: some View {
-        Circle()
-            .fill(isConnected ? Color(sensorName) : Color.gray)
-            .frame(width: 20, height: 20)
     }
 }
